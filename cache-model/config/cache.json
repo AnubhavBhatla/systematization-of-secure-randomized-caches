@@ -1,0 +1,502 @@
+{
+    "config": {
+        "default" : ["1x64x8", "1x1024x16"],
+        "L1_32x8" : ["1x32x8"],
+        "L1_32x8_RRIP" : ["RRIP_1x32x8"],
+        "L1_64x4" : ["1x64x4"],
+        "L1_64x8" : ["1x64x8"],
+        "L2_512x16"  : ["1x64x8", "1x512x16"],
+        "L2_1024x8"  : ["1x64x8", "1x1024x8"],
+        "L2_1024x12" : ["1x64x8", "1x1024x12"],
+        "L2_1024x16" : ["1x64x8", "1x1024x16"],
+        "L2_2048x16" : ["1x64x8", "1x2048x16"],
+
+        "L2_2048x16-INV6-GRAN" : ["1x64x8", "1x2048x16-INV6-GRAN"],
+        "L2_1024x32-INV6-GRAN" : ["1x64x8", "1x1024x32-INV6-GRAN"],
+        "L2_512x64-INV6-GRAN" : ["1x64x8", "1x512x64-INV6-GRAN"],
+        "L2_256x128-INV6-GRAN" : ["1x64x8", "1x256x128-INV6-GRAN"],
+
+        "L2_1024x16_D" : ["1x64x8-d", "1x1024x16-d"],
+        "L2_1024x20" : ["1x64x8", "1x1024x20"],
+        "L2_2048x4"  : ["1x64x8", "1x2048x4"],
+        "L2_1024x16_RCL"    : ["1x64x8", "RCL_1x1024x16"],
+        "L2_1024x16_LRU"    : ["1x64x8", "LRU_1x1024x16"],
+        "L2_1024x16_RANDOM" : ["1x64x8", "RANDOM_1x1024x16"],
+        "L2_1024x16_RRIP"   : ["1x64x8", "RRIP_1x1024x16"],
+        "L2_1024x16_RCL_D"    : ["1x64x8-d", "RCL_1x1024x16-d"],
+        "L2_1024x16_LRU_D"    : ["1x64x8-d", "LRU_1x1024x16-d"],
+        "L2_1024x16_RANDOM_D" : ["1x64x8-d", "RANDOM_1x1024x16-d"],
+        "L2_1024x16_RRIP_D"   : ["1x64x8-d", "RRIP_1x1024x16-d"],
+        "skewed_L2_512x16"  : ["1x64x8", "skewed_1x512x16"],
+        "skewed_L2_1024x8"  : ["1x64x8", "skewed_1x1024x8"],
+        "skewed_L2_1024x12" : ["1x64x8", "skewed_1x1024x12"],
+        "skewed_L2_1024x16" : ["1x64x8", "skewed_1x1024x16"],
+        "skewed_L2_1024x16-s2" : ["1x64x8", "skew2_1x1024x16"],
+
+        "skewed_L2_1024x32-s2" : ["1x64x8", "skew2_1x1024x32"],
+        "skewed_L2_512x64-s2" : ["1x64x8", "skew2_1x512x64"],
+        "skewed_L2_256x128-s2" : ["1x64x8", "skew2_1x256x128"],
+
+        "skewed_L2_256x64-s2" : ["1x64x8", "skew2_1x256x64"],
+        "skewed_L2_128x128-s2" : ["1x64x8", "skew2_1x128x128"],
+
+        "skewed_L2_1024x64-s2" : ["1x64x8", "skew2_1x1024x64"],
+        "skewed_L2_512x128-s2" : ["1x64x8", "skew2_1x512x128"],
+
+        "skewed_L2_256x128-s2-random" : ["1x64x8", "skew2_1x256x128_random"],
+        "skewed_L2_512x64-s2-random" : ["1x64x8", "skew2_1x512x64_random"],
+        "skewed_L2_256x128-s2-srrip" : ["1x64x8", "skew2_1x256x128_srrip"],
+        "skewed_L2_512x64-s2-srrip" : ["1x64x8", "skew2_1x512x64_srrip"],
+
+        "skewed_L2_2048x16-s2-random" : ["1x64x8", "skew2_1x2048x16_random"],
+
+        "skewed_L2_1024x16-s2-LB" : ["1x64x8", "skew2_1x1024x16-LB"],
+        "skewed_L2_1024x16-s2-LB-INV1" : ["1x64x8", "skew2_1x1024x16-LB-INV1"],
+        "skewed_L2_1024x16-s2-LB-INV1-GRAN" : ["1x64x8", "skew2_1x1024x16-LB-INV1-GRAN"],
+        "skewed_L2_1024x16-s2-LB-INV1-GLRU" : ["1x64x8", "skew2_1x1024x16-LB-INV1-GLRU"],
+        "skewed_L2_1024x16-s2-LB-INV2-GRAN" : ["1x64x8", "skew2_1x1024x16-LB-INV2-GRAN"],
+        "skewed_L2_1024x16-s2-LB-INV2-GLRU" : ["1x64x8", "skew2_1x1024x16-LB-INV2-GLRU"],
+        "skewed_L2_1024x16-s2-LB-INV2" : ["1x64x8", "skew2_1x1024x16-LB-INV2"],
+        "skewed_L2_512x32-s2-LB-INV2-GRAN" : ["1x64x8", "skew2_1x512x32-LB-INV2-GRAN"],
+        "skewed_L2_256x64-s2-LB-INV2-GRAN" : ["1x64x8", "skew2_1x256x64-LB-INV2-GRAN"],
+        
+        "skewed_L2_1024x32-s2-LB-INV2-GRAN" : ["1x64x8", "skew2_1x1024x32-LB-INV2-GRAN"],
+        "skewed_L2_512x64-s2-LB-INV2-GRAN" : ["1x64x8", "skew2_1x512x64-LB-INV2-GRAN"],
+        "skewed_L2_256x128-s2-LB-INV2-GRAN" : ["1x64x8", "skew2_1x256x128-LB-INV2-GRAN"],
+        
+        "skewed_L2_1024x16-s4" : ["1x64x8", "skew4_1x1024x16"],
+        "skewed_L2_1024x16-s8" : ["1x64x8", "skew8_1x1024x16"],
+        "skewed_L2_1024x16-s16" : ["1x64x8", "skew16_1x1024x16"],
+        "skewed_L2_1024x16-s4-LB" : ["1x64x8", "skew4_1x1024x16-LB"],
+        "skewed_L2_1024x16-s8-LB" : ["1x64x8", "skew8_1x1024x16-LB"],
+        "skewed_L2_1024x16-s16-LB" : ["1x64x8", "skew16_1x1024x16-LB"],
+
+        "skewed_L2_2048x16-s2" : ["1x64x8", "skew2_1x2048x16"],
+        "skewed_L2_2048x16-s4" : ["1x64x8", "skew4_1x2048x16"],
+        "skewed_L2_2048x16-s8" : ["1x64x8", "skew8_1x2048x16"],
+        "skewed_L2_2048x16-s16" : ["1x64x8", "skew16_1x2048x16"],
+        
+        "skewed_L2_2048x16-s2-LB" : ["1x64x8", "skew2_1x2048x16-LB"],
+        "skewed_L2_2048x16-s4-LB" : ["1x64x8", "skew4_1x2048x16-LB"],
+        "skewed_L2_2048x16-s8-LB" : ["1x64x8", "skew8_1x2048x16-LB"],
+        "skewed_L2_2048x16-s16-LB" : ["1x64x8", "skew16_1x2048x16-LB"],
+
+        "skewed_L2_1024x32-s2-LB" : ["1x64x8", "skew2_1x1024x32-LB"],
+        "skewed_L2_512x64-s2-LB" : ["1x64x8", "skew2_1x512x64-LB"],
+        "skewed_L2_256x128-s2-LB" : ["1x64x8", "skew2_1x256x128-LB"],
+        
+        "skewed_L2_2048x16-s2-LB-INV1" : ["1x64x8", "skew2_1x2048x16-LB-INV1"],
+        "skewed_L2_2048x16-s2-LB-INV2" : ["1x64x8", "skew2_1x2048x16-LB-INV2"],
+        "skewed_L2_2048x16-s2-LB-INV4" : ["1x64x8", "skew2_1x2048x16-LB-INV4"],
+        "skewed_L2_2048x16-s2-LB-INV6" : ["1x64x8", "skew2_1x2048x16-LB-INV6"],
+        "skewed_L2_1024x32-s2-LB-INV6" : ["1x64x8", "skew2_1x1024x32-LB-INV6"],
+        "skewed_L2_512x64-s2-LB-INV6" : ["1x64x8", "skew2_1x512x64-LB-INV6"],
+
+        "skewed_L2_2048x16-s2-INV1-GRAN" : ["1x64x8", "skew2_1x2048x16-INV1-GRAN"],
+        "skewed_L2_2048x16-s2-INV2-GRAN" : ["1x64x8", "skew2_1x2048x16-INV2-GRAN"],
+        "skewed_L2_2048x16-s2-INV4-GRAN" : ["1x64x8", "skew2_1x2048x16-INV4-GRAN"],
+        "skewed_L2_2048x16-s2-INV6-GRAN" : ["1x64x8", "skew2_1x2048x16-INV6-GRAN"],
+
+        "skewed_L2_2048x16-s2-LB-INV1-GRAN" : ["1x64x8", "skew2_1x2048x16-LB-INV1-GRAN"],
+        "skewed_L2_2048x16-s2-LB-INV1-GLRU" : ["1x64x8", "skew2_1x2048x16-LB-INV1-GLRU"],
+        "skewed_L2_2048x16-s2-LB-INV1-GRRIP" : ["1x64x8", "skew2_1x2048x16-LB-INV1-GRRIP"],
+        "skewed_L2_2048x16-s2-LB-INV1-GPLRU" : ["1x64x8", "skew2_1x2048x16-LB-INV1-GPLRU"],
+        "skewed_L2_2048x16-s2-LB-INV2-GRAN" : ["1x64x8", "skew2_1x2048x16-LB-INV2-GRAN"],
+        "skewed_L2_2048x16-s2-LB-INV2-GLRU" : ["1x64x8", "skew2_1x2048x16-LB-INV2-GLRU"],
+        "skewed_L2_2048x16-s2-LB-INV2-GRRIP" : ["1x64x8", "skew2_1x2048x16-LB-INV2-GRRIP"],
+        "skewed_L2_2048x16-s2-LB-INV2-GPLRU" : ["1x64x8", "skew2_1x2048x16-LB-INV2-GPLRU"],
+        "skewed_L2_2048x16-s2-LB-INV4-GRAN" : ["1x64x8", "skew2_1x2048x16-LB-INV4-GRAN"],
+        "skewed_L2_2048x16-s2-LB-INV4-GLRU" : ["1x64x8", "skew2_1x2048x16-LB-INV4-GLRU"],
+        "skewed_L2_2048x16-s2-LB-INV4-GRRIP" : ["1x64x8", "skew2_1x2048x16-LB-INV4-GRRIP"],
+        "skewed_L2_2048x16-s2-LB-INV4-GPLRU" : ["1x64x8", "skew2_1x2048x16-LB-INV4-GPLRU"],
+        "skewed_L2_2048x16-s2-LB-INV6-GRAN" : ["1x64x8", "skew2_1x2048x16-LB-INV6-GRAN"],
+        "skewed_L2_2048x16-s2-LB-INV6-GLRU" : ["1x64x8", "skew2_1x2048x16-LB-INV6-GLRU"],
+        "skewed_L2_2048x28-s2-LB-INV6-GRAN" : ["1x64x8", "skew2_1x2048x28-LB-INV6-GRAN"],
+        "skewed_L2_2048x28-s2-LB-INV6-GLRU" : ["1x64x8", "skew2_1x2048x28-LB-INV6-GLRU"],
+
+        "skewed_L2_1024x20" : ["1x64x8", "skewed_1x1024x20"],
+        "skewed_L2_2048x4"  : ["1x64x8", "skewed_1x2048x4"],
+        "skewed_L2_1024x16_D" : ["1x64x8-d", "skewed_1x1024x16-d"],
+        "spike-default"       : ["2x64x8", "1x1024x16"],
+        "spike-RCL"           : ["2x64x8", "RCL_1x1024x16"],
+        "spike-skew2"         : ["2x64x8", "skew2_1x1024x16"],
+        "spike-skew4"         : ["2x64x8", "skew4_1x1024x16"],
+        "spike-skew8"         : ["2x64x8", "skew8_1x1024x16"],
+        "spike-skew16"        : ["2x64x8", "skew16_1x1024x16"],
+        "spike-2core"         : ["4x64x8", "1x1024x16"],
+        "spike-4core"         : ["8x64x8", "1x1024x16"],
+        "spike-4core-2M"      : ["8x64x8", "2x1024x16"],
+        "spike-4core-4M-d"      : ["8x64x8-d", "4x1024x16-d"]
+    },
+    "cache": {
+        "1x64x8": {
+            "number": 1,
+            "set"   : 64,
+            "way"   : 8,
+            "type"  : "norm",
+            "indexer"    : "norm",
+            "tagger"     : "norm",
+            "replacer"   : "lru",
+            "hasher"     : "norm",
+            "delay"      : 0
+        },
+        "1x32x8":      { "base": "1x64x8",    "set": 32  },
+        "1x64x4":      { "base": "1x64x8",    "way": 4   },
+        "2x64x8":      { "base": "1x64x8",    "number": 2},
+        "4x64x8":      { "base": "1x64x8",    "number": 4},
+        "8x64x8":      { "base": "1x64x8",    "number": 8},
+        "1x1024x16":   { "base": "1x64x8",    "set": 1024, "way": 16},
+        "1x2048x16":   { "base": "1x64x8",    "set": 2048, "way": 16},
+        "1x2048x28":   { "base": "1x64x8",    "set": 2048, "way": 28},
+
+        "1x2048x16-INV6-GRAN":   { "base": "1x2048x16", "replacer": "lru-INV6-GRAN"},
+        "1x1024x32-INV6-GRAN":   { "base": "1x2048x16-INV6-GRAN", "set": 1024, "way": 32},
+        "1x512x64-INV6-GRAN":   { "base": "1x2048x16-INV6-GRAN", "set": 512, "way": 64},
+        "1x256x128-INV6-GRAN":   { "base": "1x2048x16-INV6-GRAN", "set": 256, "way": 128},
+
+        "2x1024x16":   { "base": "1x1024x16", "number": 2},
+        "1x512x16" :   { "base": "1x1024x16", "set": 512 },
+        "1x1024x8" :   { "base": "1x1024x16", "way": 8   },
+        "1x1024x12":   { "base": "1x1024x16", "way": 12  },
+        "1x1024x20":   { "base": "1x1024x16", "way": 20  },
+        "1x2048x4" :   { "base": "1x1024x16", "set": 2048, "way": 4},
+        "1x64x8-d":    { "base": "1x64x8",    "delay": 10},
+        "8x64x8-d":      { "base": "1x64x8-d",    "number": 8},
+        "1x1024x16-d": { "base": "1x1024x16", "delay": 50},
+        "4x1024x16-d":   { "base": "1x1024x16-d", "number": 4},
+        "RCL_1x1024x16"    : { "base": "1x1024x16", "indexer"  : "random" },
+        "LRU_1x1024x16"    : { "base": "1x1024x16", "replacer" : "norm"   },
+        "RANDOM_1x1024x16" : { "base": "1x1024x16", "replacer" : "random" },
+        "RRIP_1x32x8"      : { "base": "1x32x8",    "replacer" : "rrip"   },
+        "RRIP_1x1024x16"   : { "base": "1x1024x16", "replacer" : "rrip"   },
+        "RCL_1x1024x16-d"    : { "base": "RCL_1x1024x16",    "delay": 50},
+        "LRU_1x1024x16-d"    : { "base": "LRU_1x1024x16",    "delay": 50},
+        "RANDOM_1x1024x16-d" : { "base": "RANDOM_1x1024x16", "delay": 50},
+        "RRIP_1x1024x16-d"   : { "base": "RRIP_1x1024x16",   "delay": 50},
+        "skewed_1x1024x16" : {
+            "base"       : "1x1024x16",
+            "type"       : "skew",
+            "indexer"    : "skew2",
+            "tagger"     : "cbl",
+            "partition"  : 2,
+            "LOAD_BALANCING" : false,
+            "_COMMENT" : "1] This is unneccessary, remove this pls, its just there so u know how to add LOAD_BALANCING :P, to disable, simply remove above OR change value to `false`"
+        },
+        "skewed_1x2048x16" : {
+            "base"       : "1x2048x16",
+            "type"       : "skew",
+            "indexer"    : "skew2",
+            "tagger"     : "cbl",
+            "partition"  : 2,
+            "LOAD_BALANCING" : false,
+            "_COMMENT" : "1] This is unneccessary, remove this pls, its just there so u know how to add LOAD_BALANCING :P, to disable, simply remove above OR change value to `false`"
+        },
+        "skewed_1x2048x28" : {
+            "base"       : "1x2048x28",
+            "type"       : "skew",
+            "indexer"    : "skew2",
+            "tagger"     : "cbl",
+            "partition"  : 2,
+            "LOAD_BALANCING" : false,
+            "_COMMENT" : "1] This is unneccessary, remove this pls, its just there so u know how to add LOAD_BALANCING :P, to disable, simply remove above OR change value to `false`"
+        },
+        "skewed_1x512x16":  { "base": "skewed_1x1024x16", "set": 512 },
+        "skewed_1x1024x8":  { "base": "skewed_1x1024x16", "way": 8   },
+        "skewed_1x1024x12": { "base": "skewed_1x1024x16", "way": 12  },
+        "skewed_1x1024x20": { "base": "skewed_1x1024x16", "way": 20  },
+        "skewed_1x2048x4":  { "base": "skewed_1x1024x16", "way": 4, "set": 2048 },
+        "skewed_1x1024x16-d" : {"base": "skewed_1x1024x16", "delay": 50},
+        
+        "skew2_1x1024x16": {"base": "skewed_1x1024x16", "partition": 2, "indexer": "skew2"},
+        "skew2_1x1024x16-LB": {"base": "skewed_1x1024x16", "partition": 2, "indexer": "skew2", "LOAD_BALANCING": true},
+        
+        "skew2_1x1024x16-LB-INV1": {"base": "skewed_1x1024x16", "partition": 2, "indexer": "skew2", "LOAD_BALANCING": true, "replacer": "lru-INV1"},
+        "skew2_1x1024x16-LB-INV2": {"base": "skewed_1x1024x16", "partition": 2, "indexer": "skew2", "LOAD_BALANCING": true, "replacer": "lru-INV2"},
+        
+        "skew2_1x1024x16-LB-INV1-GRAN": {"base": "skewed_1x1024x16", "partition": 2, "indexer": "skew2", "LOAD_BALANCING": true, "replacer": "lru-INV1-GRAN"},
+        "skew2_1x1024x16-LB-INV1-GLRU": {"base": "skewed_1x1024x16", "partition": 2, "indexer": "skew2", "LOAD_BALANCING": true, "replacer": "lru-INV1-GLRU"},
+        
+        "skew2_1x1024x16-LB-INV2-GRAN": {"base": "skewed_1x1024x16", "partition": 2, "indexer": "skew2", "LOAD_BALANCING": true, "replacer": "lru-INV2-GRAN"},
+        "skew2_1x1024x16-LB-INV2-GLRU": {"base": "skewed_1x1024x16", "partition": 2, "indexer": "skew2", "LOAD_BALANCING": true, "replacer": "lru-INV2-GLRU"},
+        
+        "skew2_1x512x32-LB-INV2-GRAN": {"base": "skewed_1x1024x16", "partition": 2, "indexer": "skew2", "set": 512, "way": 32, "LOAD_BALANCING": true, "replacer": "lru-INV2-GRAN"},
+        "skew2_1x256x64-LB-INV2-GRAN": {"base": "skewed_1x1024x16", "partition": 2, "indexer": "skew2", "set": 256, "way": 64, "LOAD_BALANCING": true, "replacer": "lru-INV2-GRAN"},
+        
+        "skew4_1x1024x16": {"base": "skewed_1x1024x16", "partition": 4, "indexer": "skew4"},
+        "skew4_1x1024x16-LB": {"base": "skewed_1x1024x16", "partition": 4, "indexer": "skew4", "LOAD_BALANCING": true},
+
+        "skew8_1x1024x16": {"base": "skewed_1x1024x16", "partition": 8, "indexer": "skew8"},
+        "skew8_1x1024x16-LB": {"base": "skewed_1x1024x16", "partition": 8, "indexer": "skew8", "LOAD_BALANCING": true},
+
+        "skew16_1x1024x16": {"base": "skewed_1x1024x16", "partition": 16, "indexer": "skew16"},
+        "skew16_1x1024x16-LB": {"base": "skewed_1x1024x16", "partition": 16, "indexer": "skew16", "LOAD_BALANCING": true},
+
+        "skew2_1x2048x16": {"base": "skewed_1x2048x16", "partition": 2, "indexer": "skew2"},
+        "skew2_1x2048x16-LB": {"base": "skewed_1x2048x16", "partition": 2, "indexer": "skew2", "LOAD_BALANCING": true},
+        
+        "skew2_1x1024x32": {"base": "skewed_1x2048x16", "partition": 2, "indexer": "skew2", "set": 1024, "way": 32},
+        "skew2_1x512x64": {"base": "skewed_1x2048x16", "partition": 2, "indexer": "skew2", "set": 512, "way": 64},
+        "skew2_1x256x128": {"base": "skewed_1x2048x16", "partition": 2, "indexer": "skew2", "set": 256, "way": 128},
+        "skew2_1x256x128_random": {"base": "skew2_1x256x128", "replacer": "random"},
+        "skew2_1x512x64_random": {"base": "skew2_1x512x64", "replacer": "random"},
+        "skew2_1x256x128_srrip": {"base": "skew2_1x256x128", "replacer": "rrip"},
+        "skew2_1x512x64_srrip": {"base": "skew2_1x512x64", "replacer": "rrip"},
+        "skew2_1x2048x16_random": {"base": "skew2_1x2048x16", "replacer": "random"},
+
+        "skew2_1x256x64": {"base": "skewed_1x2048x16", "partition": 2, "indexer": "skew2", "set": 256, "way": 64},
+        "skew2_1x128x128": {"base": "skewed_1x2048x16", "partition": 2, "indexer": "skew2", "set": 128, "way": 128},
+
+        "skew2_1x1024x64": {"base": "skewed_1x2048x16", "partition": 2, "indexer": "skew2", "set": 1024, "way": 64},
+        "skew2_1x512x128": {"base": "skewed_1x2048x16", "partition": 2, "indexer": "skew2", "set": 512, "way": 128},
+
+        "skew2_1x1024x32-LB": {"base": "skewed_1x2048x16", "partition": 2, "indexer": "skew2", "set": 1024, "way": 32, "LOAD_BALANCING": true},
+        "skew2_1x512x64-LB": {"base": "skewed_1x2048x16", "partition": 2, "indexer": "skew2", "set": 512, "way": 64, "LOAD_BALANCING": true},
+        "skew2_1x256x128-LB": {"base": "skewed_1x2048x16", "partition": 2, "indexer": "skew2", "set": 256, "way": 128, "LOAD_BALANCING": true},
+
+        "skew2_1x2048x16-LB-INV1": {"base": "skewed_1x2048x16", "partition": 2, "indexer": "skew2", "LOAD_BALANCING": true, "replacer": "lru-INV1"},
+        "skew2_1x2048x16-LB-INV2": {"base": "skewed_1x2048x16", "partition": 2, "indexer": "skew2", "LOAD_BALANCING": true, "replacer": "lru-INV2"},
+        "skew2_1x2048x16-LB-INV4": {"base": "skewed_1x2048x16", "partition": 2, "indexer": "skew2", "LOAD_BALANCING": true, "replacer": "lru-INV4"},
+        "skew2_1x2048x16-LB-INV6": {"base": "skewed_1x2048x16", "partition": 2, "indexer": "skew2", "LOAD_BALANCING": true, "replacer": "lru-INV6"},
+        "skew2_1x1024x32-LB-INV6": {"base": "skewed_1x2048x16", "partition": 2, "indexer": "skew2", "set": 1024, "way": 32, "LOAD_BALANCING": true, "replacer": "lru-INV6"},
+        "skew2_1x512x64-LB-INV6": {"base": "skewed_1x2048x16", "partition": 2, "indexer": "skew2", "set": 512, "way": 64, "LOAD_BALANCING": true, "replacer": "lru-INV6"},
+
+        "skew2_1x2048x16-INV1-GRAN": {"base": "skewed_1x2048x16", "partition": 2, "indexer": "skew2", "replacer": "lru-INV1-GRAN"},
+        "skew2_1x2048x16-INV2-GRAN": {"base": "skewed_1x2048x16", "partition": 2, "indexer": "skew2", "replacer": "lru-INV2-GRAN"},
+        "skew2_1x2048x16-INV4-GRAN": {"base": "skewed_1x2048x16", "partition": 2, "indexer": "skew2", "replacer": "lru-INV4-GRAN"},
+        "skew2_1x2048x16-INV6-GRAN": {"base": "skewed_1x2048x16", "partition": 2, "indexer": "skew2", "replacer": "lru-INV6-GRAN"},
+
+        "skew2_1x2048x16-LB-INV1-GRAN": {"base": "skewed_1x2048x16", "partition": 2, "indexer": "skew2", "LOAD_BALANCING": true, "replacer": "lru-INV1-GRAN"},
+        "skew2_1x2048x16-LB-INV1-GLRU": {"base": "skewed_1x2048x16", "partition": 2, "indexer": "skew2", "LOAD_BALANCING": true, "replacer": "lru-INV1-GLRU"},
+        "skew2_1x2048x16-LB-INV1-GRRIP": {"base": "skewed_1x2048x16", "partition": 2, "indexer": "skew2", "LOAD_BALANCING": true, "replacer": "rrip-INV1-GRRIP"},
+        "skew2_1x2048x16-LB-INV1-GPLRU": {"base": "skewed_1x2048x16", "partition": 2, "indexer": "skew2", "LOAD_BALANCING": true, "replacer": "plru-INV1-GPLRU"},
+        "skew2_1x2048x16-LB-INV2-GRAN": {"base": "skewed_1x2048x16", "partition": 2, "indexer": "skew2", "LOAD_BALANCING": true, "replacer": "lru-INV2-GRAN"},
+        "skew2_1x2048x16-LB-INV2-GLRU": {"base": "skewed_1x2048x16", "partition": 2, "indexer": "skew2", "LOAD_BALANCING": true, "replacer": "lru-INV2-GLRU"},
+        "skew2_1x2048x16-LB-INV2-GRRIP": {"base": "skewed_1x2048x16", "partition": 2, "indexer": "skew2", "LOAD_BALANCING": true, "replacer": "rrip-INV2-GRRIP"},
+        "skew2_1x2048x16-LB-INV2-GPLRU": {"base": "skewed_1x2048x16", "partition": 2, "indexer": "skew2", "LOAD_BALANCING": true, "replacer": "plru-INV2-GPLRU"},
+        "skew2_1x2048x16-LB-INV4-GRAN": {"base": "skewed_1x2048x16", "partition": 2, "indexer": "skew2", "LOAD_BALANCING": true, "replacer": "lru-INV4-GRAN"},
+        "skew2_1x2048x16-LB-INV4-GLRU": {"base": "skewed_1x2048x16", "partition": 2, "indexer": "skew2", "LOAD_BALANCING": true, "replacer": "lru-INV4-GLRU"},
+        "skew2_1x2048x16-LB-INV4-GRRIP": {"base": "skewed_1x2048x16", "partition": 2, "indexer": "skew2", "LOAD_BALANCING": true, "replacer": "rrip-INV4-GRRIP"},
+        "skew2_1x2048x16-LB-INV4-GPLRU": {"base": "skewed_1x2048x16", "partition": 2, "indexer": "skew2", "LOAD_BALANCING": true, "replacer": "plru-INV4-GPLRU"},
+        "skew2_1x2048x16-LB-INV6-GRAN": {"base": "skewed_1x2048x16", "partition": 2, "indexer": "skew2", "LOAD_BALANCING": true, "replacer": "lru-INV6-GRAN"},
+        "skew2_1x2048x16-LB-INV6-GLRU": {"base": "skewed_1x2048x16", "partition": 2, "indexer": "skew2", "LOAD_BALANCING": true, "replacer": "lru-INV6-GLRU"},
+        "skew2_1x2048x28-LB-INV6-GRAN": {"base": "skewed_1x2048x28", "partition": 2, "indexer": "skew2", "LOAD_BALANCING": true, "replacer": "lru-INV6-GRAN"},
+        "skew2_1x2048x28-LB-INV6-GLRU": {"base": "skewed_1x2048x28", "partition": 2, "indexer": "skew2", "LOAD_BALANCING": true, "replacer": "lru-INV6-GLRU"},
+
+        "skew2_1x1024x32-LB-INV2-GRAN": {"base": "skewed_1x2048x16", "partition": 2, "indexer": "skew2", "set": 1024, "way": 32, "LOAD_BALANCING": true, "replacer": "lru-INV2-GRAN"},
+        "skew2_1x512x64-LB-INV2-GRAN": {"base": "skewed_1x2048x16", "partition": 2, "indexer": "skew2", "set": 512, "way": 64, "LOAD_BALANCING": true, "replacer": "lru-INV2-GRAN"},
+        "skew2_1x256x128-LB-INV2-GRAN": {"base": "skewed_1x2048x16", "partition": 2, "indexer": "skew2", "set": 256, "way": 128, "LOAD_BALANCING": true, "replacer": "lru-INV2-GRAN"},
+        
+        "skew4_1x2048x16": {"base": "skewed_1x2048x16", "partition": 4, "indexer": "skew4"},
+        "skew4_1x2048x16-LB": {"base": "skewed_1x2048x16", "partition": 4, "indexer": "skew4", "LOAD_BALANCING": true},
+
+        "skew8_1x2048x16": {"base": "skewed_1x2048x16", "partition": 8, "indexer": "skew8"},
+        "skew8_1x2048x16-LB": {"base": "skewed_1x2048x16", "partition": 8, "indexer": "skew8", "LOAD_BALANCING": true},
+
+        "skew16_1x2048x16": {"base": "skewed_1x2048x16", "partition": 16, "indexer": "skew16"},
+        "skew16_1x2048x16-LB": {"base": "skewed_1x2048x16", "partition": 16, "indexer": "skew16", "LOAD_BALANCING": true}
+
+    },
+    "indexer": {
+        "norm": {
+            "type"  : "norm",
+            "delay" : 0
+        },
+        "random": {
+            "type"        : "random",
+            "rtable_size" : 10,
+            "delay"       : 0
+        },
+        "skew2": {
+            "type"      : "skew",
+            "partition" : 2,
+            "delay"     : 0
+        },        
+        "skew4": {
+            "type"      : "skew",
+            "partition" : 4,
+            "delay"     : 0
+        },
+        "skew8": {
+            "type"      : "skew",
+            "partition" : 8,
+            "delay"     : 0
+        },
+        "skew16": {
+            "type"      : "skew",
+            "partition" : 16,
+            "delay"     : 0
+        }
+    },
+    "tagger": {
+        "norm": {
+            "type"  : "norm",
+            "delay" : 0
+        },
+        "cbl": {
+            "type"  : "cbl",
+            "delay" : 0
+        }
+    },
+    "replacer": {
+        "lru": {
+            "type"  : "lru",
+            "delay" : 0,
+            "INVALID_WAYS_PER_SKEW" : 0,
+            "GLOBAL_RANDOM" : false,
+            "GLOBAL_LRU" : false
+        },
+        "lru-INV1": {
+            "type"  : "lru",
+            "delay" : 0,
+            "INVALID_WAYS_PER_SKEW" : 1,
+            "GLOBAL_RANDOM" : false,
+            "GLOBAL_LRU" : false
+        },
+        "lru-INV1-GRAN": {
+            "type"  : "lru",
+            "delay" : 0,
+            "INVALID_WAYS_PER_SKEW" : 1,
+            "GLOBAL_RANDOM" : true,
+            "GLOBAL_LRU" : false
+        },
+        "lru-INV1-GLRU": {
+            "type"  : "lru",
+            "delay" : 0,
+            "INVALID_WAYS_PER_SKEW" : 1,
+            "GLOBAL_RANDOM" : false,
+            "GLOBAL_LRU" : true
+        },
+        "lru-INV2": {
+            "type"  : "lru",
+            "delay" : 0,
+            "INVALID_WAYS_PER_SKEW" : 2,
+            "GLOBAL_RANDOM" : false,
+            "GLOBAL_LRU" : false
+        },
+        "lru-INV4": {
+            "type"  : "lru",
+            "delay" : 0,
+            "INVALID_WAYS_PER_SKEW" : 4,
+            "GLOBAL_RANDOM" : false,
+            "GLOBAL_LRU" : false
+        },
+        "lru-INV6": {
+            "type"  : "lru",
+            "delay" : 0,
+            "INVALID_WAYS_PER_SKEW" : 6,
+            "GLOBAL_RANDOM" : false,
+            "GLOBAL_LRU" : false
+        },
+        "lru-INV2-GRAN": {
+            "type"  : "lru",
+            "delay" : 0,
+            "INVALID_WAYS_PER_SKEW" : 2,
+            "GLOBAL_RANDOM" : true,
+            "GLOBAL_LRU" : false
+        },
+        "lru-INV4-GRAN": {
+            "type"  : "lru",
+            "delay" : 0,
+            "INVALID_WAYS_PER_SKEW" : 4,
+            "GLOBAL_RANDOM" : true,
+            "GLOBAL_LRU" : false
+        },
+        "lru-INV6-GRAN": {
+            "type"  : "lru",
+            "delay" : 0,
+            "INVALID_WAYS_PER_SKEW" : 6,
+            "GLOBAL_RANDOM" : true,
+            "GLOBAL_LRU" : false
+        },
+        "lru-INV2-GLRU": {
+            "type"  : "lru",
+            "delay" : 0,
+            "INVALID_WAYS_PER_SKEW" : 2,
+            "GLOBAL_RANDOM" : false,
+            "GLOBAL_LRU" : true
+        },
+        "lru-INV4-GLRU": {
+            "type"  : "lru",
+            "delay" : 0,
+            "INVALID_WAYS_PER_SKEW" : 4,
+            "GLOBAL_RANDOM" : false,
+            "GLOBAL_LRU" : true
+        },
+        "lru-INV6-GLRU": {
+            "type"  : "lru",
+            "delay" : 0,
+            "INVALID_WAYS_PER_SKEW" : 6,
+            "GLOBAL_RANDOM" : false,
+            "GLOBAL_LRU" : true
+        },
+        "rrip-INV1-GRRIP": {
+            "type"  : "rrip",
+            "width" : 5,
+            "delay" : 0,
+            "INVALID_WAYS_PER_SKEW" : 1,
+            "GLOBAL_RRIP" : true
+        },
+        "plru-INV1-GPLRU": {
+            "type"  : "rplru",
+            "width" : 5,
+            "delay" : 0,
+            "INVALID_WAYS_PER_SKEW" : 1,
+            "GLOBAL_PLRU" : true
+        },
+        "rrip-INV2-GRRIP": {
+            "type"  : "rrip",
+            "width" : 5,
+            "delay" : 0,
+            "INVALID_WAYS_PER_SKEW" : 2,
+            "GLOBAL_RRIP" : true
+        },
+        "plru-INV2-GPLRU": {
+            "type"  : "rplru",
+            "width" : 5,
+            "delay" : 0,
+            "INVALID_WAYS_PER_SKEW" : 2,
+            "GLOBAL_PLRU" : true
+        },
+        "rrip-INV4-GRRIP": {
+            "type"  : "rrip",
+            "width" : 5,
+            "delay" : 0,
+            "INVALID_WAYS_PER_SKEW" : 4,
+            "GLOBAL_RRIP" : true
+        },
+        "plru-INV4-GPLRU": {
+            "type"  : "rplru",
+            "width" : 5,
+            "delay" : 0,
+            "INVALID_WAYS_PER_SKEW" : 4,
+            "GLOBAL_PLRU" : true
+        },
+        "norm": {
+            "type"  : "lru",
+            "delay" : 0
+        },
+        "random": {
+            "type"  : "random",
+            "delay" : 0
+        },
+        "fifo": {
+            "type"  : "fifo",
+            "delay" : 0
+        },
+        "rrip": {
+            "type"  : "rrip",
+            "width" : 5,
+            "delay" : 0
+        }
+    },
+    "hasher": {
+        "norm": {
+            "type"  : "norm",
+            "delay" : 0
+        },
+        "hash": {
+            "type"  : "hash",
+            "delay" : 0
+        }
+    }
+}

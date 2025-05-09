@@ -50,6 +50,29 @@ def run_tests(ccfg, tcfg, level, evrange, csize):
     for t in threads:
         t.join()
 
+# configuration type
+test_attack = "test/evset-attack"
+
+def run_test_attack(ccfg, tcfg, level, period, other,report):
+    s_arg    = "%s %s %d %d %d %s" % (ccfg, tcfg, level, period, 10, other)
+    print(test_attack + " " + s_arg)
+    subprocess.call(test_attack + " " + s_arg + " >> " + report, shell=True)
+
+def run_tests_attack(ccfg, tcfg, level, prange, other):
+    threads = []
+    report = "report/evset-attack-%s-%s.dat" %(ccfg, other)
+
+    for period in prange:
+        thread = threading.Thread(target=run_test, args=(ccfg, tcfg, level, period, other, report))
+        threads.append(thread)
+        thread.start()
+        if len(threads) >= 15:
+            for t in threads:
+                t.join()
+            threads = []
+    for t in threads:
+        t.join()
+
 if __name__ == '__main__':
     
     if len(sys.argv) != 2:
@@ -451,6 +474,15 @@ if __name__ == '__main__':
         plt.xlim(-30,300)
         plt.savefig('evrate-LB-globev.pdf')
 
+    elif figureNumber == 12:
+        run_tests_attack("skewed_L2_2048x16-s16", "list", 2, range( 3*512*1024, 15*256*1024,  32*1024), "87")
+        run_tests_attack("skewed_L2_2048x16-s2", "list", 2, range( 0*512*1024, 5*512*1024,  32*1024), "26")
+        run_tests_attack("skewed_L2_2048x16-s2-LB-INV2-GRAN", "list", 2, range( 1536*1024, 3*1024*1024,  32*1024), "70")
+        run_tests_attack("skewed_L2_512x64-s2",     "list", 2, range( 3*1024*1024, 4*1024*1024, 32*1024), "116")
+        run_tests_attack("skewed_L2_256x128-s2",     "list", 2, range( 7*1024*1024, 8*1024*1024,  32*1024), "241")       
+        run_tests_attack("skewed_L2_512x64-s2-LB",     "list", 2, range( 7*512*1024, 13*512*1024, 32*1024), "122")
+        run_tests_attack("skewed_L2_256x128-s2-LB",     "list", 2, range( 15*512*1024, 17*512*1024, 32*1024), "244")
+        #### Need Plotting Code @Anubhav ####
 
     elif figureNumber == 13:
         run_tests("skewed_L2_256x64-s2", "list", 2, range(1, 300, 1), 3600000)
@@ -535,6 +567,15 @@ if __name__ == '__main__':
         inset_ax.set_xticks([])
         inset_ax.set_yticks([])
         plt.savefig('evrate-size-inset.pdf')
+
+    elif figureNumber == 14:
+        run_tests_attack("skewed_L2_512x64-s2",     "list", 2, range( 3*1024*1024, 4*1024*1024, 32*1024), "116")
+        run_tests_attack("skewed_L2_256x64-s2",     "list", 2, range( 3*512*1024, 4*512*1024, 32*1024), "116")
+        run_tests_attack("skewed_L2_1024x64-s2",     "list", 2, range( 7*1024*1024, 4*2048*1024, 32*1024), "116")
+        run_tests_attack("skewed_L2_256x128-s2",     "list", 2, range( 7*1024*1024, 8*1024*1024,  32*1024), "241")
+        run_tests_attack("skewed_L2_128x128-s2",     "list", 2, range( 7*512*1024, 8*512*1024,  32*1024), "241")
+        run_tests_attack("skewed_L2_512x128-s2",     "list", 2, range( 15*1024*1024, 8*2048*1024,  32*1024), "241")
+        #### Need Plotting Code @Anubhav ####
 
     else:
         print("Invalid figure number for evrate experiment, none of the others done so far")

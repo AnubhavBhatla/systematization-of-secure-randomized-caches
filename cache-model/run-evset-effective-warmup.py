@@ -28,28 +28,17 @@ def run_tests(ccfg, tcfg, level, evrange, csize, warmup):
     for t in threads:
         t.join()
 
-# RUNNING
-# run_tests("skewed_L2_2048x16-s2", "list", 2, range(17, 100, 1), 3600000, 0)
-# run_tests("skewed_L2_2048x16-s2", "list", 2, range(17, 100, 1), 3600000, 25)
-#
+# Figure 17
+print("Running Experiments and gathering data for Figure 17: Warmup Sensitivity for Load Aware Skew Selection")
+run_tests("skewed_L2_2048x16-s2-LB", "list", 2, range(49, 100, 1), 3600000, 0)
+run_tests("skewed_L2_2048x16-s2-LB", "list", 2, range(36, 100, 1), 3600000, 25)
+run_tests("skewed_L2_2048x16-s2-LB", "list", 2, range(33, 100, 1), 3600000, 50)
+run_tests("skewed_L2_2048x16-s2-LB", "list", 2, range(5, 100, 1), 3600000, 75)
+run_tests("skewed_L2_2048x16-s2-LB", "list", 2, range(1, 100, 1), 3600000, 95)
+run_tests("skewed_L2_2048x16-s2-LB", "list", 2, range(49, 100, 1), 3600000, 100)
 
-# run_tests("skewed_L2_2048x16-s2", "list", 2, range(17, 100, 1), 3600000, 50)
-# run_tests("skewed_L2_2048x16-s2", "list", 2, range(1, 100, 1), 3600000, 75)
-# run_tests("skewed_L2_2048x16-s2", "list", 2, range(1, 100, 1), 3600000, 95)
-
-# RUNNING
-# run_tests("skewed_L2_2048x16-s2", "list", 2, range(17, 100, 1), 3600000, 100)
-#
-
-# run_tests("skewed_L2_2048x16-s2-LB-INV1-GRAN", "list", 2, range(1, 300, 1), 3600000, 100)
-# run_tests("skewed_L2_2048x16-s2-LB-INV2-GRAN", "list", 2, range(129, 300, 1), 3600000, 100)
-# run_tests("skewed_L2_2048x16-s2-LB-INV4-GRAN", "list", 2, range(161, 300, 1), 3600000, 100)
-
-# RUNNING
-# run_tests("skewed_L2_2048x16-s2-LB", "list", 2, range(49, 100, 1), 3600000, 0)
-# run_tests("skewed_L2_2048x16-s2-LB", "list", 2, range(36, 100, 1), 3600000, 25)
-# run_tests("skewed_L2_2048x16-s2-LB", "list", 2, range(33, 100, 1), 3600000, 50)
-# run_tests("skewed_L2_2048x16-s2-LB", "list", 2, range(5, 100, 1), 3600000, 75)
-# run_tests("skewed_L2_2048x16-s2-LB", "list", 2, range(1, 100, 1), 3600000, 95)
-# run_tests("skewed_L2_2048x16-s2-LB", "list", 2, range(49, 100, 1), 3600000, 100)
-# 
+# Figure 18
+print("Running Experiments and gathering data for Figure 18: Warmup Sensitivity for Load Aware Skew Selection with Global Eviction and Invalid Ways")
+run_tests("skewed_L2_2048x16-s2-LB-INV1-GRAN", "list", 2, range(1, 300, 1), 3600000, 100)
+run_tests("skewed_L2_2048x16-s2-LB-INV2-GRAN", "list", 2, range(129, 300, 1), 3600000, 100)
+run_tests("skewed_L2_2048x16-s2-LB-INV4-GRAN", "list", 2, range(161, 300, 1), 3600000, 100)

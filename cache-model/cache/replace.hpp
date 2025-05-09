@@ -1310,6 +1310,9 @@ class ReplaceRPLRU : public ReplaceFuncBase {
   // global list
   std::vector<std::vector<std::pair<int,int>>> globalTimestampLists;
 
+  // local plru
+  std::vector<std::vector<bool>> plruBitsVector;
+
   void printListSizes() {
     std::cerr << "Printing sizes\n";
     for (int i=0; i < nway; i++) {
@@ -1362,30 +1365,74 @@ class ReplaceRPLRU : public ReplaceFuncBase {
     }
   }
 
+  int traverseTree(std::vector<bool> &tree, int currPos, int start, int end, int height, int currHeight, int nway) {
+
+    if (currHeight == 0) {
+      if (tree[currPos]) {
+        return start;
+      }
+      else {
+        return end - 1;
+      }
+    }
+    else {
+      int ogOutput;
+      if (tree[currPos])  {
+        return traverseTree(tree,currPos+1,start,(start + end)/2,height,currHeight-1,nway);
+      }
+      else {
+        return traverseTree(tree,currPos + pow(2,currHeight),(start + end)/2,end,height,currHeight-1,nway);
+      }
+    }
+  
+  }
+
 
   public:
   ReplaceRPLRU(uint32_t nset, uint32_t nway, uint32_t width, uint32_t delay,bool GLOBAL_PLRU,uint32_t INVALID_WAYS_PER_SKEW, uint32_t plruBits)
     : ReplaceFuncBase(nset, nway, delay,INVALID_WAYS_PER_SKEW,0,0),GLOBAL_PLRU(GLOBAL_PLRU) {
 
-      for (int i=0; i < nway; i++) {
-        std::vector<std::pair<int,int>> empty;
-        globalTimestampLists.push_back(empty);
-      }
+      if (!GLOBAL_PLRU) {
 
-      for (int i=0; i < nset; i++) {
-        
-        std::vector<bool> boolVec;
-        std::vector<int> lruVec;
-        
-        for (int j=0; j < nway; j++) {
-          boolVec.push_back(false);
-          lruVec.push_back(j);
+        for (int i=0; i < nset; i++) {
+          valid_map.push_back(std::vector<bool>(nway,false));
+
+          uint32_t prevBits = 1;
+          for (int j=4; j <= nway; j*=2) {
+            prevBits = 2*prevBits + 1;
+          }
+          std::vector<bool> innerPlruBitsVector;
+          for (int j=0; j < prevBits; j++) {
+            innerPlruBitsVector.push_back(false);
+          }
+          plruBitsVector.push_back(innerPlruBitsVector);
+
         }
-        
-        valid_map.push_back(boolVec);
-        perSetLRU.push_back(lruVec);
 
       }
+      else {
+        
+        for (int i=0; i < nway; i++) {
+          std::vector<std::pair<int,int>> empty;
+          globalTimestampLists.push_back(empty);
+        }
+  
+        for (int i=0; i < nset; i++) {
+          
+          std::vector<bool> boolVec;
+          std::vector<int> lruVec;
+          
+          for (int j=0; j < nway; j++) {
+            boolVec.push_back(false);
+            lruVec.push_back(j);
+          }
+          
+          valid_map.push_back(boolVec);
+          perSetLRU.push_back(lruVec);
+  
+        }
+      }
+
 
     }
   
@@ -1393,8 +1440,27 @@ class ReplaceRPLRU : public ReplaceFuncBase {
     latency_acc(latency);
 
     if (!GLOBAL_PLRU) {
-      std::cerr << "Not designed\n";
-      exit(1);
+      // std::cerr << "Not designed\n";
+      // exit(1);
+      
+      if (INVALID_WAYS_PER_SKEW > 0) {
+        std::cerr << "Not designed for invalid ways per skew >= 1" << "\n";
+        exit(1);
+      }
+
+      // now check if this set has invalid ways
+      for (int i=0; i < nway; i++) {
+        if (valid_map[set][i] == 0) {
+          return i;
+        }
+      }
+
+      int candidateStart = 0;
+      int candidateEnd = nway;
+      int bitToConsider = 0;
+      int height = log2(nway) - 1;
+      return traverseTree(plruBitsVector[set],bitToConsider,candidateStart,candidateEnd,height,height,nway);
+
     }
     
     // first find out if replacement is needed
@@ -1492,7 +1558,7 @@ class ReplaceRPLRU : public ReplaceFuncBase {
 
     // valid_map[set][way] = true;
 
-    if (!valid_map[set][way]) {
+    if (!valid_map[set][way] && GLOBAL_PLRU) {
       valid_map[set][way] = true;
       // Update per-set LRU
       for (int i = 0; i < nway; i++) {
@@ -1528,26 +1594,50 @@ class ReplaceRPLRU : public ReplaceFuncBase {
       fixLists();
       //printListSizes();
     }
+    else if (!valid_map[set][way] && !GLOBAL_PLRU) {
+      valid_map[set][way] = true;
+      // Update plruBitsVector
+      uint32_t start = 0;
+      uint32_t end = nway;
+      uint32_t height = log2(nway) - 1;
+      uint32_t bitToConsider = 0;
+      while (start != end - 1) {
+        if (way < (start + end) / 2) {
+          plruBitsVector[set][bitToConsider] = 0; // to mark that left half is more recently used
+          end = (start + end) / 2;
+          bitToConsider += 1;
+        }
+        else {
+          plruBitsVector[set][bitToConsider] = 1; // to mark that right half is more recently used
+          start = (start + end) / 2;
+          bitToConsider += pow(2, height);
+        }
+        height--;
+      }
+
+    }
 
   }
 
   virtual void invalid(int32_t set, uint32_t way) {
     valid_map[set][way] = false;
 
-    for (int i=0; i < nway; i++) {
+    if (GLOBAL_PLRU) {
+      for (int i=0; i < nway; i++) {
 
-      int removeIdx = -1;
-      for (int j=0; j < globalTimestampLists[i].size(); j++) {
-        auto x = globalTimestampLists[i][j];
-        if (x.first == set && x.second == way) {
-          removeIdx = j;
+        int removeIdx = -1;
+        for (int j=0; j < globalTimestampLists[i].size(); j++) {
+          auto x = globalTimestampLists[i][j];
+          if (x.first == set && x.second == way) {
+            removeIdx = j;
+          }
         }
+        if (removeIdx != -1) {
+          globalTimestampLists[i][removeIdx] = globalTimestampLists[i].back();
+          globalTimestampLists[i].pop_back();
+        }
+  
       }
-      if (removeIdx != -1) {
-        globalTimestampLists[i][removeIdx] = globalTimestampLists[i].back();
-        globalTimestampLists[i].pop_back();
-      }
-
     }
 
   }

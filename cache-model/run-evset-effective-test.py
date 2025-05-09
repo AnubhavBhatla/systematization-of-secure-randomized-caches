@@ -45,18 +45,18 @@ run_tests("skewed_L2_2048x16-s16-LB", "list", 2, range(1, 300, 1), 3600000)
 
 # Figure 5
 print("Running Experiments and gathering data for Figure 5: Invalid ways and Global Eviction")
-run_tests("skewed_L2_2048x16-s2-INV1-GRAN", "list", 2, range(1, 300, 1), 3600000)
-run_tests("skewed_L2_2048x16-s2-INV2-GRAN", "list", 2, range(1, 300, 1), 3600000)
-run_tests("skewed_L2_2048x16-s2-INV4-GRAN", "list", 2, range(1, 100, 1), 3600000)
-run_tests("L2_2048x16-INV1-GRAN", "list", 2, range(1, 300, 1), 3600000)
-run_tests("L2_2048x16-INV2-GRAN", "list", 2, range(1, 300, 1), 3600000)
-run_tests("L2_2048x16-INV4-GRAN", "list", 2, range(1, 300, 1), 3600000)
+run_tests("skewed_L2_2048x16-s2-INV1-GLRU", "list", 2, range(1, 300, 1), 3600000)
+run_tests("skewed_L2_2048x16-s2-INV2-GLRU", "list", 2, range(1, 300, 1), 3600000)
+run_tests("skewed_L2_2048x16-s2-INV4-GLRU", "list", 2, range(1, 100, 1), 3600000)
+run_tests("L2_2048x16-INV1-GLRU", "list", 2, range(1, 300, 1), 3600000)
+run_tests("L2_2048x16-INV2-GLRU", "list", 2, range(1, 300, 1), 3600000)
+run_tests("L2_2048x16-INV4-GLRU", "list", 2, range(1, 300, 1), 3600000)
 
 # Figure 6
 print("Running Experiments and gathering data for Figure 6: Invalid ways and Global Eviction with Load Balancing")
-run_tests("skewed_L2_2048x16-s2-LB-INV1", "list", 2, range(1, 300, 1), 3600000)
-run_tests("skewed_L2_2048x16-s2-LB-INV2", "list", 2, range(1, 300, 1), 3600000)
-run_tests("skewed_L2_2048x16-s2-LB-INV4", "list", 2, range(1, 300, 1), 3600000)
+run_tests("skewed_L2_2048x16-s2-LB-INV1-GLRU", "list", 2, range(1, 300, 1), 3600000)
+run_tests("skewed_L2_2048x16-s2-LB-INV2-GLRU", "list", 2, range(1, 300, 1), 3600000)
+run_tests("skewed_L2_2048x16-s2-LB-INV4-GLRU", "list", 2, range(1, 300, 1), 3600000)
 
 # Figure 7
 print("Running Experiments and gathering data for Figure 7: Invalid ways with Load Balancing")
@@ -72,9 +72,9 @@ run_tests("skewed_L2_256x128-s2", "list", 2, range(1, 300, 1), 3600000)
 
 # Figure 9
 print("Running Experiments and gathering data for Figure 9: Associativity Sensitivity with Load Balancing, Invalid ways and Global Eviction")
-run_tests("skewed_L2_1024x32-s2-LB-INV2-GRAN", "list", 2, range(1, 300, 1), 3600000)
-run_tests("skewed_L2_512x64-s2-LB-INV2-GRAN", "list", 2, range(1, 350, 1), 3600000)
-run_tests("skewed_L2_256x128-s2-LB-INV2-GRAN", "list", 2, range(1, 350, 1), 3600000)
+run_tests("skewed_L2_1024x32-s2-LB-INV2-GLRU", "list", 2, range(1, 300, 1), 3600000)
+run_tests("skewed_L2_512x64-s2-LB-INV2-GLRU", "list", 2, range(1, 350, 1), 3600000)
+run_tests("skewed_L2_256x128-s2-LB-INV2-GLRU", "list", 2, range(1, 350, 1), 3600000)
 
 # Figure 10
 print("Running Experiments and gathering data for Figure 10: Replacement Policy Sensitivity")

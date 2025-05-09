@@ -26,7 +26,7 @@ protected:
   uint32_t nset, nway, INVALID_WAYS_PER_SKEW;
   bool GLOBAL_LRU, GLOBAL_RANDOM;
 public:
-  ReplaceFuncBase(uint32_t nset, uint32_t nway, uint32_t delay, uint32_t INVALID_WAYS_PER_SKEW, bool GLOBAL_LRU, bool GLOBAL_RANDOM)
+  ReplaceFuncBase(uint32_t nset, uint32_t nway, uint32_t delay, uint32_t INVALID_WAYS_PER_SKEW, bool GLOBAL_RANDOM, bool GLOBAL_LRU)
     : DelaySim(delay), nset(nset), nway(nway), INVALID_WAYS_PER_SKEW(INVALID_WAYS_PER_SKEW), GLOBAL_LRU(GLOBAL_LRU), GLOBAL_RANDOM(GLOBAL_RANDOM) {
               // std :: cout << "GLRU = " << GLOBAL_LRU << "INV = " << INVALID_WAYS_PER_SKEW << " GRAN =  " << GLOBAL_RANDOM << "\n";
     }
@@ -208,7 +208,6 @@ public:
   virtual std::string to_string(int32_t set) const;
   virtual std::string to_string() const;
   virtual ~ReplaceFIFO() {
-    std::cerr << "numSAE = " << numSAE << "\n";
   }
 
   static ReplaceFuncBase *factory(uint32_t nset, uint32_t nway, uint32_t delay,uint32_t INVALID_WAYS_PER_SKEW, bool GLOBAL_RANDOM, bool GLOBAL_LRU) {

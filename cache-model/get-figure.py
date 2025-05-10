@@ -6,6 +6,8 @@ import threading
 import sys
 import matplotlib.pyplot as plt
 from mpl_toolkits.axes_grid1.inset_locator import inset_axes, mark_inset
+from matplotlib import rcParams
+import numpy as np
 
 def read_and_sort_data(file_path):
     x_values = []
@@ -63,7 +65,7 @@ def run_tests_attack(ccfg, tcfg, level, prange, other):
     report = "report/evset-attack-%s-%s.dat" %(ccfg, other)
 
     for period in prange:
-        thread = threading.Thread(target=run_test, args=(ccfg, tcfg, level, period, other, report))
+        thread = threading.Thread(target=run_test_attack, args=(ccfg, tcfg, level, period, other, report))
         threads.append(thread)
         thread.start()
         if len(threads) >= 15:
@@ -483,6 +485,33 @@ if __name__ == '__main__':
         run_tests_attack("skewed_L2_512x64-s2-LB",     "list", 2, range( 7*512*1024, 13*512*1024, 32*1024), "122")
         run_tests_attack("skewed_L2_256x128-s2-LB",     "list", 2, range( 15*512*1024, 17*512*1024, 32*1024), "244")
         #### Need Plotting Code @Anubhav ####
+        print("All results are obtained, manually find the number of evictions corresponding to a probability of 0.5 for forming eviction set of requisite size")
+        rcParams.update({'figure.autolayout': True})
+
+        plt.figure(figsize=(10, 6))
+
+        X = ['Skew-16','Skew-2','Skew-2-LA-Inv2-GLRU','Skew-2-Ass64','Skew-2-Ass64-LA-Inv2-GLRU','Skew-2-Ass128','Skew-2-Ass128-LA-Inv2-GLRU']
+        Random = [] 
+
+        if (len(Random) != len(X)):
+            print("Please add the number of evictions for each configuration to the list named Random")
+
+        X_axis = np.arange(len(X))
+
+        plt.bar(X_axis, Random, 0.4, label = 'Ran', color=(0.5, 0.5, 0.8), edgecolor='black', linewidth=2)
+
+        # Set labels, title, and save the figure
+        plt.xticks(X_axis, X, rotation=20, ha='right', rotation_mode='anchor')
+
+        # plt.xlabel('Cache Design', fontsize='22')
+        plt.xticks(fontsize='18')
+        plt.ylabel('Number of LLC Evictions\n(in millions)', fontsize='22')
+        plt.yticks(np.arange(0, 12, 2), fontsize='16')
+        # plt.legend(loc='upper left', fontsize='20')
+        plt.grid(axis='y')
+        plt.gca().set_axisbelow(True)
+        # plt.ylim(0,12)
+        plt.savefig('evset-attack-bar.pdf')
 
     elif figureNumber == 13:
         run_tests("skewed_L2_256x64-s2", "list", 2, range(1, 300, 1), 3600000)
@@ -576,6 +605,30 @@ if __name__ == '__main__':
         run_tests_attack("skewed_L2_128x128-s2",     "list", 2, range( 7*512*1024, 8*512*1024,  32*1024), "241")
         run_tests_attack("skewed_L2_512x128-s2",     "list", 2, range( 15*1024*1024, 8*2048*1024,  32*1024), "241")
         #### Need Plotting Code @Anubhav ####
+        print("All results are obtained, manually find the number of evictions corresponding to a probability of 0.5 for forming eviction set of requisite size")
+        plt.figure(figsize=(12, 6.4))
+
+        X = ['Skew-2-Ass64-1MB','Skew-2-Ass64-2MB','Skew-2-Ass64-4MB','Skew-2-Ass128-1MB','Skew-2-Ass128-2MB','Skew-2-Ass128-4MB']
+        Random = []
+        if (len(Random) != len(X)):
+            print("Please add the number of evictions for each configuration to the list named Random")
+
+        X_axis = np.arange(len(X))
+
+        plt.bar(X_axis, Random, 0.4, label = 'Ran', color=(0.5, 0.5, 0.8), edgecolor='black', linewidth=2)
+
+        # Set labels, title, and save the figure
+        plt.xticks(X_axis, X, rotation=20, ha='right', rotation_mode='anchor')
+
+        # plt.xlabel('Cache Design', fontsize='22')
+        plt.xticks(fontsize='21')
+        plt.ylabel('Number of LLC Evictions\n(in millions)', fontsize='26')
+        plt.yticks(np.arange(0, 18, 3), fontsize='16')
+        # plt.legend(loc='upper left', fontsize='20')
+        plt.grid(axis='y')
+        plt.gca().set_axisbelow(True)
+        # plt.ylim(0,18)
+        plt.savefig('evset-attack-size-bar.pdf')
 
     else:
         print("Invalid figure number for evrate experiment, none of the others done so far")

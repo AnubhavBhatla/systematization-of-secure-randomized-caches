@@ -29,6 +29,36 @@ def read_and_sort_data(file_path):
     
     return x_values_sorted, y_values_sorted
  
+def read_and_sort_data_attack(file_path):
+    x_values = []
+    y_values = []
+
+    with open(file_path, 'r') as file:
+        lines = file.readlines()
+        for i in range(len(lines)):
+            # Split the line into parts
+            parts = lines[i].split()
+            if (parts[0] == 'Generate') or (parts[0] == 'Test'):  # Even index: take x value
+                pass
+            else:           # Odd index: take y value
+                parts = lines[i].split(',')
+                if len(parts) < 2:
+                    continue
+                if (parts[1] == ' Inter'):
+                    pass
+                else:
+                    x_values.append(float(parts[0]))
+                    y_values.append(float(parts[1]))
+
+    # Pair x and y values and sort by x
+    sorted_points = sorted(zip(x_values, y_values), key=lambda point: point[0])
+    
+    # Unzip sorted points back into separate x and y lists
+    x_values_sorted, y_values_sorted = zip(*sorted_points)
+    
+    return x_values_sorted, y_values_sorted
+
+ 
 # configuration type
 test = "test/evset-effective"
 
@@ -74,6 +104,16 @@ def run_tests_attack(ccfg, tcfg, level, prange, other):
             threads = []
     for t in threads:
         t.join()
+
+def find_x_for_y_half(x_values, y_values):
+    for i in range(1, len(y_values)):
+        if y_values[i-1] < 0.5 <= y_values[i]:
+            # Linear interpolation
+            x0, x1 = x_values[i-1], x_values[i]
+            y0, y1 = y_values[i-1], y_values[i]
+            return x0 + (0.5 - y0) * (x1 - x0) / (y1 - y0)
+    raise ValueError("No crossing at y=0.5 found in the data.")
+
 
 if __name__ == '__main__':
     
@@ -497,13 +537,26 @@ if __name__ == '__main__':
         if option == 0:
             run_tests_attack("skewed_L2_2048x16-s16", "list", 2, range( 3*512*1024, 15*256*1024,  32*1024), "87")
             run_tests_attack("skewed_L2_2048x16-s2", "list", 2, range( 0*512*1024, 5*512*1024,  32*1024), "26")
-            run_tests_attack("skewed_L2_2048x16-s2-LB-INV2-GRAN", "list", 2, range( 1536*1024, 3*1024*1024,  32*1024), "70")
+            run_tests_attack("skewed_L2_2048x16-s2-LB-INV2-GLRU", "list", 2, range( 1536*1024, 3*1024*1024,  32*1024), "70")
             run_tests_attack("skewed_L2_512x64-s2",     "list", 2, range( 3*1024*1024, 4*1024*1024, 32*1024), "116")
             run_tests_attack("skewed_L2_256x128-s2",     "list", 2, range( 7*1024*1024, 8*1024*1024,  32*1024), "241")       
-            run_tests_attack("skewed_L2_512x64-s2-LB",     "list", 2, range( 7*512*1024, 13*512*1024, 32*1024), "122")
-            run_tests_attack("skewed_L2_256x128-s2-LB",     "list", 2, range( 15*512*1024, 17*512*1024, 32*1024), "244")
+            run_tests_attack("skewed_L2_512x64-s2-LB-INV2-GLRU",     "list", 2, range( 7*512*1024, 13*512*1024, 32*1024), "190")
+            run_tests_attack("skewed_L2_256x128-s2-LB-INV2-GLRU",     "list", 2, range( 15*512*1024, 17*512*1024, 32*1024), "337")
         #### Need Plotting Code @Anubhav ####
-        print("All results are obtained, manually find the number of evictions corresponding to a probability of 0.5 for forming eviction set of requisite size")
+        # Extract data from the files
+
+        x_values = {}
+        y_values = {}
+        x_values['Skew-16'],y_values['Skew-16'] = read_and_sort_data_attack(report_path+'/evset-attack-skewed_L2_2048x16-s16-87.dat')
+        # x_values['Skew-2'],y_values['Skew-2'] = read_and_sort_data_attack(report_path+'/evset-attack-skewed_L2_2048x16-s2-26.dat')
+        x_values['Skew-2-LA-Inv2-GLRU'],y_values['Skew-2-LA-Inv2-GLRU'] = read_and_sort_data_attack(report_path+'/evset-attack-skewed_L2_2048x16-s2-LB-INV2-GLRU-70.dat')
+        x_values['Skew-2-Ass64'],y_values['Skew-2-Ass64'] = read_and_sort_data_attack(report_path+'/evset-attack-skewed_L2_512x64-s2-116.dat')
+        x_values['Skew-2-Ass64-LA-Inv2-GLRU'],y_values['Skew-2-Ass64-LA-Inv2-GLRU'] = read_and_sort_data_attack(report_path+'/evset-attack-skewed_L2_512x64-s2-LB-INV2-GLRU-190.dat')
+        x_values['Skew-2-Ass128'],y_values['Skew-2-Ass128'] = read_and_sort_data_attack(report_path+'/evset-attack-skewed_L2_256x128-s2-241.dat')
+        x_values['Skew-2-Ass128-LA-Inv2-GLRU'],y_values['Skew-2-Ass128-LA-Inv2-GLRU'] = read_and_sort_data_attack(report_path+'/evset-attack-skewed_L2_256x128-s2-LB-INV2-GLRU-337.dat')
+
+
+        # print("All results are obtained, manually find the number of evictions corresponding to a probability of 0.5 for forming eviction set of requisite size")
         rcParams.update({'figure.autolayout': True})
 
         plt.figure(figsize=(10, 6))
@@ -511,9 +564,11 @@ if __name__ == '__main__':
         X = ['Skew-16','Skew-2','Skew-2-LA-Inv2-GLRU','Skew-2-Ass64','Skew-2-Ass64-LA-Inv2-GLRU','Skew-2-Ass128','Skew-2-Ass128-LA-Inv2-GLRU']
         Random = [] 
 
-        if (len(Random) != len(X)):
-            print("Please add the number of evictions for each configuration to the list named Random")
-            exit(1)
+        for config in X:
+            if config != 'Skew-2':
+                Random.append((find_x_for_y_half(x_values[config], y_values[config]))/(1000000))
+            else:
+                Random.append(0.5) # Value for Skew-2 is 0.5
 
         X_axis = np.arange(len(X))
 
@@ -626,11 +681,24 @@ if __name__ == '__main__':
             run_tests_attack("skewed_L2_128x128-s2",     "list", 2, range( 7*512*1024, 8*512*1024,  32*1024), "241")
             run_tests_attack("skewed_L2_512x128-s2",     "list", 2, range( 15*1024*1024, 8*2048*1024,  32*1024), "241")
         #### Need Plotting Code @Anubhav ####
-        print("All results are obtained, manually find the number of evictions corresponding to a probability of 0.5 for forming eviction set of requisite size")
+
+        x_values = {}
+        y_values = {}
+        x_values['Skew-2-Ass64-1MB'],y_values['Skew-2-Ass64-1MB'] = read_and_sort_data_attack(report_path+'/evset-attack-skewed_L2_256x64-s2-116.dat')
+        x_values['Skew-2-Ass64-2MB'],y_values['Skew-2-Ass64-2MB'] = read_and_sort_data_attack(report_path+'/evset-attack-skewed_L2_512x64-s2-116.dat')
+        x_values['Skew-2-Ass64-4MB'],y_values['Skew-2-Ass64-4MB'] = read_and_sort_data_attack(report_path+'/evset-attack-skewed_L2_1024x64-s2-116.dat')
+        x_values['Skew-2-Ass128-1MB'],y_values['Skew-2-Ass128-1MB'] = read_and_sort_data_attack(report_path+'/evset-attack-skewed_L2_128x128-s2-241.dat')
+        x_values['Skew-2-Ass128-2MB'],y_values['Skew-2-Ass128-2MB'] = read_and_sort_data_attack(report_path+'/evset-attack-skewed_L2_256x128-s2-241.dat')
+        x_values['Skew-2-Ass128-4MB'],y_values['Skew-2-Ass128-4MB'] = read_and_sort_data_attack(report_path+'/evset-attack-skewed_L2_512x128-s2-241.dat')
+
+
         plt.figure(figsize=(12, 6.4))
 
         X = ['Skew-2-Ass64-1MB','Skew-2-Ass64-2MB','Skew-2-Ass64-4MB','Skew-2-Ass128-1MB','Skew-2-Ass128-2MB','Skew-2-Ass128-4MB']
         Random = []
+        for config in X:
+            Random.append((find_x_for_y_half(x_values[config], y_values[config]))/(1000000))
+
         if (len(Random) != len(X)):
             print("Please add the number of evictions for each configuration to the list named Random")
             exit(1)

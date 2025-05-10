@@ -1,0 +1,499 @@
+Config: skewed_L2_512x64-s2 Period: 2932736 Tests: 5
+Generate random seed 5552317575317409
+Test 0
+Config: skewed_L2_512x64-s2 Period: 2998272 Tests: 5
+Generate random seed 5552328053309271
+Test 0
+Config: skewed_L2_512x64-s2 Period: 2867200 Tests: 5
+Generate random seed 5552307097325547
+Test 0
+Config: skewed_L2_512x64-s2 Period: 3031040 Tests: 5
+Generate random seed 5552333292305202
+Test 0
+Config: skewed_L2_512x64-s2 Period: 3063808 Tests: 5
+Generate random seed 5552336784969156
+Test 0
+Config: skewed_L2_512x64-s2 Period: 3096576 Tests: 5
+Generate random seed 5552345516629041
+Test 0
+Config: skewed_L2_512x64-s2 Period: 2899968 Tests: 5
+Generate random seed 5552312336321478
+Test 0
+Config: skewed_L2_512x64-s2 Period: 3129344 Tests: 5
+Generate random seed 5552349009292995
+Test 0
+Config: skewed_L2_512x64-s2 Period: 2965504 Tests: 5
+Generate random seed 5552322814313340
+Test 0
+Config: skewed_L2_512x64-s2 Period: 3194880 Tests: 5
+Generate random seed 5552359487284857
+Test 0
+Config: skewed_L2_512x64-s2 Period: 3227648 Tests: 5
+Generate random seed 5552361233616834
+Test 0
+Config: skewed_L2_512x64-s2 Period: 3260416 Tests: 5
+Generate random seed 5552364726280788
+Test 0
+Config: skewed_L2_512x64-s2 Period: 3162112 Tests: 5
+Generate random seed 5552350755624972
+Test 0
+Config: skewed_L2_512x64-s2 Period: 2621440 Tests: 5
+Config: skewed_L2_512x64-s2 Period: 3145728 Tests: 5
+Generate random seed 5678173408103756
+Test 0
+Generate random seed 5678194366386524
+Test 0
+Config: skewed_L2_512x64-s2 Period: 3276800 Tests: 5
+Generate random seed 5678199605957216
+Test 0
+Config: skewed_L2_512x64-s2 Period: 3407872 Tests: 5
+Generate random seed 5678204845527908
+Test 0
+Config: skewed_L2_512x64-s2 Period: 3670016 Tests: 5
+Generate random seed 5678211831622164
+Test 0
+Config: skewed_L2_512x64-s2 Period: 3538944 Tests: 5
+Config: skewed_L2_512x64-s2 Period: 2752512 Tests: 5
+Generate random seed 5678208338575036
+Test 0
+Generate random seed 5678178647674448
+Test 0
+Config: skewed_L2_512x64-s2 Period: 2883584 Tests: 5
+Config: skewed_L2_512x64-s2 Period: 3014656 Tests: 5
+Generate random seed 5678183887245140
+Generate random seed 5678189126815832
+Test 0
+Test 0
+Config: skewed_L2_512x64-s2 Period: 3801088 Tests: 5
+Generate random seed 5678222310763548
+Test 0
+Config: skewed_L2_512x64-s2 Period: 4194304 Tests: 5
+Generate random seed 5678236282952060
+Test 0
+Config: skewed_L2_512x64-s2 Period: 4063232 Tests: 5
+Generate random seed 5678231043381368
+Test 0
+Config: skewed_L2_512x64-s2 Period: 3932160 Tests: 5
+Generate random seed 5678217071192856
+Test 0
+Config: skewed_L2_512x64-s2 Period: 4456448 Tests: 5
+Generate random seed 5678245015569880
+Test 0
+Config: skewed_L2_512x64-s2 Period: 4587520 Tests: 5
+Generate random seed 5678250255140572
+Test 0
+Config: skewed_L2_512x64-s2 Period: 4849664 Tests: 5
+Generate random seed 5678262480805520
+Test 0
+Config: skewed_L2_512x64-s2 Period: 4325376 Tests: 5
+Generate random seed 5678239775999188
+Test 0
+Config: skewed_L2_512x64-s2 Period: 4980736 Tests: 5
+Generate random seed 5678265973852648
+Test 0
+Config: skewed_L2_512x64-s2 Period: 5111808 Tests: 5
+Generate random seed 5678267720376212
+Test 0
+Config: skewed_L2_512x64-s2 Period: 4718592 Tests: 5
+Generate random seed 5678253748187700
+Test 0
+Total Evictions: 2520127
+Total Accesses: 19528471
+3145728, Inter, 1
+Test 1
+Total Evictions: 2629646
+Total Accesses: 20267956
+2621440, Inter, 0
+Test 1
+Total Evictions: 2670576
+Total Accesses: 20882214
+4325376, Inter, 1
+Test 1
+Total Evictions: 2820014
+Total Accesses: 21547533
+4063232, Inter, 1
+Test 1
+Total Evictions: 2708558
+Total Accesses: 20914403
+4194304, Inter, 1
+Test 1
+Total Evictions: 2780868
+Total Accesses: 21488901
+2752512, Inter, 0
+Test 1
+Total Evictions: 2891790
+Total Accesses: 22517798
+2883584, Inter, 0
+Test 1
+Total Evictions: 3046860
+Total Accesses: 23314883
+3801088, Inter, 1
+Test 1
+Total Evictions: 3119968
+Total Accesses: 23903374
+3276800, Inter, 1
+Test 1
+Total Evictions: 3043155
+Total Accesses: 23621904
+3014656, Inter, 0
+Test 1
+Total Evictions: 3308081
+Total Accesses: 25100737
+3932160, Inter, 1
+Test 1
+Total Evictions: 3418535
+Total Accesses: 26302830
+3407872, Inter, 0
+Test 1
+Total Evictions: 3345957
+Total Accesses: 25967099
+3670016, Inter, 1
+Test 1
+Total Evictions: 3567441
+Total Accesses: 27285578
+3538944, Inter, 0
+Test 1
+Total Evictions: 3420457
+Total Accesses: 26620009
+4718592, Inter, 1
+Test 1
+Total Evictions: 3833809
+Total Accesses: 29342059
+4587520, Inter, 1
+Test 1
+Total Evictions: 3907689
+Total Accesses: 30325760
+5111808, Inter, 1
+Test 1
+Total Evictions: 4284355
+Total Accesses: 32965888
+4980736, Inter, 1
+Test 1
+Total Evictions: 4397517
+Total Accesses: 34349953
+4456448, Inter, 1
+Test 1
+Total Evictions: 4434803
+Total Accesses: 33699223
+4849664, Inter, 1
+Test 1
+Total Evictions: 1689145
+Total Accesses: 12775100
+3276800, Inter, 1
+Test 2
+Total Evictions: 2439864
+Total Accesses: 18559435
+2621440, Inter, 1
+Test 2
+Total Evictions: 2591164
+Total Accesses: 19695996
+2752512, Inter, 1
+Test 2
+Total Evictions: 2215578
+Total Accesses: 17244490
+3014656, Inter, 1
+Test 2
+Total Evictions: 2927426
+Total Accesses: 22243078
+4325376, Inter, 1
+Test 2
+Total Evictions: 2887334
+Total Accesses: 21919051
+2883584, Inter, 0
+Test 2
+Total Evictions: 3150661
+Total Accesses: 23924043
+3145728, Inter, 0
+Test 2
+Total Evictions: 3040401
+Total Accesses: 23679382
+4194304, Inter, 1
+Test 2
+Total Evictions: 1764150
+Total Accesses: 13588273
+4849664, Inter, 1
+Test 2
+Total Evictions: 2702054
+Total Accesses: 20519762
+4718592, Inter, 1
+Test 2
+Total Evictions: 3414682
+Total Accesses: 26023124
+4063232, Inter, 1
+Test 2
+Total Evictions: 3191981
+Total Accesses: 24641983
+3801088, Inter, 1
+Test 2
+Total Evictions: 2177238
+Total Accesses: 16421280
+4980736, Inter, 1
+Test 2
+Total Evictions: 3039724
+Total Accesses: 22965988
+3932160, Inter, 1
+Test 2
+Total Evictions: 3001416
+Total Accesses: 22902601
+3538944, Inter, 1
+Test 2
+Total Evictions: 2891396
+Total Accesses: 21967047
+5111808, Inter, 1
+Test 2
+Total Evictions: 3676071
+Total Accesses: 27781527
+3670016, Inter, 0
+Test 2
+Total Evictions: 3413411
+Total Accesses: 26117450
+3407872, Inter, 0
+Test 2
+Total Evictions: 1727618
+Total Accesses: 13254697
+2883584, Inter, 1
+Test 3
+Total Evictions: 2625763
+Total Accesses: 19865188
+2621440, Inter, 0
+Test 3
+Total Evictions: 1539485
+Total Accesses: 11904317
+3801088, Inter, 1
+Test 3
+Total Evictions: 2591865
+Total Accesses: 19967742
+3014656, Inter, 1
+Test 3
+Total Evictions: 2777228
+Total Accesses: 20967529
+2752512, Inter, 0
+Test 3
+Total Evictions: 3942114
+Total Accesses: 30003819
+4456448, Inter, 1
+Test 2
+Total Evictions: 3301800
+Total Accesses: 24790178
+3276800, Inter, 0
+Test 3
+Total Evictions: 4278649
+Total Accesses: 32785161
+4587520, Inter, 1
+Test 2
+Total Evictions: 2966022
+Total Accesses: 22959194
+4325376, Inter, 1
+Test 3
+Total Evictions: 3150678
+Total Accesses: 24244187
+3145728, Inter, 0
+Test 3
+Total Evictions: 2327537
+Total Accesses: 17702220
+3932160, Inter, 1
+Test 3
+Total Evictions: 2289760
+Total Accesses: 17458038
+5111808, Inter, 1
+Test 3
+Total Evictions: 3079068
+Total Accesses: 23486122
+4849664, Inter, 1
+Test 3
+Total Evictions: 2853618
+Total Accesses: 22235492
+4718592, Inter, 1
+Test 3
+Total Evictions: 1126527
+Total Accesses: 8678160
+4456448, Inter, 1
+Test 3
+Total Evictions: 2739707
+Total Accesses: 21058352
+3538944, Inter, 1
+Test 3
+Total Evictions: 3566815
+Total Accesses: 26982893
+4194304, Inter, 1
+Test 3
+Total Evictions: 3002200
+Total Accesses: 22714737
+4980736, Inter, 1
+Test 3
+Total Evictions: 2666028
+Total Accesses: 20216162
+2883584, Inter, 1
+Test 4
+Total Evictions: 2626625
+Total Accesses: 19873054
+2621440, Inter, 0
+Test 4
+Total Evictions: 3415265
+Total Accesses: 25686452
+3407872, Inter, 0
+Test 3
+Total Evictions: 3675198
+Total Accesses: 28101883
+3670016, Inter, 0
+Test 3
+Total Evictions: 4090957
+Total Accesses: 31237765
+4063232, Inter, 0
+Test 3
+Total Evictions: 2590322
+Total Accesses: 19824560
+3014656, Inter, 1
+Test 4
+Total Evictions: 2776962
+Total Accesses: 20729042
+2752512, Inter, 0
+Test 4
+Total Evictions: 2516451
+Total Accesses: 19470076
+3932160, Inter, 1
+Test 4
+Total Evictions: 3228812
+Total Accesses: 24481518
+3276800, Inter, 1
+Test 4
+Total Evictions: 2327784
+Total Accesses: 18120533
+4456448, Inter, 1
+Test 4
+Total Evictions: 3827607
+Total Accesses: 28734822
+3801088, Inter, 0
+Test 4
+Total Evictions: 3527661
+Total Accesses: 26696687
+4587520, Inter, 1
+Test 3
+Total Evictions: 3149976
+Total Accesses: 23566030
+3145728, Inter, 0
+Test 4
+Total Evictions: 2814863
+Total Accesses: 21328630
+4849664, Inter, 1
+Test 4
+Total Evictions: 3793052
+Total Accesses: 28311127
+4325376, Inter, 1
+Test 4
+Total Evictions: 3153344
+Total Accesses: 23558966
+4194304, Inter, 1
+Test 4
+Total Evictions: 2028179
+Total Accesses: 15495194
+3407872, Inter, 1
+Test 4
+Total Evictions: 825872
+Total Accesses: 6281539
+4587520, Inter, 1
+Test 4
+Total Evictions: 2889664
+Total Accesses: 21843996
+2883584, Inter, 0
+2883584,0.4
+Total Evictions: 2626888
+Total Accesses: 20063626
+2621440, Inter, 0
+2621440,0.2
+Total Evictions: 3563646
+Total Accesses: 27210891
+3538944, Inter, 0
+Test 4
+Total Evictions: 4167366
+Total Accesses: 32044839
+5111808, Inter, 1
+Test 4
+Total Evictions: 2553426
+Total Accesses: 19463185
+2752512, Inter, 1
+2752512,0.4
+Total Evictions: 3036996
+Total Accesses: 22728416
+3014656, Inter, 0
+3014656,0.6
+Total Evictions: 4165607
+Total Accesses: 31408772
+4718592, Inter, 1
+Test 4
+Total Evictions: 4316970
+Total Accesses: 32273733
+4980736, Inter, 1
+Test 4
+Total Evictions: 3674163
+Total Accesses: 27779458
+3670016, Inter, 0
+Test 4
+Total Evictions: 1425821
+Total Accesses: 11013156
+4587520, Inter, 1
+4587520,1
+Total Evictions: 2214010
+Total Accesses: 17136244
+3145728, Inter, 1
+3145728,0.4
+Total Evictions: 2178043
+Total Accesses: 16781039
+4194304, Inter, 1
+4194304,1
+Total Evictions: 3904580
+Total Accesses: 29725512
+4063232, Inter, 1
+Test 4
+Total Evictions: 3300699
+Total Accesses: 24690956
+3276800, Inter, 0
+3276800,0.6
+Total Evictions: 3266441
+Total Accesses: 24844781
+4456448, Inter, 1
+4456448,1
+Total Evictions: 2927824
+Total Accesses: 21977154
+4849664, Inter, 1
+4849664,1
+Total Evictions: 3940106
+Total Accesses: 29623221
+3932160, Inter, 0
+3932160,0.8
+Total Evictions: 3602121
+Total Accesses: 27422178
+3801088, Inter, 1
+3801088,0.8
+Total Evictions: 2365869
+Total Accesses: 17667104
+4718592, Inter, 1
+4718592,1
+Total Evictions: 3414861
+Total Accesses: 26341627
+3407872, Inter, 0
+3407872,0.2
+Total Evictions: 3117218
+Total Accesses: 23988212
+3538944, Inter, 1
+3538944,0.6
+Total Evictions: 4351185
+Total Accesses: 33319419
+4325376, Inter, 0
+4325376,0.8
+Total Evictions: 3678047
+Total Accesses: 27865730
+5111808, Inter, 1
+5111808,1
+Total Evictions: 2027391
+Total Accesses: 15398027
+4063232, Inter, 1
+4063232,0.8
+Total Evictions: 3454670
+Total Accesses: 26490205
+3670016, Inter, 1
+3670016,0.4
+Total Evictions: 2927476
+Total Accesses: 22499772
+4980736, Inter, 1
+4980736,1

@@ -163,7 +163,7 @@ if __name__ == '__main__':
         plt.legend(loc='lower right', fontsize='16')
         plt.grid(True)
         plt.xlim(0,300)
-        plt.savefig('evrate-skews.pdf')
+        plt.savefig('figure3.pdf')
 
     
     elif figureNumber == 4:
@@ -210,7 +210,7 @@ if __name__ == '__main__':
         plt.legend(loc='lower right', fontsize='16')
         plt.grid(True)
         plt.xlim(0,300)
-        plt.savefig('evrate-skews-LB.pdf')
+        plt.savefig('figure4.pdf')
 
     
     elif figureNumber == 5:
@@ -254,7 +254,7 @@ if __name__ == '__main__':
         plt.legend(loc='lower right', fontsize='16')
         plt.grid(True)
         plt.xlim(0,100)
-        plt.savefig('evrate-globev.pdf')
+        plt.savefig('figure5.pdf')
 
 
 
@@ -287,7 +287,7 @@ if __name__ == '__main__':
         plt.grid(True)
         plt.ylim(-0.05,1.05)
         plt.xlim(-30,300)
-        plt.savefig('evrate-LB-globlru.pdf')
+        plt.savefig('figure6.pdf')
 
     elif figureNumber == 7:
         if option == 0:
@@ -351,7 +351,7 @@ if __name__ == '__main__':
         inset_ax.set_yticks([])
 
         # Save the figure
-        plt.savefig('evrate-invalid-with-inset.pdf')
+        plt.savefig('figure7.pdf')
 
     elif figureNumber == 8:
         if option == 0:
@@ -385,7 +385,7 @@ if __name__ == '__main__':
         plt.legend(loc='lower right', fontsize='16')
         plt.grid(True)
         plt.xlim(-10,300)
-        plt.savefig('evrate-assoc.pdf')
+        plt.savefig('figure8.pdf')
 
 
 
@@ -421,7 +421,7 @@ if __name__ == '__main__':
         plt.legend(loc='upper left', fontsize='14')
         plt.grid(True)
         plt.ylim(-0.05,1.05)
-        plt.savefig('evrate-assoc-LB-Inv2-GRan.pdf')
+        plt.savefig('figure9.pdf')
 
 
     elif figureNumber == 10:
@@ -468,7 +468,7 @@ if __name__ == '__main__':
         plt.legend(loc='upper left', fontsize='16')
         plt.grid(True)
         plt.xlim(-10,300)
-        plt.savefig('evrate-replacement.pdf')
+        plt.savefig('figure10.pdf')
 
     elif figureNumber == 11:
         if option == 0:
@@ -531,7 +531,7 @@ if __name__ == '__main__':
         plt.grid(True)
         plt.ylim(-0.05,1.05)
         plt.xlim(-30,300)
-        plt.savefig('evrate-LB-globev.pdf')
+        plt.savefig('figure11.pdf')
 
     elif figureNumber == 12:
         if option == 0:
@@ -585,7 +585,7 @@ if __name__ == '__main__':
         plt.grid(axis='y')
         plt.gca().set_axisbelow(True)
         # plt.ylim(0,12)
-        plt.savefig('evset-attack-bar.pdf')
+        plt.savefig('figure12.pdf')
 
     elif figureNumber == 13:
         if option == 0:
@@ -670,7 +670,7 @@ if __name__ == '__main__':
         # Remove axis labels from the inset
         inset_ax.set_xticks([])
         inset_ax.set_yticks([])
-        plt.savefig('evrate-size-inset.pdf')
+        plt.savefig('figure13.pdf')
 
     elif figureNumber == 14:
         if option == 0:
@@ -718,7 +718,7 @@ if __name__ == '__main__':
         plt.grid(axis='y')
         plt.gca().set_axisbelow(True)
         # plt.ylim(0,18)
-        plt.savefig('evset-attack-size-bar.pdf')
+        plt.savefig('figure14.pdf')
 
     else:
         print("Invalid figure number for evrate experiment, none of the others done so far")

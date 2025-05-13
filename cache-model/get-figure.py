@@ -115,6 +115,31 @@ def find_x_for_y_half(x_values, y_values):
     raise ValueError("No crossing at y=0.5 found in the data.")
 
 
+# configuration type
+test_warmup = "test/evset-effective-warmup"
+
+def run_test_warmup(ccfg,tcfg,level,evsize,csize,report,warmup):
+    s_arg    = "%s %s %d %d %d %d %d" % (ccfg, tcfg, level, evsize, csize, 1000, warmup)
+    print(test_warmup + " " + s_arg)
+    subprocess.call(test_warmup + " " + s_arg + " >> " + report, shell=True)    
+
+def run_tests_warmup(ccfg, tcfg, level, evrange, csize, warmup):
+
+    threads = []
+    report = "report/evset-effective-warmup-%s-%d.dat" %(ccfg, warmup)
+    for evsize in evrange:
+        thread = threading.Thread(target=run_test_warmup, args=(ccfg, tcfg, level, evsize, csize, report, warmup))
+        threads.append(thread)
+        thread.start()
+        if len(threads) >= 16:
+            for t in threads:
+                t.join()
+            threads = []
+    for t in threads:
+        t.join()
+
+
+
 if __name__ == '__main__':
     
     if len(sys.argv) != 3:
@@ -719,6 +744,125 @@ if __name__ == '__main__':
         plt.gca().set_axisbelow(True)
         # plt.ylim(0,18)
         plt.savefig('figure14.pdf')
+    elif figureNumber == 18:
+        if option == 0:
+            run_tests_warmup("skewed_L2_2048x16-s2-LB", "list", 2, range(1, 100, 1), 3600000, 0)
+            run_tests_warmup("skewed_L2_2048x16-s2-LB", "list", 2, range(1, 100, 1), 3600000, 25)
+            run_tests_warmup("skewed_L2_2048x16-s2-LB", "list", 2, range(1, 100, 1), 3600000, 50)
+            run_tests_warmup("skewed_L2_2048x16-s2-LB", "list", 2, range(1, 100, 1), 3600000, 75)
+            run_tests_warmup("skewed_L2_2048x16-s2-LB", "list", 2, range(1, 100, 1), 3600000, 95)
+            run_tests_warmup("skewed_L2_2048x16-s2-LB", "list", 2, range(1, 100, 1), 3600000, 100)
+        # Main figure
+        plt.figure(figsize=(12, 6))
+
+        x_values, y_values = read_and_sort_data(report_path + '/evset-effective-warmup-skewed_L2_2048x16-s2-LB-0.dat')
+        plt.plot(x_values, y_values, marker='+', markerfacecolor='none', linestyle='-', color='blue', markersize='6', mew='0.2', linewidth='0.5', label='Warmup-0')
+
+        x_values, y_values = read_and_sort_data(report_path + '/evset-effective-warmup-skewed_L2_2048x16-s2-LB-25.dat')
+        plt.plot(x_values, y_values, marker='x', markerfacecolor='none', linestyle='-', color='green', markersize='6', mew='0.2', linewidth='0.5', label='Warmup-25')
+
+        x_values, y_values = read_and_sort_data(report_path + '/evset-effective-warmup-skewed_L2_2048x16-s2-LB-50.dat')
+        plt.plot(x_values, y_values, marker='o', markerfacecolor='none', linestyle='-', color='brown', markersize='6', mew='0.2', linewidth='0.5', label='Warmup-50')
+
+        x_values, y_values = read_and_sort_data(report_path + '/evset-effective-warmup-skewed_L2_2048x16-s2-LB-75.dat')
+        plt.plot(x_values, y_values, marker='^', markerfacecolor='none', linestyle='-', color='red', markersize='6', mew='0.2', linewidth='0.5', label='Warmup-75')
+
+        x_values, y_values = read_and_sort_data(report_path + '/evset-effective-warmup-skewed_L2_2048x16-s2-LB-95.dat')
+        plt.plot(x_values, y_values, marker='o', markerfacecolor='none', linestyle='-', color='grey', markersize='6', mew='0.2', linewidth='0.5', label='Warmup-95')
+
+        x_values, y_values = read_and_sort_data(report_path + '/evset-effective-warmup-skewed_L2_2048x16-s2-LB-100.dat')
+        plt.plot(x_values, y_values, marker='s', markerfacecolor='none', linestyle='-', color='black', markersize='6', mew='0.2', linewidth='0.5', label='Warmup-100')
+
+        x_values, y_values = read_and_sort_data(report_path + '/evset-effective-skewed_L2_2048x16-s2-LB.dat')
+        plt.plot(x_values, y_values, marker='v', markerfacecolor='none', linestyle='-', color='purple', markersize='6', mew='0.2', linewidth='0.5', label='Warmup-Avg')
+
+        # Set labels, title, and grid
+        plt.xlabel('Size of Eviction Sets', fontsize='22')
+        plt.xticks(fontsize='14')
+        plt.ylabel('Eviction Rate', fontsize='22')
+        plt.yticks(fontsize='14')
+        plt.legend(loc='lower right', fontsize='16')
+        plt.grid(True)
+        plt.xlim(0, 100)
+
+        # Adding the zoomed-in inset
+        ax = plt.gca()  # Get the current axis
+        inset_ax = inset_axes(ax, width="30%", height="20%", loc="upper left")  # Define inset position
+
+        # Plot the same data on the inset axes
+        x_values, y_values = read_and_sort_data(report_path + '/evset-effective-warmup-skewed_L2_2048x16-s2-LB-0.dat')
+        inset_ax.plot(x_values, y_values, marker='+', markerfacecolor='none', linestyle='-', color='blue', markersize='10', mew='0.2', linewidth='0.5')
+
+        x_values, y_values = read_and_sort_data(report_path + '/evset-effective-warmup-skewed_L2_2048x16-s2-LB-25.dat')
+        inset_ax.plot(x_values, y_values, marker='x', markerfacecolor='none', linestyle='-', color='green', markersize='10', mew='0.2', linewidth='0.5')
+
+        x_values, y_values = read_and_sort_data(report_path + '/evset-effective-warmup-skewed_L2_2048x16-s2-LB-50.dat')
+        inset_ax.plot(x_values, y_values, marker='o', markerfacecolor='none', linestyle='-', color='brown', markersize='10', mew='0.2', linewidth='0.5')
+
+        x_values, y_values = read_and_sort_data(report_path + '/evset-effective-warmup-skewed_L2_2048x16-s2-LB-75.dat')
+        inset_ax.plot(x_values, y_values, marker='^', markerfacecolor='none', linestyle='-', color='red', markersize='10', mew='0.2', linewidth='0.5')
+
+        x_values, y_values = read_and_sort_data(report_path + '/evset-effective-warmup-skewed_L2_2048x16-s2-LB-95.dat')
+        inset_ax.plot(x_values, y_values, marker='o', markerfacecolor='none', linestyle='-', color='grey', markersize='10', mew='0.2', linewidth='0.5')
+
+        x_values, y_values = read_and_sort_data(report_path + '/evset-effective-warmup-skewed_L2_2048x16-s2-LB-100.dat')
+        inset_ax.plot(x_values, y_values, marker='s', markerfacecolor='none', linestyle='-', color='black', markersize='10', mew='0.2', linewidth='0.5')
+
+        x_values, y_values = read_and_sort_data(report_path + '/evset-effective-skewed_L2_2048x16-s2-LB.dat')
+        inset_ax.plot(x_values, y_values, marker='v', markerfacecolor='none', linestyle='-', color='purple', markersize='10', mew='0.2', linewidth='0.5')
+
+        # Set limits for the inset
+        inset_ax.set_xlim(55, 65)
+        inset_ax.set_ylim(-0.05, 0.05)
+        inset_ax.grid(True)
+
+        inset_ax.set_xticks([])
+        inset_ax.set_yticks([])
+
+        mark_inset(ax, inset_ax, loc2=1, loc1=3, fc="none", ec="0.5")
+
+        # Save the figure
+        plt.savefig('figure18.pdf')
+
+    elif figureNumber == 19:
+        if option == 0:
+            run_tests_warmup("skewed_L2_2048x16-s2-LB-INV1-GRAN", "list", 2, range(1, 300, 1), 3600000, 100)
+            run_tests_warmup("skewed_L2_2048x16-s2-LB-INV2-GRAN", "list", 2, range(1, 300, 1), 3600000, 100)
+            run_tests_warmup("skewed_L2_2048x16-s2-LB-INV4-GRAN", "list", 2, range(1, 300, 1), 3600000, 100)
+            run_tests("skewed_L2_2048x16-s2-LB-INV1-GRAN", "list", 2, range(1, 300, 1), 3600000)
+            run_tests("skewed_L2_2048x16-s2-LB-INV2-GRAN", "list", 2, range(1, 300, 1), 3600000)
+            run_tests("skewed_L2_2048x16-s2-LB-INV4-GRAN", "list", 2, range(1, 300, 1), 3600000)
+
+        # Plotting code
+        plt.figure(figsize=(12, 6))
+
+        x_values, y_values = read_and_sort_data(report_path + '/evset-effective-skewed_L2_2048x16-s2-LB-INV1-GRAN.dat')
+        plt.plot(x_values, y_values, marker='v', markerfacecolor='none', linestyle='-', color='blue', markersize='6', mew='0.2', linewidth='0.5', label='Skew-2-LA-Inv1-GLRU')
+
+        x_values, y_values = read_and_sort_data(report_path + '/evset-effective-warmup-skewed_L2_2048x16-s2-LB-INV1-GRAN-100.dat')
+        plt.plot(x_values, y_values, marker='s', markerfacecolor='none', linestyle='-', color='blue', markersize='6', mew='0.2', linewidth='0.5', label='Skew-2-LA-Inv1-GLRU-100')
+
+        x_values, y_values = read_and_sort_data(report_path + '/evset-effective-skewed_L2_2048x16-s2-LB-INV2-GRAN.dat')
+        plt.plot(x_values, y_values, marker='v', markerfacecolor='none', linestyle='-', color='red', markersize='6', mew='0.2', linewidth='0.5', label='Skew-2-LA-Inv2-GLRU')
+
+        x_values, y_values = read_and_sort_data(report_path + '/evset-effective-warmup-skewed_L2_2048x16-s2-LB-INV2-GRAN-100.dat')
+        plt.plot(x_values, y_values, marker='s', markerfacecolor='none', linestyle='-', color='red', markersize='6', mew='0.2', linewidth='0.5', label='Skew-2-LA-Inv2-GLRU-100')
+
+        x_values, y_values = read_and_sort_data(report_path + '/evset-effective-skewed_L2_2048x16-s2-LB-INV4-GRAN.dat')
+        plt.plot(x_values, y_values, marker='v', markerfacecolor='none', linestyle='-', color='purple', markersize='6', mew='0.2', linewidth='0.5', label='Skew-2-LA-Inv4-GLRU')
+
+        x_values, y_values = read_and_sort_data(report_path + '/evset-effective-warmup-skewed_L2_2048x16-s2-LB-INV4-GRAN-100.dat')
+        plt.plot(x_values, y_values, marker='s', markerfacecolor='none', linestyle='-', color='purple', markersize='6', mew='0.2', linewidth='0.5', label='Skew-2-LA-Inv4-GLRU-100')
+
+        # Set labels, title, and save the figure
+        plt.xlabel('Size of Eviction Sets', fontsize='22')
+        plt.xticks(fontsize='14')
+        plt.ylabel('Eviction Rate', fontsize='22')
+        plt.yticks(fontsize='14')
+        plt.legend(loc='lower right', fontsize='14')
+        plt.grid(True)
+        # plt.xlim(-10,350)
+        plt.savefig('figure19.pdf')
 
     else:
         print("Invalid figure number for evrate experiment, none of the others done so far")

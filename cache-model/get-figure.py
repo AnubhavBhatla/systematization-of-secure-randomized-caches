@@ -250,37 +250,88 @@ if __name__ == '__main__':
             run_tests("L2_2048x16-INV4-GLRU", "list", 2, range(1, 300, 1), 3600000)
         plt.figure(figsize=(12, 6))
 
-        x_values, y_values = read_and_sort_data(report_path+'/evset-effective-L2_2048x16.dat')
-        plt.plot(x_values, y_values, marker='x', linestyle='-', color='blue', markersize='6', mew='0.2', linewidth='0.5', label='CEASER')
+        # Main plot
+        x_values, y_values = read_and_sort_data(report_path + '/evset-effective-L2_2048x16.dat')
+        plt.plot(x_values, y_values, marker='x', linestyle='-', color='blue',
+                markersize=6, mew=0.2, linewidth=0.5, label='CEASER')
 
-        x_values, y_values = read_and_sort_data(report_path+'/evset-effective-L2_2048x16-INV1-GLRU.dat')
-        plt.plot(x_values, y_values, marker='|', markerfacecolor='none', linestyle='-', color='green', markersize='6', mew='0.2', linewidth='0.5', label='Skew-1-Inv1-GLRU')
+        x_values, y_values = read_and_sort_data(report_path + '/evset-effective-L2_2048x16-INV1-GLRU.dat')
+        plt.plot(x_values, y_values, marker='|', markerfacecolor='none', linestyle='-',
+                color='green', markersize=6, mew=0.2, linewidth=0.5, label='Skew-1-Inv1-GLRU')
 
-        x_values, y_values = read_and_sort_data(report_path+'/evset-effective-L2_2048x16-INV2-GLRU.dat')
-        plt.plot(x_values, y_values, marker='^', markerfacecolor='none', linestyle='-', color='brown', markersize='6', mew='0.2', linewidth='0.5', label='Skew-1-Inv2-GLRU')
+        x_values, y_values = read_and_sort_data(report_path + '/evset-effective-L2_2048x16-INV2-GLRU.dat')
+        plt.plot(x_values, y_values, marker='^', markerfacecolor='none', linestyle='-',
+                color='brown', markersize=6, mew=0.2, linewidth=0.5, label='Skew-1-Inv2-GLRU')
 
-        x_values, y_values = read_and_sort_data(report_path+'/evset-effective-L2_2048x16-INV4-GLRU.dat')
-        plt.plot(x_values, y_values, marker='o', markerfacecolor='none', linestyle='-', color='purple', markersize='6', mew='0.2', linewidth='0.5', label='Skew-1-Inv4-GLRU')
+        x_values, y_values = read_and_sort_data(report_path + '/evset-effective-L2_2048x16-INV4-GLRU.dat')
+        plt.plot(x_values, y_values, marker='o', markerfacecolor='none', linestyle='-',
+                color='purple', markersize=6, mew=0.2, linewidth=0.5, label='Skew-1-Inv4-GLRU')
 
-        x_values, y_values = read_and_sort_data(report_path+'/evset-effective-skewed_L2_2048x16-s2.dat')
-        plt.plot(x_values, y_values, marker='x', markerfacecolor='none', linestyle='-', color='green', markersize='6', mew='0.2', linewidth='0.5', label='Skew-2')
+        x_values, y_values = read_and_sort_data(report_path + '/evset-effective-skewed_L2_2048x16-s2.dat')
+        plt.plot(x_values, y_values, marker='x', markerfacecolor='none', linestyle='-',
+                color='green', markersize=6, mew=0.2, linewidth=0.5, label='Skew-2')
 
-        x_values, y_values = read_and_sort_data(report_path+'/evset-effective-skewed_L2_2048x16-s2-INV1-GRAN.dat')
-        plt.plot(x_values, y_values, marker='+', markerfacecolor='none', linestyle='-', color='brown', markersize='6', mew='0.2', linewidth='0.5', label='Skew-2-Inv1-GLRU')
+        x_values, y_values = read_and_sort_data(report_path + '/evset-effective-skewed_L2_2048x16-s2-INV1-GRAN.dat')
+        plt.plot(x_values, y_values, marker='+', markerfacecolor='none', linestyle='-',
+                color='brown', markersize=6, mew=0.2, linewidth=0.5, label='Skew-2-Inv1-GLRU')
 
-        x_values, y_values = read_and_sort_data(report_path+'/evset-effective-skewed_L2_2048x16-s2-INV2-GRAN.dat')
-        plt.plot(x_values, y_values, marker='o', markerfacecolor='none', linestyle='-', color='purple', markersize='6', mew='0.2', linewidth='0.5', label='Skew-2-Inv2-GLRU')
+        x_values, y_values = read_and_sort_data(report_path + '/evset-effective-skewed_L2_2048x16-s2-INV2-GRAN.dat')
+        plt.plot(x_values, y_values, marker='o', markerfacecolor='none', linestyle='-',
+                color='purple', markersize=6, mew=0.2, linewidth=0.5, label='Skew-2-Inv2-GLRU')
 
-        # Set labels, title, and save the figure
-        plt.xlabel('Size of Eviction Sets', fontsize='22')
-        plt.xticks(fontsize='14')
-        plt.ylabel('Eviction Rate', fontsize='22')
-        plt.yticks(fontsize='14')
-        plt.legend(loc='lower right', fontsize='16')
+        plt.xlabel('Size of Eviction Sets', fontsize=22)
+        plt.ylabel('Eviction Rate', fontsize=22)
+        plt.xticks(fontsize=14)
+        plt.yticks(fontsize=14)
+        plt.legend(loc='lower right', fontsize=16)
         plt.grid(True)
-        plt.xlim(0,100)
-        plt.savefig('figure5.pdf')
+        plt.xlim(0, 100)
+        # Add inset
+        ax = plt.gca()
+        inset_ax = inset_axes(ax, width="30%", height="10%", loc="lower center")
 
+        # Plot same data on inset
+        x_values, y_values = read_and_sort_data(report_path + '/evset-effective-L2_2048x16.dat')
+        inset_ax.plot(x_values, y_values, marker='x', linestyle='-', color='blue',
+                    markersize=6, mew=0.2, linewidth=0.5)
+
+        x_values, y_values = read_and_sort_data(report_path + '/evset-effective-L2_2048x16-INV1-GLRU.dat')
+        inset_ax.plot(x_values, y_values, marker='|', markerfacecolor='none', linestyle='-',
+                    color='green', markersize=6, mew=0.2, linewidth=0.5)
+
+        x_values, y_values = read_and_sort_data(report_path + '/evset-effective-L2_2048x16-INV2-GLRU.dat')
+        inset_ax.plot(x_values, y_values, marker='^', markerfacecolor='none', linestyle='-',
+                    color='brown', markersize=6, mew=0.2, linewidth=0.5)
+
+        x_values, y_values = read_and_sort_data(report_path + '/evset-effective-L2_2048x16-INV4-GLRU.dat')
+        inset_ax.plot(x_values, y_values, marker='o', markerfacecolor='none', linestyle='-',
+                    color='purple', markersize=6, mew=0.2, linewidth=0.5)
+
+        x_values, y_values = read_and_sort_data(report_path + '/evset-effective-skewed_L2_2048x16-s2.dat')
+        inset_ax.plot(x_values, y_values, marker='x', markerfacecolor='none', linestyle='-',
+                    color='green', markersize=6, mew=0.2, linewidth=0.5)
+
+        x_values, y_values = read_and_sort_data(report_path + '/evset-effective-skewed_L2_2048x16-s2-INV1-GRAN.dat')
+        inset_ax.plot(x_values, y_values, marker='+', markerfacecolor='none', linestyle='-',
+                    color='brown', markersize=6, mew=0.2, linewidth=0.5)
+
+        x_values, y_values = read_and_sort_data(report_path + '/evset-effective-skewed_L2_2048x16-s2-INV2-GRAN.dat')
+        inset_ax.plot(x_values, y_values, marker='o', markerfacecolor='none', linestyle='-',
+                    color='purple', markersize=6, mew=0.2, linewidth=0.5)
+
+        # Zoomed area
+        inset_ax.set_xlim(20, 30)
+        inset_ax.set_ylim(0.975, 1.025)
+        inset_ax.set_xticks([])
+        inset_ax.set_yticks([])
+        inset_ax.grid(True)
+
+        # Mark inset area on the main plot
+        mark_inset(ax, inset_ax, loc1=1, loc2=3, fc="none", ec="0.5")
+
+        # Final labels, legend, and save
+
+        plt.savefig('figure5.pdf')
 
 
     elif figureNumber == 6:

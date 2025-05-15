@@ -251,13 +251,13 @@ if __name__ == '__main__':
         plt.figure(figsize=(12, 6))
 
         x_values, y_values = read_and_sort_data(report_path+'/evset-effective-L2_2048x16.dat')
-        plt.plot(x_values, y_values, marker='|', linestyle='-', color='blue', markersize='6', mew='0.2', linewidth='0.5', label='CEASER')
+        plt.plot(x_values, y_values, marker='x', linestyle='-', color='blue', markersize='6', mew='0.2', linewidth='0.5', label='CEASER')
 
         x_values, y_values = read_and_sort_data(report_path+'/evset-effective-L2_2048x16-INV1-GLRU.dat')
-        plt.plot(x_values, y_values, marker='x', markerfacecolor='none', linestyle='-', color='green', markersize='6', mew='0.2', linewidth='0.5', label='Skew-1-Inv1-GLRU')
+        plt.plot(x_values, y_values, marker='|', markerfacecolor='none', linestyle='-', color='green', markersize='6', mew='0.2', linewidth='0.5', label='Skew-1-Inv1-GLRU')
 
         x_values, y_values = read_and_sort_data(report_path+'/evset-effective-L2_2048x16-INV2-GLRU.dat')
-        plt.plot(x_values, y_values, marker='+', markerfacecolor='none', linestyle='-', color='brown', markersize='6', mew='0.2', linewidth='0.5', label='Skew-1-Inv2-GLRU')
+        plt.plot(x_values, y_values, marker='^', markerfacecolor='none', linestyle='-', color='brown', markersize='6', mew='0.2', linewidth='0.5', label='Skew-1-Inv2-GLRU')
 
         x_values, y_values = read_and_sort_data(report_path+'/evset-effective-L2_2048x16-INV4-GLRU.dat')
         plt.plot(x_values, y_values, marker='o', markerfacecolor='none', linestyle='-', color='purple', markersize='6', mew='0.2', linewidth='0.5', label='Skew-1-Inv4-GLRU')

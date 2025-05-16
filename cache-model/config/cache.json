@@ -15,6 +15,12 @@
         "L2_2048x16-INV1-GRAN" : ["1x64x8", "1x2048x16-INV1-GRAN"],
         "L2_2048x16-INV2-GRAN" : ["1x64x8", "1x2048x16-INV2-GRAN"],
         "L2_2048x16-INV4-GRAN" : ["1x64x8", "1x2048x16-INV4-GRAN"],
+
+        "L2_2048x16-INV6-GLRU" : ["1x64x8", "1x2048x16-INV6-GLRU"],
+        "L2_2048x16-INV1-GLRU" : ["1x64x8", "1x2048x16-INV1-GLRU"],
+        "L2_2048x16-INV2-GLRU" : ["1x64x8", "1x2048x16-INV2-GLRU"],
+        "L2_2048x16-INV4-GLRU" : ["1x64x8", "1x2048x16-INV4-GLRU"],
+
         "L2_1024x32-INV6-GRAN" : ["1x64x8", "1x1024x32-INV6-GRAN"],
         "L2_512x64-INV6-GRAN" : ["1x64x8", "1x512x64-INV6-GRAN"],
         "L2_256x128-INV6-GRAN" : ["1x64x8", "1x256x128-INV6-GRAN"],
@@ -71,7 +77,12 @@
         "skewed_L2_1024x32-s2-LB-INV2-GRAN" : ["1x64x8", "skew2_1x1024x32-LB-INV2-GRAN"],
         "skewed_L2_512x64-s2-LB-INV2-GRAN" : ["1x64x8", "skew2_1x512x64-LB-INV2-GRAN"],
         "skewed_L2_256x128-s2-LB-INV2-GRAN" : ["1x64x8", "skew2_1x256x128-LB-INV2-GRAN"],
-        
+
+        "skewed_L2_1024x32-s2-LB-INV2-GLRU" : ["1x64x8", "skew2_1x1024x32-LB-INV2-GLRU"],
+        "skewed_L2_512x64-s2-LB-INV2-GLRU" : ["1x64x8", "skew2_1x512x64-LB-INV2-GLRU"],
+        "skewed_L2_256x128-s2-LB-INV2-GLRU" : ["1x64x8", "skew2_1x256x128-LB-INV2-GLRU"],
+
+
         "skewed_L2_1024x16-s4" : ["1x64x8", "skew4_1x1024x16"],
         "skewed_L2_1024x16-s8" : ["1x64x8", "skew8_1x1024x16"],
         "skewed_L2_1024x16-s16" : ["1x64x8", "skew16_1x1024x16"],
@@ -104,6 +115,11 @@
         "skewed_L2_2048x16-s2-INV2-GRAN" : ["1x64x8", "skew2_1x2048x16-INV2-GRAN"],
         "skewed_L2_2048x16-s2-INV4-GRAN" : ["1x64x8", "skew2_1x2048x16-INV4-GRAN"],
         "skewed_L2_2048x16-s2-INV6-GRAN" : ["1x64x8", "skew2_1x2048x16-INV6-GRAN"],
+
+        "skewed_L2_2048x16-s2-INV1-GLRU" : ["1x64x8", "skew2_1x2048x16-INV1-GLRU"],
+        "skewed_L2_2048x16-s2-INV2-GLRU" : ["1x64x8", "skew2_1x2048x16-INV2-GLRU"],
+        "skewed_L2_2048x16-s2-INV4-GLRU" : ["1x64x8", "skew2_1x2048x16-INV4-GLRU"],
+        "skewed_L2_2048x16-s2-INV6-GLRU" : ["1x64x8", "skew2_1x2048x16-INV6-GLRU"],
 
         "skewed_L2_2048x16-s2-LB-INV1-GRAN" : ["1x64x8", "skew2_1x2048x16-LB-INV1-GRAN"],
         "skewed_L2_2048x16-s2-LB-INV1-GLRU" : ["1x64x8", "skew2_1x2048x16-LB-INV1-GLRU"],
@@ -161,6 +177,11 @@
         "1x2048x16-INV1-GRAN":   { "base": "1x2048x16", "replacer": "lru-INV1-GRAN"},
         "1x2048x16-INV2-GRAN":   { "base": "1x2048x16", "replacer": "lru-INV2-GRAN"},
         "1x2048x16-INV4-GRAN":   { "base": "1x2048x16", "replacer": "lru-INV4-GRAN"},
+
+        "1x2048x16-INV6-GLRU":   { "base": "1x2048x16", "replacer": "lru-INV6-GLRU"},
+        "1x2048x16-INV1-GLRU":   { "base": "1x2048x16", "replacer": "lru-INV1-GLRU"},
+        "1x2048x16-INV2-GLRU":   { "base": "1x2048x16", "replacer": "lru-INV2-GLRU"},
+        "1x2048x16-INV4-GLRU":   { "base": "1x2048x16", "replacer": "lru-INV4-GLRU"},
 
         "1x1024x32-INV6-GRAN":   { "base": "1x2048x16-INV6-GRAN", "set": 1024, "way": 32},
         "1x512x64-INV6-GRAN":   { "base": "1x2048x16-INV6-GRAN", "set": 512, "way": 64},
@@ -282,6 +303,12 @@
         "skew2_1x2048x16-INV4-GRAN": {"base": "skewed_1x2048x16", "partition": 2, "indexer": "skew2", "replacer": "lru-INV4-GRAN"},
         "skew2_1x2048x16-INV6-GRAN": {"base": "skewed_1x2048x16", "partition": 2, "indexer": "skew2", "replacer": "lru-INV6-GRAN"},
 
+        "skew2_1x2048x16-INV1-GLRU": {"base": "skewed_1x2048x16", "partition": 2, "indexer": "skew2", "replacer": "lru-INV1-GLRU"},
+        "skew2_1x2048x16-INV2-GLRU": {"base": "skewed_1x2048x16", "partition": 2, "indexer": "skew2", "replacer": "lru-INV2-GLRU"},
+        "skew2_1x2048x16-INV4-GLRU": {"base": "skewed_1x2048x16", "partition": 2, "indexer": "skew2", "replacer": "lru-INV4-GLRU"},
+        "skew2_1x2048x16-INV6-GLRU": {"base": "skewed_1x2048x16", "partition": 2, "indexer": "skew2", "replacer": "lru-INV6-GLRU"},
+
+
         "skew2_1x2048x16-LB-INV1-GRAN": {"base": "skewed_1x2048x16", "partition": 2, "indexer": "skew2", "LOAD_BALANCING": true, "replacer": "lru-INV1-GRAN"},
         "skew2_1x2048x16-LB-INV1-GLRU": {"base": "skewed_1x2048x16", "partition": 2, "indexer": "skew2", "LOAD_BALANCING": true, "replacer": "lru-INV1-GLRU"},
         "skew2_1x2048x16-LB-INV1-GRRIP": {"base": "skewed_1x2048x16", "partition": 2, "indexer": "skew2", "LOAD_BALANCING": true, "replacer": "rrip-INV1-GRRIP"},
@@ -302,7 +329,12 @@
         "skew2_1x1024x32-LB-INV2-GRAN": {"base": "skewed_1x2048x16", "partition": 2, "indexer": "skew2", "set": 1024, "way": 32, "LOAD_BALANCING": true, "replacer": "lru-INV2-GRAN"},
         "skew2_1x512x64-LB-INV2-GRAN": {"base": "skewed_1x2048x16", "partition": 2, "indexer": "skew2", "set": 512, "way": 64, "LOAD_BALANCING": true, "replacer": "lru-INV2-GRAN"},
         "skew2_1x256x128-LB-INV2-GRAN": {"base": "skewed_1x2048x16", "partition": 2, "indexer": "skew2", "set": 256, "way": 128, "LOAD_BALANCING": true, "replacer": "lru-INV2-GRAN"},
-        
+
+        "skew2_1x1024x32-LB-INV2-GLRU": {"base": "skewed_1x2048x16", "partition": 2, "indexer": "skew2", "set": 1024, "way": 32, "LOAD_BALANCING": true, "replacer": "lru-INV2-GLRU"},
+        "skew2_1x512x64-LB-INV2-GLRU": {"base": "skewed_1x2048x16", "partition": 2, "indexer": "skew2", "set": 512, "way": 64, "LOAD_BALANCING": true, "replacer": "lru-INV2-GLRU"},
+        "skew2_1x256x128-LB-INV2-GLRU": {"base": "skewed_1x2048x16", "partition": 2, "indexer": "skew2", "set": 256, "way": 128, "LOAD_BALANCING": true, "replacer": "lru-INV2-GLRU"},
+
+
         "skew4_1x2048x16": {"base": "skewed_1x2048x16", "partition": 4, "indexer": "skew4"},
         "skew4_1x2048x16-LB": {"base": "skewed_1x2048x16", "partition": 4, "indexer": "skew4", "LOAD_BALANCING": true},
 

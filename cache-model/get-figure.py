@@ -7,6 +7,7 @@ import sys
 import matplotlib.pyplot as plt
 from mpl_toolkits.axes_grid1.inset_locator import inset_axes, mark_inset
 from matplotlib import rcParams
+rcParams.update({'figure.autolayout': True})
 import numpy as np
 
 def read_and_sort_data(file_path):

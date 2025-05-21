@@ -1,5 +1,5 @@
-Copyright (c) 2025-2026 Anubhav Bhatla <[bhatlaanubhav2001@gmail.com](mailto:bhatlaanubhav2001@gmail.com)> at the Indian Institute of
-Technology Bombay, India.
+Copyright (c) 2018-2020 Wei Song <[wsong83@gmail.com](mailto:wsong83@gmail.com)> at the Institute of
+Information Engineering, Chinese Academy of Sciences.
 
 This file is part of "cache-model".
 

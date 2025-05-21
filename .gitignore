@@ -6,9 +6,13 @@ cache-model/*.so
 cache-model/*.ps
 cache-model/*.pdf
 
-cache-model/test/*
-cache-model/!test/*.*
-
 cache-model/octave-workspace
 
 cache-model/report/*
+
+cachefx/*.o
+cachefx/*.pdf
+
+cachefx/results/*
+
+*.pdf

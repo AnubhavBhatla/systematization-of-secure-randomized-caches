@@ -52,7 +52,7 @@ int main(int argc, char* argv[]) {
     record_mean_stat(evict_mean, succ ? 0 : 1);
     if(mode == 1)
       std::cout << boost::format("%1% %2% %3%") % i % succ % evset.size() << std::endl;
-    std::cout<<"Iteration number "<<i<<" finished \n";
+    // std::cout<<"Iteration number "<<i<<" finished \n";
   }
 
   // get the eviction rate

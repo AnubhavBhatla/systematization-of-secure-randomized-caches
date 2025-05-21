@@ -24528,3 +24528,15 @@ test/evset-effective skewed_L2_2048x16-s2-LB-INV4-GPLRU list 2 296 360000 1000
 test/evset-effective skewed_L2_2048x16-s2-LB-INV4-GPLRU list 2 297 360000 1000
 test/evset-effective skewed_L2_2048x16-s2-LB-INV4-GPLRU list 2 298 360000 1000
 test/evset-effective skewed_L2_2048x16-s2-LB-INV4-GPLRU list 2 299 360000 1000
+Unable to init server: Could not connect: Connection refused
+Unable to init server: Could not connect: Connection refused
+
+(get-figure.py:1867780): Gdk-CRITICAL **: 09:39:15.301: gdk_cursor_new_for_display: assertion 'GDK_IS_DISPLAY (display)' failed
+Unable to init server: Could not connect: Connection refused
+Unable to init server: Could not connect: Connection refused
+
+(get-figure.py:1868874): Gdk-CRITICAL **: 09:40:59.284: gdk_cursor_new_for_display: assertion 'GDK_IS_DISPLAY (display)' failed
+Unable to init server: Could not connect: Connection refused
+Unable to init server: Could not connect: Connection refused
+
+(get-figure.py:1870571): Gdk-CRITICAL **: 09:43:05.213: gdk_cursor_new_for_display: assertion 'GDK_IS_DISPLAY (display)' failed

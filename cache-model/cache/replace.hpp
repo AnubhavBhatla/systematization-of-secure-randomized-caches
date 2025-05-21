@@ -292,6 +292,10 @@ public:
 
   virtual uint32_t replace(uint64_t *latency, int32_t set) {
     // add latency
+
+    // std::cerr << "nset = " << nset << " nway " << nway << " inv ways = " << INVALID_WAYS_PER_SKEW << " grrip = " << GLOBAL_RRIP << " rrpv_max = " << rrpv_max << "\n";
+    // exit(1);
+
     latency_acc(latency);
     if (!GLOBAL_RRIP) {
       if(!rrpv_map.count(set))
@@ -392,9 +396,9 @@ public:
         //     rrpv_map[set][i] = std::min(rrpv_map[set][i] + diff, rrpv_max - 1);
         //   }
         //   else {
-        //     //std::cerr << "should not happen";
+        //     std::cerr << "should not happen";
         //     exit(0);
-        //     rrpv_map[set][i] = rrpv_max;
+        //     // rrpv_map[set][i] = rrpv_max;
         //   }
         // }
       }
@@ -471,7 +475,7 @@ public:
 
         std::pair<uint32_t,uint32_t> evictedGuy;
 
-        evictedGuy = replacementCandidates[replacementCandidates.size() - 1];
+        evictedGuy = replacementCandidates[get_random_uint64(replacementCandidates.size())];
 
         rrpv_map[evictedGuy.first][evictedGuy.second] = rrpv_max; // invalidate the evicted guy
 

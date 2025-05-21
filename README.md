@@ -26,11 +26,15 @@
 
 Use the following command to install all the python packages required:
 
-`pip3 install -r requirements.txt`
+```
+pip3 install -r requirements.txt
+```
 
 We also require the C++ boost library, which can be installed using:
 
-`sudo apt install libboost-all-dev`
+```
+sudo apt install libboost-all-dev
+```
 
 ---
 ---
@@ -40,12 +44,16 @@ We also require the C++ boost library, which can be installed using:
 
 In order to build all required files, use the following script:
 
-`bash buildAll.sh build`
+```
+bash buildAll.sh build
+```
 
 ### Clean
 The output files can be cleaned using
 
-`bash buildAll.sh clean`
+```
+bash buildAll.sh clean
+```
 
 ---
 ---
@@ -55,11 +63,15 @@ The output files can be cleaned using
 
 Use the following command to generate all figures using a fresh set of simulations (this may take days to finish):
 
-`bash genAllFigures.sh 0`
+```
+bash genAllFigures.sh 0
+```
 
 Instead, we also provide the option to generate figures using our original results:
 
-`bash genAllFigures.sh 1`
+```
+bash genAllFigures.sh 1
+```
 
 #### Generating individual figures
 
@@ -96,11 +108,15 @@ python3 get-figure.py
 
 Use the following command to generate all tables using a fresh set of simulations (this may take days to finish):
 
-`bash genAllTables.sh 0`
+```
+bash genAllTables.sh 0
+```
 
 Instead, we also provide the option to generate tables using our original results:
 
-`bash genAllTables.sh 1`
+```
+bash genAllTables.sh 1
+```
 
 > [!IMPORTANT] 
 > **Tables 1 and 3:** We do not generate these tables here.

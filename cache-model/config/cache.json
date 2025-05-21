@@ -536,6 +536,13 @@
             "type"  : "rrip",
             "width" : 5,
             "delay" : 0
+        },
+        "plru": {
+            "type"  : "rplru",
+            "width" : 5,
+            "delay" : 0,
+            "INVALID_WAYS_PER_SKEW" : 0,
+            "GLOBAL_PLRU" : false
         }
     },
     "hasher": {

@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<CacheHierarchy>
+	<Cache Type="custom" NLines="2304" NWays="18" Partitions="2" InvalidWays="1" ReplAlg="gran" LoadBalancing="true" Level="1" />
+</CacheHierarchy>

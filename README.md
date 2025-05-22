@@ -80,7 +80,7 @@ In order to plot a single figure, use the following steps:
 ```
 cd <directory: cache-model - For figures 3-14 cachefx - For figures 15-16>
 
-python3 get-figure <1/0: 1 - Use generated results 0 - Generate new results and use them> <figure_number>
+python3 get-figure.py <1/0: 1 - Use generated results 0 - Generate new results and use them> <figure_number>
 ```
 
 **Figure 17:** We provide our simulation results to reproduce this figure, which can be done using the following steps:

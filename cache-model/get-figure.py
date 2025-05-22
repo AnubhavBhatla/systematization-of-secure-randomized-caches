@@ -246,9 +246,9 @@ if __name__ == '__main__':
             run_tests("skewed_L2_2048x16-s2-INV1-GLRU", "list", 2, range(1, 300, 1), 360000)
             run_tests("skewed_L2_2048x16-s2-INV2-GLRU", "list", 2, range(1, 300, 1), 360000)
             run_tests("skewed_L2_2048x16-s2-INV4-GLRU", "list", 2, range(1, 100, 1), 360000)
-            run_tests("L2_2048x16-INV1-GLRU", "list", 2, range(1, 300, 1), 360000)
-            run_tests("L2_2048x16-INV2-GLRU", "list", 2, range(1, 300, 1), 360000)
-            run_tests("L2_2048x16-INV4-GLRU", "list", 2, range(1, 300, 1), 360000)
+            run_tests("L2_2048x16-INV1-GLRU", "list", 2, range(1, 33, 1), 360000)
+            run_tests("L2_2048x16-INV2-GLRU", "list", 2, range(1, 33, 1), 360000)
+            run_tests("L2_2048x16-INV4-GLRU", "list", 2, range(1, 33, 1), 360000)
         plt.figure(figsize=(12, 6))
 
         # Main plot
@@ -619,7 +619,7 @@ if __name__ == '__main__':
             run_tests_attack("skewed_L2_512x64-s2",     "list", 2, range( 3*1024*1024, 4*1024*1024, 32*1024), "116")
             run_tests_attack("skewed_L2_256x128-s2",     "list", 2, range( 7*1024*1024, 8*1024*1024,  32*1024), "241")       
             run_tests_attack("skewed_L2_512x64-s2-LB-INV2-GLRU",     "list", 2, range( 7*512*1024, 13*512*1024, 32*1024), "190")
-            run_tests_attack("skewed_L2_256x128-s2-LB-INV2-GLRU",     "list", 2, range( 15*512*1024, 17*512*1024, 32*1024), "337")
+            run_tests_attack("skewed_L2_256x128-s2-LB-INV2-GLRU",     "list", 2, range(10*1000*1000,12*1000*1000,100*1000), "337")
         #### Need Plotting Code @Anubhav ####
         # Extract data from the files
 

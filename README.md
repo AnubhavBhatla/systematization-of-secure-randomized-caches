@@ -7,6 +7,10 @@
 ---
 
 ## Table of contents
+* [Directory Structure](#directory-structure)
+    * [cache-model](#cache-model)
+    * [cachefx](#cachefx)
+    * [low-occupancy](#low-occupancy)
 * [Installing dependencies](#installing-dependencies)
 * [Building projects](#building-projects)
     * [Build](#build)
@@ -14,10 +18,58 @@
 * [Generating figures and tables](#generating-figures-and-tables)
     * [Figures](#figures)
     * [Tables](#tables)
-* [Directory Structure](#directory-structure)
-    * [cache-model](#cache-model)
-    * [cachefx](#cachefx)
-    * [low-occupancy](#low-occupancy)
+
+---
+---
+
+## Directory Structure
+
+```
+├── cache-model/
+│   ├── src files/
+│   ├── report/
+│   ├── report-original/
+│   ├── genFigs.sh
+│   ├── get-figure.py
+│   ├── get-table.py
+│   └── Makefile
+├── cachefx/
+│   ├── src files
+│   ├── results/
+│   ├── results-original/
+│   ├── genFigs.sh
+│   ├── get-figure.py
+│   └── Makefile
+├── low-occupancy/
+│   ├── results-original/
+│   ├── get-figure.py
+├── buildAll.sh
+├── genAllFigs.sh
+├── genAllTables.sh
+├── requirements.txt
+├── LICENSE.md
+├── README.md
+├── .gitignore
+└── .gitmodules
+```
+
+### cache-model
+
+This directory contains the files and scripts for the eviction rate experiment and the eviction set generation experiment.
+
+> This code is a modified version of [cache-model](https://github.com/comparch-security/cache-model).
+
+### cachefx
+
+This directory contains the files and scripts for the cryptographic attack experiment for occupancy-based attacks.
+
+> This code is a modified version of [CacheFX](https://github.com/0xADE1A1DE/CacheFX).
+
+### low-occupancy
+
+This directory contains the files and scripts for the experiment for low-occupancy-based attacks using our original results only.
+
+> These files are generated using the source code provided in [randomized_caches](https://github.com/SEAL-IIT-KGP/randomized_caches).
 
 ---
 ---
@@ -120,58 +172,6 @@ bash genAllTables.sh 1
 
 > [!IMPORTANT] 
 > **Tables 1 and 3:** We do not generate these tables here.
-
----
----
-
-## Directory Structure
-
-```
-├── cache-model/
-│   ├── src files/
-│   ├── report/
-│   ├── report-original/
-│   ├── genFigs.sh
-│   ├── get-figure.py
-│   ├── get-table.py
-│   └── Makefile
-├── cachefx/
-│   ├── src files
-│   ├── results/
-│   ├── results-original/
-│   ├── genFigs.sh
-│   ├── get-figure.py
-│   └── Makefile
-├── low-occupancy/
-│   ├── results-original/
-│   ├── get-figure.py
-├── buildAll.sh
-├── genAllFigs.sh
-├── genAllTables.sh
-├── requirements.txt
-├── LICENSE.md
-├── README.md
-├── .gitignore
-└── .gitmodules
-```
-
-### cache-model
-
-This directory contains the files and scripts for the eviction rate experiment and the eviction set generation experiment.
-
-> This code is a modified version of [cache-model](https://github.com/comparch-security/cache-model).
-
-### cachefx
-
-This directory contains the files and scripts for the cryptographic attack experiment for occupancy-based attacks.
-
-> This code is a modified version of [CacheFX](https://github.com/0xADE1A1DE/CacheFX).
-
-### low-occupancy
-
-This directory contains the files and scripts for the experiment for low-occupancy-based attacks using our original results only.
-
-> These files are generated using the source code provided in [randomized_caches](https://github.com/SEAL-IIT-KGP/randomized_caches).
 
 ---
 ---

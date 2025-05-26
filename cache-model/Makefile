@@ -10,9 +10,7 @@ TARGETS = \
 	test/evset-attack \
 	test/evset-attack-ppp \
 	test/evset-effective-warmup \
-	test/evset-effective-blind \
 	test/evset-attack-warmup \
-	test/evset-effective-noCandidate \
 
 OBJECTS = \
 	cache/cache.o \

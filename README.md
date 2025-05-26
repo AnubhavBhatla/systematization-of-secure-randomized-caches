@@ -27,9 +27,6 @@ This tool is used for our experiments involving low-occupancy-based attacks. Thi
 
 ## Table of contents
 * [Directory Structure](#directory-structure)
-    * [cache-model](#cache-model)
-    * [cachefx](#cachefx)
-    * [low-occupancy](#low-occupancy)
 * [Installing dependencies](#installing-dependencies)
 * [Building projects](#building-projects)
     * [Build](#build)

@@ -10,11 +10,13 @@ from matplotlib import rcParams
 rcParams.update({'figure.autolayout': True})
 import numpy as np
 import warnings
+import concurrent.futures
 
 warnings.filterwarnings("ignore", category=UserWarning)
 
 SKIP = 3
 NUM_THREADS = 100
+
 
 def read_and_sort_data(file_path):
     x_values = []
@@ -146,6 +148,27 @@ def run_tests_warmup(ccfg, tcfg, level, evrange, csize, warmup):
         t.join()
 
 
+tasks = [
+    (run_tests_attack, ("skewed_L2_2048x16-s16", "list", 2, range(3*512*1024, 15*256*1024, 32*1024), "87")),
+    (run_tests_attack, ("skewed_L2_2048x16-s2", "list", 2, range(0*512*1024, 5*512*1024, 32*1024), "26")),
+    (run_tests_attack, ("skewed_L2_2048x16-s2-LB-INV2-GLRU", "list", 2, range(1536*1024, 3*1024*1024, 32*1024), "70")),
+    (run_tests_attack, ("skewed_L2_512x64-s2", "list", 2, range(3*1024*1024, 4*1024*1024, 32*1024), "116")),
+    (run_tests_attack, ("skewed_L2_256x128-s2", "list", 2, range(7*1024*1024, 8*1024*1024, 32*1024), "241")),
+    (run_tests_attack, ("skewed_L2_512x64-s2-LB-INV2-GLRU", "list", 2, range(7*512*1024, 13*512*1024, 32*1024), "190")),
+    (run_tests_attack, ("skewed_L2_256x128-s2-LB-INV2-GLRU", "list", 2, range(10*1000*1000, 12*1000*1000, 100*1000), "337")),
+]
+
+tasks2 = [
+    (run_tests_attack, ("skewed_L2_512x64-s2",     "list", 2, range(3*1024*1024, 4*1024*1024, 32*1024), "116")),
+    (run_tests_attack, ("skewed_L2_256x64-s2",     "list", 2, range(3*512*1024, 4*512*1024, 32*1024), "116")),
+    (run_tests_attack, ("skewed_L2_1024x64-s2",    "list", 2, range(7*1024*1024, 4*2048*1024, 32*1024), "116")),
+    (run_tests_attack, ("skewed_L2_256x128-s2",    "list", 2, range(7*1024*1024, 8*1024*1024, 32*1024), "241")),
+    (run_tests_attack, ("skewed_L2_128x128-s2",    "list", 2, range(7*512*1024, 8*512*1024, 32*1024), "241")),
+    (run_tests_attack, ("skewed_L2_512x128-s2",    "list", 2, range(15*1024*1024, 8*2048*1024, 32*1024), "241")),
+]
+
+def task_runner(func, args):
+    func(*args)
 
 if __name__ == '__main__':
     
@@ -627,13 +650,9 @@ if __name__ == '__main__':
 
     elif figureNumber == 12:
         if option == 0:
-            run_tests_attack("skewed_L2_2048x16-s16", "list", 2, range( 3*512*1024, 15*256*1024,  32*1024), "87")
-            run_tests_attack("skewed_L2_2048x16-s2", "list", 2, range( 0*512*1024, 5*512*1024,  32*1024), "26")
-            run_tests_attack("skewed_L2_2048x16-s2-LB-INV2-GLRU", "list", 2, range( 1536*1024, 3*1024*1024,  32*1024), "70")
-            run_tests_attack("skewed_L2_512x64-s2",     "list", 2, range( 3*1024*1024, 4*1024*1024, 32*1024), "116")
-            run_tests_attack("skewed_L2_256x128-s2",     "list", 2, range( 7*1024*1024, 8*1024*1024,  32*1024), "241")       
-            run_tests_attack("skewed_L2_512x64-s2-LB-INV2-GLRU",     "list", 2, range( 7*512*1024, 13*512*1024, 32*1024), "190")
-            run_tests_attack("skewed_L2_256x128-s2-LB-INV2-GLRU",     "list", 2, range(10*1000*1000,12*1000*1000,100*1000), "337")
+            with concurrent.futures.ProcessPoolExecutor() as executor:
+                futures = [executor.submit(task_runner, func, args) for func, args in tasks]
+                concurrent.futures.wait(futures)
         # Extract data from the files
 
         x_values = {}
@@ -759,12 +778,9 @@ if __name__ == '__main__':
 
     elif figureNumber == 14:
         if option == 0:
-            run_tests_attack("skewed_L2_512x64-s2",     "list", 2, range( 3*1024*1024, 4*1024*1024, 32*1024), "116")
-            run_tests_attack("skewed_L2_256x64-s2",     "list", 2, range( 3*512*1024, 4*512*1024, 32*1024), "116")
-            run_tests_attack("skewed_L2_1024x64-s2",     "list", 2, range( 7*1024*1024, 4*2048*1024, 32*1024), "116")
-            run_tests_attack("skewed_L2_256x128-s2",     "list", 2, range( 7*1024*1024, 8*1024*1024,  32*1024), "241")
-            run_tests_attack("skewed_L2_128x128-s2",     "list", 2, range( 7*512*1024, 8*512*1024,  32*1024), "241")
-            run_tests_attack("skewed_L2_512x128-s2",     "list", 2, range( 15*1024*1024, 8*2048*1024,  32*1024), "241")
+            with concurrent.futures.ProcessPoolExecutor() as executor:
+                futures = [executor.submit(task_runner, func, args) for func, args in tasks2]
+                concurrent.futures.wait(futures)
 
         x_values = {}
         y_values = {}

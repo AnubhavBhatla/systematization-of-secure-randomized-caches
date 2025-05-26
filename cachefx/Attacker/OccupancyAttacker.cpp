@@ -33,12 +33,9 @@ OccupancyAttacker::OccupancyAttacker(MMU* mmu, int32_t cacheSize,
                                      int32_t secretRound, CLArgs& args)
     : Attacker(secretRound, args.get_giveup()), mmu(mmu), cacheSize(cacheSize)
 {
-  // std::cout<<"cache size is "<<cacheSize<<std::endl;
-  // exit(0);
   percentOccupy = args.percentOccupy;
   evictionSet = mmu->allocate("EvictionSet", (cacheSize*percentOccupy/100), false);
   warmupSet = mmu->allocate("WarmupSet", cacheSize, false);
-  // std::cout << cacheSize << std::endl;
 }
 
 void OccupancyAttacker::prime()
@@ -74,10 +71,6 @@ bool OccupancyAttacker::warmup()
         p++;
     }
 
-    // int32_t p = probe();
-    // std::cout << p << std::endl;
-    
-    // printf("Populate: %3d: miss on %5d\n", i, p);
     if (p == 0)
       break;
     if (p >= min)

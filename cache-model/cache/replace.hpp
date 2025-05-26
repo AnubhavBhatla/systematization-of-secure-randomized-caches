@@ -13,10 +13,6 @@
 #include <math.h>
 #include <unistd.h>
 
-// #define local_plru 1
-
-// #define GLOBAL_RANDOM
-
 ///////////////////////////////////
 // Base class
 
@@ -28,7 +24,6 @@ protected:
 public:
   ReplaceFuncBase(uint32_t nset, uint32_t nway, uint32_t delay, uint32_t INVALID_WAYS_PER_SKEW, bool GLOBAL_RANDOM, bool GLOBAL_LRU)
     : DelaySim(delay), nset(nset), nway(nway), INVALID_WAYS_PER_SKEW(INVALID_WAYS_PER_SKEW), GLOBAL_LRU(GLOBAL_LRU), GLOBAL_RANDOM(GLOBAL_RANDOM) {
-              // std :: cout << "GLRU = " << GLOBAL_LRU << "INV = " << INVALID_WAYS_PER_SKEW << " GRAN =  " << GLOBAL_RANDOM << "\n";
     }
   virtual uint32_t replace(uint64_t *latency, int32_t set) = 0;
   virtual void access(int32_t set, uint32_t way) = 0;
@@ -127,8 +122,6 @@ public:
         valid_count += (nway - free_map[i].size());
       }
     }
-
-    // std::cout<<valid_count<<"\n";
     // if the cache is not at full capacity (only valid ways), return an invalid way from the set or perform an SAE
     // perform an SAE if the given set is already full, otherwise assign an invalid entry from this set and globally evict a random entry
     if (free_map[set].size() < 1) {
@@ -140,38 +133,33 @@ public:
         return *(free_map[set].begin());
       }
       else {
-        // std :: cout << "GLRU = " << GLOBAL_LRU << "\n";
         if (GLOBAL_RANDOM && GLOBAL_LRU) {
-          //std::cerr<<"Please only use global random OR global LRU eviction, otherwise the global LRU will overwrite global Random "<<INVALID_WAYS_PER_SKEW<<"\n";
+          std::cerr<<"Please only use global random OR global LRU eviction, otherwise the global LRU will overwrite global Random "<<INVALID_WAYS_PER_SKEW<<"\n";
           exit(0);
         }
         if (GLOBAL_RANDOM)
         {
-          // std :: cout << "GRAN : nset=" << nset<<" "<<"nway="<<nway<<" inv way per skew = "<<INVALID_WAYS_PER_SKEW<<"\n";
-        uint32_t rand_set = nset;
-        while (!used_map[rand_set].size()) {
-          rand_set = (uint32_t)get_random_uint64(nset);
-          // std::cout << "stuck here " << rand_set << std::endl;
-        }
+          uint32_t rand_set = nset;
+          while (!used_map[rand_set].size()) {
+            rand_set = (uint32_t)get_random_uint64(nset);
+          }
 
-        uint32_t rand_way = nway;
-        while (std::find(used_map[rand_set].begin(), used_map[rand_set].end(), rand_way) == used_map[rand_set].end()) {
-          rand_way = (uint32_t)get_random_uint64(nway);
-          // std::cout << "stuck here2 " << rand_way << std::endl;
-        }
-        
-        used_map[rand_set].remove(rand_way);
-        free_map[rand_set].insert(rand_way);
+          uint32_t rand_way = nway;
+          while (std::find(used_map[rand_set].begin(), used_map[rand_set].end(), rand_way) == used_map[rand_set].end()) {
+            rand_way = (uint32_t)get_random_uint64(nway);
+          }
+          
+          used_map[rand_set].remove(rand_way);
+          free_map[rand_set].insert(rand_way);
         }
 
         if (GLOBAL_LRU)
         {
-        int32_t lru_set = std::get<0>(used_map_global.front());
-        uint32_t lru_way = std::get<1>(used_map_global.front());
-        // std :: cout << "GLRU : nset=" << nset<<" "<<"nway="<<nway<<" inv way per skew = "<<INVALID_WAYS_PER_SKEW<< " " << "Evicted set = " << lru_set << " evcited way = " << lru_way << "\n";
-        used_map_global.remove(std::make_tuple(lru_set,lru_way));
-        used_map[lru_set].remove(lru_way);
-        free_map[lru_set].insert(lru_way);
+          int32_t lru_set = std::get<0>(used_map_global.front());
+          uint32_t lru_way = std::get<1>(used_map_global.front());
+          used_map_global.remove(std::make_tuple(lru_set,lru_way));
+          used_map[lru_set].remove(lru_way);
+          free_map[lru_set].insert(lru_way);
         }
         
         return *(free_map[set].begin());
@@ -241,11 +229,9 @@ public:
       used_map[set].push_back(way);
       used_map_global.push_back(std::make_tuple(set,way));
       if (isFirst) {
-        // std :: cout << "Inserted  ("<<set<<","<<way<< "GLRU = " << GLOBAL_LRU << ")\n";
         isFirst = false;
       }
     } else {
-      // std :: cout << "Re-reference on (" << set << "," << way << ")\n";
       used_map[set].remove(way);
       used_map[set].push_back(way);
       used_map_global.remove(std::make_tuple(set,way));
@@ -288,13 +274,9 @@ public:
         }
       }
     }
-  // "width" number of RRIP bits
 
   virtual uint32_t replace(uint64_t *latency, int32_t set) {
     // add latency
-
-    // std::cerr << "nset = " << nset << " nway " << nway << " inv ways = " << INVALID_WAYS_PER_SKEW << " grrip = " << GLOBAL_RRIP << " rrpv_max = " << rrpv_max << "\n";
-    // exit(1);
 
     latency_acc(latency);
     if (!GLOBAL_RRIP) {
@@ -312,13 +294,11 @@ public:
         for(uint32_t i=0; i<nway; i++) rrpv_map[set][i] += diff;
       }
 
-      // we need to update this function to incorporate invalid ways
       // calculate cache capacity
       uint32_t cacheCapacity = 0;
       for (int i=0; i<nset; i++) {
         for (int j=0; j<nway; j++) {
           if (!rrpv_map.count(i)) {
-            // no increment in cache capacity
             break;
           }
           if (rrpv_map[i][j] != rrpv_max) {
@@ -363,10 +343,6 @@ public:
     }
     
     if (isSAENecessary) {
-      // no choice but to run a local rrip algo? or should we run a global one :P 
-      // this is I guess an implementation detail but it might be important...
-      // we might need to discuss this :P
-      // for now I'm implementing a global rrip 
       // find entry in the set with maximum RRPV
       uint32_t pos = 0, pmax = 0;
       std :: vector<uint32_t> cands;
@@ -391,18 +367,7 @@ public:
             }
           }
         }
-        // for (int i=0; i<nway; i++) {
-        //   if (rrpv_map[set][i] <= rrpv_max - 1) {
-        //     rrpv_map[set][i] = std::min(rrpv_map[set][i] + diff, rrpv_max - 1);
-        //   }
-        //   else {
-        //     std::cerr << "should not happen";
-        //     exit(0);
-        //     // rrpv_map[set][i] = rrpv_max;
-        //   }
-        // }
       }
-      // else we don't need to change, directly evict :P
       return cands[0];
 
     }
@@ -418,12 +383,10 @@ public:
         }
       }
 
-      // std::cout<<cacheCapacity<<"\n";
 
-      // need to check if we need to do global eviction :)
+      // need to check if we need to do global eviction
       // need to do global eviction if and only if cache capacity >= nset*(nway - INVALID_WAYS_PER_SKEW)
       if (cacheCapacity < nset*(nway - INVALID_WAYS_PER_SKEW)) {
-        // siu no need to do global eviction, lets just randomly choose one of the invalid ways in this set and return it
         std::vector<uint32_t> invalidWaysList;
         for (int i=0; i<nway; i++) {
           if (rrpv_map[set][i] == rrpv_max) {
@@ -535,7 +498,7 @@ public:
   }
 };
 
-
+// WARNING: Deprecated function, not used. Please see ReplaceRPLRU. That is the class which is actually used
 class ReplacePLRU : public ReplaceFuncBase {
   protected:
   std::unordered_map<uint32_t, std::vector<uint32_t> > valid_map;
@@ -606,75 +569,11 @@ class ReplacePLRU : public ReplaceFuncBase {
   
   }
   
-  /*
-  #ifdef local_plru
-  uint32_t plruBits;
-  std::unordered_map<uint32_t,std::vector<bool>> plruBitsVector;
-  void printPlru(uint32_t set) {
-    std::cerr << "Set = " << set << " plruBits = " << plruBits << "\n";
-    for (int i=0; i<plruBits; i++) {
-      std::cerr << (int)plruBitsVector[set][i] << " ";
-    }
-    std::cerr << "\n";
-  }
-  #else
-  std::unordered_map<uint32_t,std::vector<int>> lruBitsVector;
-  void make_mru(uint32_t set, uint32_t way) {
-    if (lruBitsVector.find(set) == lruBitsVector.end()) {
-      std::cerr << "Set doesn't have corresponding lru bit vector yet!\n";
-      exit(1);
-    }
-    int currStanding = lruBitsVector[set][way];
-    for (int i=0; i < nway; i++) {
-      if (lruBitsVector[set][i] > currStanding) {
-        lruBitsVector[set][i] -= 1;
-      }
-    }
-    lruBitsVector[set][way] = nway - 1;
-  }
-  #endif
-  std::vector<bool> plruBitsPerSet;
-*/
   std::vector<int> plruBits;
 
   public:
   ReplacePLRU(uint32_t nset, uint32_t nway, uint32_t width, uint32_t delay,bool GLOBAL_PLRU,uint32_t INVALID_WAYS_PER_SKEW, uint32_t plruBits)
     : ReplaceFuncBase(nset, nway, delay,INVALID_WAYS_PER_SKEW,0,0),GLOBAL_PLRU(GLOBAL_PLRU) {
-/*
-      globValidCtr = 0;
-
-      // //std::cerr << INVALID_WAYS_PER_SKEW << "\n";
-      // exit(1);
-      // plru bits are chosen as 2 way -> 1 bit, 4 way -> 2*2way+1, n way -> 2*n/2 way + 1
-      uint32_t prevBits = 1;
-      #ifdef local_plru
-      for (int i=4; i <= nway; i*=2) {
-        prevBits = 2*prevBits + 1;
-      }
-      this->plruBits = prevBits;
-      #endif
-      //std::cerr << "plruBits = " << this->plruBits << "\n";
-
-      prevBits = 1;
-      for (int i=4; i <= nset; i*=2) {
-        prevBits = 2*prevBits + 1;
-      }
-      for (int i=0; i<prevBits; i++) {
-        plruBitsPerSet.push_back(0);
-      }
-
-      for (int i=0; i<nset; i++) {
-        valid_map[i] = std::vector<uint32_t>(nway,0);
-        #ifdef local_plru
-        plruBitsVector[i] = std::vector<bool>(this->plruBits,0);
-        #else
-        lruBitsVector[i] = std::vector<int>(nway,0);
-        for (int j=0; j < nway; j++) {
-          lruBitsVector[i][j] = j;
-        }
-        #endif
-      }
-*/
       globValidCtr = 0;
       for (int i=0; i < nset; i++) {
         valid_map[i] = std::vector<uint32_t>(nway,0);
@@ -715,7 +614,6 @@ class ReplacePLRU : public ReplaceFuncBase {
         if (valid_map[set][i] == 0) {
           valid_map[set][i] = 1;
           globValidCtr++;
-          // std::cerr << "Setup globValidCtr = " << globValidCtr << "\n";
           return i;
         }
       }
@@ -736,28 +634,12 @@ class ReplacePLRU : public ReplaceFuncBase {
         }
         globSet = globNet/nway;
         globWay = globNet%nway;
-/*
-
-          Need some sort of backtrack algorithm
-          Idea:
-            - Start by modifying the bitToConsider
-            - Then if its still invalid modify the bit before that
-            - This puts you into a new space where you now have 2 new choices
-            - How do you keep going?
-
-            - Need to keep track of what the path is
-            - By sheer coincidence, its basically just enumeration
-            - So keep a bit vector of size of path
-
-*/
         globValidCtr--;
-        // std::cerr << "Decremented globValidCtr = " << globValidCtr << "\n";
         valid_map[globSet][globWay] = 0;
 
         for (int i=0; i < nway; i++) {
           if (valid_map[set][i] == 0) {
             globValidCtr++;
-            // std::cerr << "Incremented globValidCtr = " << globValidCtr << "\n";
             valid_map[set][i] = 1;
             return i;
           }
@@ -771,472 +653,8 @@ class ReplacePLRU : public ReplaceFuncBase {
         return get_random_uint64(nway);
       }
     }
-/*
-    if (!GLOBAL_PLRU) {
-      #ifdef local_plru
-      uint32_t validCount = 0;
-      for (int i=0; i<nset; i++) {
-        for (int j=0; j<nway; j++) {
-          if (valid_map[i][j] == 1) {
-            validCount++;
-          }
-        }
-      }
-
-      bool replNeeded = true;
-      for (int i=0; i < nway; i++) {
-        if (valid_map[set][i] == 0 || valid_map[set][i] == 2) {
-          replNeeded = false;
-          break;
-        }
-      }
-      replNeeded = replNeeded | (validCount >= nset*(nway - INVALID_WAYS_PER_SKEW));
-
-      if (!replNeeded) {
-
-        if (validCount == nset*(nway - INVALID_WAYS_PER_SKEW) - 1) {
-          for (int i=0; i < nset; i++) {
-            for (int j=0; j < nway; j++) {
-              if (valid_map[i][j] == 0) {
-                valid_map[i][j] = 2; // freeze them and make their eviction impossible
-              }
-            }
-          }
-        }
-
-        // find the first invalid way
-        for (int i=0; i < nway; i++) {
-          if (valid_map[set][i] == 2) {
-            valid_map[set][i] = 1;
-            globValidCtr++;
-            //std::cerr << "set = " << set << " way = " << i << " globValidCtr = " << globValidCtr << "\n";
-            return i;
-          }
-        }
-
-      }
-      else {
-
-        // assume that the accesses have ensured proper behaviour, we only need to traverse the tree
-        uint32_t bitToConsider = 0;
-        // we shall store it in an pre-order tree
-        uint32_t height = log2(nway) - 1;
-        // //std::cerr << "height = " << height << "\n";
-        uint32_t start = 0;
-        uint32_t end = nway;
-        while (height > 0) {
-          // //std::cerr << "height = " << height << "\n";
-          // //std::cerr << "start = " << start << " end = " << end << "\n";
-
-          // check if the bit is set
-          if (plruBitsVector[set][bitToConsider] == 1) {
-            // go left
-            bitToConsider += 1;
-            end = (end + start)/2;
-          }
-          else {
-            // go right
-            bitToConsider += pow(2,height);
-            start = (start + end)/2;
-          }
-          height--;
-        } 
-        if (end != start + 2) {
-          //std::cerr << "Messed up\n";
-          exit(1);
-        }
-        if (plruBitsVector[set][bitToConsider] == 1) {
-          return start;
-        }
-        else {
-          return end - 1;
-        }
-
-    }
-    #else
-    std::cerr << "What are you trying to do?\n";
-    exit(1);
-    #endif
-  }
-  else {
-    // //std::cerr << "Here\n";
-    // exit(1);
-    uint32_t validCount = 0;
-    for (int i=0; i<nset; i++) {
-      for (int j=0; j<nway; j++) {
-        if (valid_map[i][j] == 1) {
-          validCount++;
-        }
-      }
-    }
-    // //std::cerr << "Valid count = " << validCount << "\n";
-
-    bool replNeeded = true;
-    bool isInvalidWayPresent = false;
-    for (int i=0; i < nway; i++) {
-      if (valid_map[set][i] == 0) {
-        isInvalidWayPresent = true;
-        replNeeded = false;
-        break;
-      }
-    }
-    replNeeded = replNeeded | (validCount >= nset*(nway - INVALID_WAYS_PER_SKEW));
-
-    if (validCount > nset*(nway - INVALID_WAYS_PER_SKEW)) {
-      //std::cerr << "Bs\n";
-      exit(1);
-    }
-
-    if (!replNeeded) {
-
-      // find the first invalid way
-      for (int i=0; i < nway; i++) {
-        if (valid_map[set][i] == 0) {
-          globValidCtr++;
-          valid_map[set][i] = 1;
-          return i;
-        }
-      }
-      //std::cerr << "Invalid way not present, no replacement can occur\n";
-      exit(1);
-    }
-    else {
-
-      // find out if invalid way present
-      if (isInvalidWayPresent) {
-        // we need to do global eviction
-        // how to define our global eviction schema?
-        // Answer: Choose least recently used set and least recently used way within that set
-        uint32_t candidateSet = -1;
-        uint32_t candidateWay = -1;
-        
-        do {
-          uint32_t candidateSetStart = 0;
-          uint32_t candidateSetEnd = nset;
-          uint32_t bitToConsider = 0;
-          uint32_t height = log2(nset) - 1;
-          while (height > 0) {
-            // //std::cerr << "height = " << height << "\n";
-            // //std::cerr << "start = " << candidateSetStart << " end = " << candidateSetEnd << "\n";
-            // check if the bit is set
-            if (plruBitsPerSet[bitToConsider] == 1) {
-              // go left
-              bitToConsider += 1;
-              candidateSetEnd = (candidateSetEnd + candidateSetStart)/2;
-            }
-            else {
-              // go right
-              bitToConsider += pow(2,height);
-              candidateSetStart = (candidateSetStart + candidateSetEnd)/2;
-            }
-            height--;
-          }
-          if (candidateSetEnd != candidateSetStart + 2) {
-            //std::cerr << "Messed up\n";
-            exit(1);
-          }
-          
-          if (plruBitsPerSet[bitToConsider] == 1) {
-            // candidate set is start
-            candidateSet = candidateSetStart;
-          }
-          else {
-            // candidate set is end - 1
-            candidateSet = candidateSetEnd - 1;
-          }
-          
-          #ifdef local_plru
-          // now we need to find the least recently used way in this set
-          uint32_t candidateWayStart = 0;
-          uint32_t candidateWayEnd = nway;
-          bitToConsider = 0;
-          height = log2(nway) - 1;
-          while (height > 0) {
-            // //std::cerr << "height = " << height << "\n";
-            // //std::cerr << "start = " << candidateSetStart << " end = " << candidateSetEnd << "\n";
-            // check if the bit is set
-            if (plruBitsVector[candidateSet][bitToConsider] == 1) {
-              // go left
-              bitToConsider += 1;
-              candidateWayEnd = (candidateWayEnd + candidateWayStart)/2;
-            }
-            else {
-              // go right
-              bitToConsider += pow(2,height);
-              candidateWayStart = (candidateWayStart + candidateWayEnd)/2;
-            }
-            height--;
-          }
-          if (candidateWayEnd != candidateWayStart + 2) {
-            //std::cerr << "Messed up\n";
-            exit(1);
-          }
-          
-          if (plruBitsVector[candidateSet][bitToConsider] == 1) {
-            // candidate way is start
-            candidateWay = candidateWayStart;
-          }
-          else {
-            // candidate way is end - 1
-            candidateWay = candidateWayEnd - 1;
-          }  
-          //std::cerr << "Chose global eviction where candidateSet = " << candidateSet << " and candidateWay = " << candidateWay << "\n";
-          //std::cerr << "valid_map[candidateSet][candidateWay] = " << valid_map[candidateSet][candidateWay] << " \n";
-          printPlru(candidateSet);
-          access(candidateSet,candidateWay); 
-          #else 
-          // find the least recently used but valid way
-          uint32_t wayNum = 0;
-          int lru = nway;
-          int acc = -1;
-          for (int i=0; i < nway; i++) {
-            if (valid_map[candidateSet][i] != 0) {
-              if (lruBitsVector[candidateSet][i] < lru) {
-                lru = lruBitsVector[candidateSet][i];
-                wayNum = i;
-                acc = 0;
-              }
-            }
-          }
-          access(candidateSet,0);
-          // if (lru == nway) {
-          //   if (acc == 0) {
-          //     std::cerr << "Error\n";
-          //     exit(1);
-          //   }
-          // }
-          candidateWay = wayNum;
-          #endif
-        }
-        while (valid_map[candidateSet][candidateWay] == 0);
-
-        
-        // now to invalidate this way
-        // if (candidateSet%500 == 0) {
-          // //std::cerr << "Global eviction where candidateSet = " << candidateSet << " is chosen\n";
-          // //std::cerr << "valid_map[candidateSet][candidateWay] = " << valid_map[candidateSet][candidateWay] << " \n";
-          // //std::cerr << "Invalidating " << candidateWay << "\n";
-          // //std::cerr << "Valid count = " << validCount << "\n";
-          // printPlru(candidateSet);
-          // exit(1);
-        // }
-        globValidCtr--;
-        //std::cerr << "set = " << candidateSet << " way = " << candidateWay << " globValidCtr = " << globValidCtr << "\n";
-        valid_map[candidateSet][candidateWay] = 0;
-        
-        // now we return the first invalid way
-        for (int i=0; i < nway; i++) {
-          if (valid_map[set][i] == 0) {
-            globValidCtr++;
-            //std::cerr << "set = " << candidateSet << " way = " << candidateWay << " globValidCtr = " << globValidCtr << "\n";
-            valid_map[set][i] = 1;
-            // if (set%500 == 0) {
-            //   //std::cerr << "Global eviction where i is chosen\n";
-            //   //std::cerr << "Returning " << i << " set = " << set << "\n";
-            //   //std::cerr << "Valid count = " << validCount << "\n";
-            //   printPlru(set);
-            // }
-            return i;
-          }
-        }
-        //std::cerr << "Invalid way not present, no replacement can occur\n";
-        exit(1);
-
-      }
-      else {
-
-        #ifdef local_plru
-        // SAE
-        // No need for global eviction, just traverse tree and evict LRU entry
-        uint32_t bitToConsider = 0;
-        // we shall store it in an pre-order tree
-        uint32_t height = log2(nway) - 1;
-        uint32_t start = 0;
-        uint32_t end = nway;
-        while (height > 0) {
-          // check if the bit is set
-          if (plruBitsVector[set][bitToConsider] == 1) {
-            // go left
-            bitToConsider += 1;
-            end = (end + start)/2;
-          }
-          else {
-            // go right
-            bitToConsider += pow(2,height);
-            start = (start + end)/2;
-          }
-          height--;
-        }
-        if (end != start + 2) {
-          //std::cerr << "Messed up\n";
-          exit(1);
-        }
-        if (plruBitsVector[set][bitToConsider] == 1) {
-          // candidate way is start
-          // if (set%500 == 0) {
-          //   //std::cerr << "SAE case where start is chosen\n";
-          //   //std::cerr << "Returning " << start << " set = " << set << "\n";
-          //   //std::cerr << "Valid count = " << validCount << "\n";
-          //   printPlru(set);
-          // }
-          return start;
-        }
-        else {
-          // if (set%500 == 0) {
-          //   //std::cerr << "SAE case where end - 1 is chosen\n";
-          //   //std::cerr << "Returning " << end - 1 << " set = " << set << "\n";
-          //   //std::cerr << "Valid count = " << validCount << "\n";
-          //   printPlru(set);
-          // }
-          // candidate way is end - 1
-          return end - 1;
-        }
-        #else
-        // choose the least recently used way
-        uint32_t wayNum = -1;
-        int lru = nway;
-
-        for (int i=0; i < nway; i++) {
-          if (lruBitsVector[set][i] < lru) {
-            lru = lruBitsVector[set][i];
-            wayNum = i;
-          }
-        }
-        return wayNum;
-
-        #endif
-      }
-
-    }
-
-  }
-  //std::cerr << "Should not occur\n";
-  exit(1);
-*/
 }
   virtual void access(int32_t set, uint32_t way) {
-    /*
-    // //std::cerr << "Accessed (" << set << "," << way << ")\n";
-    // hold on there's two cases
-    if (!GLOBAL_PLRU) {
-      #ifdef local_plru
-      if (valid_map[set][way] == 2) {
-
-        // just update this particular way's standing
-        // to update is a bit trickier.. we kind of have to work in reverse...
-        uint32_t start = 0;
-        uint32_t end = nway;
-        uint32_t height = log2(nway) - 1;
-        uint32_t bitToConsider = 0;
-
-        while (start != end - 1) {
-
-          if (way < (start + end)/2) {
-            plruBitsVector[set][bitToConsider] = 0; // to mark that left half is more recently used
-            end = (start + end)/2;
-            bitToConsider += 1;
-          }
-          else {
-            plruBitsVector[set][bitToConsider] = 1; // to mark that right half is more recently used
-            start = (start + end)/2;
-            bitToConsider += pow(2,height);
-          }
-          height--;
-
-        }
-
-        
-      }
-      else {
-
-        uint32_t start = 0;
-        uint32_t end = nway;
-        uint32_t height = log2(nway) - 1;
-        uint32_t bitToConsider = 0;
-
-        while (start != end - 1) {
-
-          if (way < (start + end)/2) {
-            plruBitsVector[set][bitToConsider] = 0; // to mark that left half is more recently used
-            end = (start + end)/2;
-            bitToConsider += 1;
-          }
-          else {
-            plruBitsVector[set][bitToConsider] = 1; // to mark that right half is more recently used
-            start = (start + end)/2;
-            bitToConsider += pow(2,height);
-          }
-          height--;
-
-        }
-        // now also access all of the invalid ways :(
-        for (int i=0; i < nway; i++) {
-          if (valid_map[set][i] == 2) {
-            access(set,i);
-          }
-        }
-        // valid_map[set][way] = 1;
-
-      }
-      #else
-      std::cerr << "Why are you running local lru on not GPLRU\n";
-      exit(1);
-      #endif
-
-    }
-    else {
-      
-      uint32_t start = 0;
-      uint32_t end = nway;
-      uint32_t height = log2(nway) - 1;
-      uint32_t bitToConsider = 0;
-      #ifdef local_plru
-      // simpler, there's only one case, make this way,set mru
-
-      while (start != end - 1) {
-
-        if (way < (start + end)/2) {
-          plruBitsVector[set][bitToConsider] = 0; // to mark that left half is more recently used
-          end = (start + end)/2;
-          bitToConsider += 1;
-        }
-        else {
-          plruBitsVector[set][bitToConsider] = 1; // to mark that right half is more recently used
-          start = (start + end)/2;
-          bitToConsider += pow(2,height);
-        }
-        height--;
-
-      }
-      #endif
-
-      start = 0;
-      end = nset;
-      height = log2(nset) - 1;
-      bitToConsider = 0;
-
-      while (start != end - 1) {
-
-        if (set < (start + end)/2) {
-          plruBitsPerSet[bitToConsider] = 0; // to mark that left half is more recently used
-          end = (start + end)/2;
-          bitToConsider += 1;
-        }
-        else {
-          plruBitsPerSet[bitToConsider] = 1; // to mark that right half is more recently used
-          start = (start + end)/2;
-          bitToConsider += pow(2,height);
-        }
-        height--;
-
-      }
-      #ifdef local_plru
-      return;
-      #else
-      make_mru(set,way);
-      #endif
-    }
-  */
 
   uint32_t start = 0;
   uint32_t end = nway*nset;
@@ -1262,15 +680,7 @@ class ReplacePLRU : public ReplaceFuncBase {
   }
 
   virtual void invalid(int32_t set, uint32_t way) {
-    /*
-    // invalidate entry 
-    // //std::cerr << "Called\n";
-    // exit(1);
-    valid_map[set][way] = 0;
-    access(set,way);
-    */
    globValidCtr--;
-  //  std::cerr << "External invalidation: " << globValidCtr << "\n";
    valid_map[set][way] = 0;
    access(set,way);
   }
@@ -1356,7 +766,7 @@ class ReplaceRPLRU : public ReplaceFuncBase {
         globalTimestampLists[i].pop_back();
 
         if (i == 0) {
-          std::cerr << "Huh\n";
+          std::cerr << "Something went wrong\n";
           exit(1);
         }
 
@@ -1443,8 +853,6 @@ class ReplaceRPLRU : public ReplaceFuncBase {
     latency_acc(latency);
 
     if (!GLOBAL_PLRU) {
-      // std::cerr << "Not designed\n";
-      // exit(1);
       
       if (INVALID_WAYS_PER_SKEW > 0) {
         std::cerr << "Not designed for invalid ways per skew >= 1" << "\n";
@@ -1485,7 +893,6 @@ class ReplaceRPLRU : public ReplaceFuncBase {
       }
     }
 
-    // std::cerr << validCount << "\n";
 
     isReplNeeded = isReplNeeded || (validCount >= (nset*(nway - INVALID_WAYS_PER_SKEW)));
 
@@ -1504,7 +911,7 @@ class ReplaceRPLRU : public ReplaceFuncBase {
 
         // Eviction path
         if (globalTimestampLists[0].size() != ((nset * (nway - INVALID_WAYS_PER_SKEW)) / nway)) {
-          std::cerr << "Bruh moment\n";
+          std::cerr << "Shouldn't happen\n";
           exit(1);
         }
 
@@ -1522,7 +929,6 @@ class ReplaceRPLRU : public ReplaceFuncBase {
         // Now allocate in current set
         for (int i = 0; i < nway; i++) {
           if (!valid_map[set][i]) {
-            // valid_map[set][i] = true;
             return i;
           }
         }
@@ -1559,7 +965,6 @@ class ReplaceRPLRU : public ReplaceFuncBase {
   }
   virtual void access(int32_t set, uint32_t way) {
 
-    // valid_map[set][way] = true;
 
     if (!valid_map[set][way] && GLOBAL_PLRU) {
       valid_map[set][way] = true;
@@ -1595,7 +1000,6 @@ class ReplaceRPLRU : public ReplaceFuncBase {
       }
       globalTimestampLists[nway - 1].emplace_back(set, way);
       fixLists();
-      //printListSizes();
     }
     else if (!valid_map[set][way] && !GLOBAL_PLRU) {
       valid_map[set][way] = true;

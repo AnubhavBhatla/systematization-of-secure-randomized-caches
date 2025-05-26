@@ -6,9 +6,14 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import rcParams
 rcParams.update({'figure.autolayout': True})
+import warnings
+import concurrent.futures
+
+warnings.filterwarnings("ignore", category=UserWarning)
+
+NUM_ITERATIONS = 1000
 
 def extract_final_median(file_path):
-    # Pattern to match 'Median: <floating point number>'
     pattern = r'Median:\s*(-?\d+\.\d+)'  # Matches optional negative floating point numbers
 
     final_median = None
@@ -27,7 +32,7 @@ def extract_final_median(file_path):
 def run_command(a1, a2, a3, a4=10000000):
     netEncr = []
     successful_runs = 0
-    timeout_seconds = 3600  # 5 minutes timeout, badha dena
+    timeout_seconds = 3600  # 60 minutes timeout, badha dena
     run_count = 0
 
     while successful_runs < int(a3):
@@ -35,7 +40,7 @@ def run_command(a1, a2, a3, a4=10000000):
         print(f"Attempting run {run_count}, cache config is {a1}...")
 
         # Construct the command to run
-        command = f"./cachefx -c configs/{a1} -v {a2} -m attacker -a occupancy -t probability -g 10000000 -d 100" # 30,000 badha dena
+        command = f"./cachefx -c configs/{a1} -v {a2} -m attacker -a occupancy -t probability -g 10000000 -d 100"
 
         try:
             # Run the command with a timeout
@@ -60,13 +65,9 @@ def run_command(a1, a2, a3, a4=10000000):
             if found_encryption_line:
                 successful_runs += 1
                 print(f"Run {run_count} succeeded with encryption.")
-                # print("output = ")
-                # print(output_lines)
                 if (successful_runs % 100 == 0):
                     print(f"Median: {statistics.median(netEncr)}")
             else:
-                # print("output was")
-                # print(output_lines)
                 print(f"Run {run_count} did not contain '--encryptions:' line. Retrying...")
 
         except subprocess.TimeoutExpired:
@@ -79,6 +80,45 @@ def run_command(a1, a2, a3, a4=10000000):
     print(statistics.stdev(netEncr))
     print(statistics.mean(netEncr))
     return statistics.median(netEncr)
+
+aes_tasks = [
+    ("SetAssoc", "cl256/w16/setassoc_rand.xml"),
+    ("CEASER-S", "cl256/w16/ceasers_2.xml"),
+    ("Skew-16", "cl256/w16/ceasers_16.xml"),
+    ("Mirage", "cl256/w16/mirage.xml"),
+    ("Skew-2-Ass128", "cl256/w16/skew-2-ass128.xml"),
+    ("SassCache", "cl256/w16/sasscache_rand.xml"),
+    ("FA-RR", "cl256/assoc_rand.xml")
+]
+
+sqmult_tasks = [
+    ("FA-RR", "cl256/assoc_rand.xml"),
+    ("SetAssoc", "cl256/w16/setassoc_rand.xml"),
+    ("CEASER-S", "cl256/w16/ceasers_2.xml"),
+    ("Skew-16", "cl256/w16/ceasers_16.xml"),
+    ("Mirage", "cl256/w16/mirage.xml"),
+    ("Skew-2-Ass128", "cl256/w16/skew-2-ass128.xml"),
+    ("SassCache", "cl256/w16/sasscache_rand.xml")
+]
+
+tasks = [
+    ("rr", "FA", "cl256/assoc_rand.xml"),
+    ("lru", "FA", "cl256/assoc_lru.xml"),
+    ("rr", "SetAssoc", "cl256/w16/setassoc_rand.xml"),
+    ("lru", "SetAssoc", "cl256/w16/setassoc_lru.xml"),
+    ("rr", "CEASER-S", "cl256/w16/ceasers_2.xml"),
+    ("lru", "CEASER-S", "cl256/w16/ceasers_2_lru.xml"),
+    ("rr", "Skew-2-Ass128", "cl256/w16/skew-2-ass128.xml"),
+    ("lru", "Skew-2-Ass128", "cl256/w16/skew-2-ass128-lru.xml"),
+    ("rr", "SassCache", "cl256/w16/sasscache_rand.xml"),
+    ("lru", "SassCache", "cl256/w16/sasscache_lru.xml")
+]
+
+def task_runner(name, path, algo):
+    return name, run_command(path, algo, NUM_ITERATIONS)
+
+def task_runner_rr_lru(target, name, path):
+    return target, name, run_command(path, "AES", NUM_ITERATIONS)
 
 if __name__ == '__main__':
     if len(sys.argv) != 3:
@@ -97,54 +137,45 @@ if __name__ == '__main__':
         encryptions_aes = {}
         encryptions_sqmult = {}
         if option == 0:
-            # print("Obtaining new results for Figure 15...")
-            # run setassoc_rand.xml, ceasers_2.xml, ceasers_16.xml, mirage.xml, skew-2-ass128.xml, sasscache_rand.xml, wpcache_random.xml
-            encryptions_aes["SetAssoc"] = run_command("cl256/w16/setassoc_rand.xml", "AES", 10000)
-            encryptions_aes["CEASER-S"] = run_command("cl256/w16/ceasers_2.xml", "AES", 10000)
-            encryptions_aes["Skew-16"] = run_command("cl256/w16/ceasers_16.xml", "AES", 10000)
-            encryptions_aes["Mirage"] = run_command("cl256/w16/mirage.xml", "AES", 10000)
-            encryptions_aes["Skew-2-Ass128"] = run_command("cl256/w16/skew-2-ass128.xml", "AES", 10000)
-            encryptions_aes["SassCache"] = run_command("cl256/w16/sasscache_rand.xml", "AES", 10000)
-            encryptions_aes["Way-based Partitioning"] = 0
-            encryptions_sqmult["FA-RR"] = run_command("cl256/assoc_rand.xml", "SquareMult", 10000)
-            encryptions_sqmult["SetAssoc"] = run_command("cl256/w16/setassoc_rand.xml", "SquareMult", 10000)
-            encryptions_sqmult["CEASER-S"] = run_command("cl256/w16/ceasers_2.xml", "SquareMult", 10000)
-            encryptions_sqmult["Skew-16"] = run_command("cl256/w16/ceasers_16.xml", "SquareMult", 10000)
-            encryptions_sqmult["Mirage"] = run_command("cl256/w16/mirage.xml", "SquareMult", 10000)
-            encryptions_sqmult["Skew-2-Ass128"] = run_command("cl256/w16/skew-2-ass128.xml", "SquareMult", 10000)
-            encryptions_sqmult["SassCache"] = run_command("cl256/w16/sasscache_rand.xml", "SquareMult", 10000)
-            encryptions_sqmult["Way-based Partitioning"] = 0
-            encryptions_sqmult["FA-RR"] = run_command("cl256/assoc_rand.xml", "SquareMult", 10000)
+            with concurrent.futures.ProcessPoolExecutor() as executor:
+                # Submit AES tasks
+                aes_futures = {executor.submit(task_runner, name, path, "AES"): name for name, path in aes_tasks}
+                # Submit SquareMult tasks
+                sqmult_futures = {executor.submit(task_runner, name, path, "SquareMult"): name for name, path in sqmult_tasks}
+
+                # Collect AES results
+                for future in concurrent.futures.as_completed(aes_futures):
+                    name, result = future.result()
+                    encryptions_aes[name] = result
+                encryptions_aes["Way-based Partitioning"] = 0
+
+                # Collect SquareMult results
+                for future in concurrent.futures.as_completed(sqmult_futures):
+                    name, result = future.result()
+                    encryptions_sqmult[name] = result
+                encryptions_sqmult["Way-based Partitioning"] = 0
         else:
-            # mirage -> mirage_aes_10k_noseed.txt, mirage_sqmult_10k_noseed.txt
-            # ceasers_2 -> ceasers_2_aes_10k.txt, ceasers_2_sqmult_10k_noseed.txt
-            # setassoc_rand -> setassoc_rand_aes_10k.txt, setassoc_rand_sqmult_10k_noseed.txt
-            # ceasers_16 -> ceasers_16_aes_10k_noseed.txt, ceasers_16_sqmult_10k_noseed.txt
-            # skew-2-ass128 -> ceasers_2_ass128_aes_10k.txt, ceasers_2_ass128_sqmult_10k_noseed.txt
-            # sasscache_rand -> sasscache_rand_aes_10k.txt, sasscache_rand_squaremult_10k.txt
-            # FA-RR -> fa_rand_aes_10k.txt, fa_rand_sqmult_10k_noseed.txt
             encryptions_aes["SetAssoc"] = extract_final_median(f"{report_path}/setassoc_rand_aes_10k.txt")
             encryptions_aes["CEASER-S"] = extract_final_median(f"{report_path}/ceasers_2_aes_10k.txt")
-            encryptions_aes["Skew-16"] = extract_final_median(f"{report_path}/ceasers_16_aes_10k_noseed.txt")
-            encryptions_aes["Mirage"] = extract_final_median(f"{report_path}/mirage_aes_10k_noseed.txt")
-            encryptions_aes["Skew-2-Ass128"] = extract_final_median(f"{report_path}/custom_2_ass128_aes_10k_noseed.txt")
+            encryptions_aes["Skew-16"] = extract_final_median(f"{report_path}/ceasers_16_aes_10k.txt")
+            encryptions_aes["Mirage"] = extract_final_median(f"{report_path}/mirage_aes_10k.txt")
+            encryptions_aes["Skew-2-Ass128"] = extract_final_median(f"{report_path}/custom_2_ass128_aes_10k.txt")
             encryptions_aes["SassCache"] = extract_final_median(f"{report_path}/sasscache_rand_aes_10k.txt")
             encryptions_aes["Way-based Partitioning"] = 0
             encryptions_aes["FA-RR"] = extract_final_median(f"{report_path}/fa_rand_aes_10k.txt")
-            encryptions_sqmult["SetAssoc"] = extract_final_median(f"{report_path}/setassoc_rand_sqmult_10k_noseed.txt")
-            encryptions_sqmult["CEASER-S"] = extract_final_median(f"{report_path}/ceasers_2_sqmult_10k_noseed.txt")
-            encryptions_sqmult["Skew-16"] = extract_final_median(f"{report_path}/ceasers_16_sqmult_10k_noseed.txt")
-            encryptions_sqmult["Mirage"] = extract_final_median(f"{report_path}/mirage_sqmult_10k_noseed.txt")
-            encryptions_sqmult["Skew-2-Ass128"] = extract_final_median(f"{report_path}/ceasers_2_ass128_sqmult_10k_noseed.txt")
-            encryptions_sqmult["SassCache"] = extract_final_median(f"{report_path}/sasscache_rand_squaremult_10k.txt")
+            encryptions_sqmult["SetAssoc"] = extract_final_median(f"{report_path}/setassoc_rand_sqmult_10k.txt")
+            encryptions_sqmult["CEASER-S"] = extract_final_median(f"{report_path}/ceasers_2_sqmult_10k.txt")
+            encryptions_sqmult["Skew-16"] = extract_final_median(f"{report_path}/ceasers_16_sqmult_10k.txt")
+            encryptions_sqmult["Mirage"] = extract_final_median(f"{report_path}/mirage_sqmult_10k.txt")
+            encryptions_sqmult["Skew-2-Ass128"] = extract_final_median(f"{report_path}/custom_2_ass128_sqmult_10k.txt")
+            encryptions_sqmult["SassCache"] = extract_final_median(f"{report_path}/sasscache_rand_sqmult_10k.txt")
             encryptions_sqmult["Way-based Partitioning"] = 0
-            encryptions_sqmult["FA-RR"] = extract_final_median(f"{report_path}/fa_rand_sqmult_10k_noseed.txt")            
+            encryptions_sqmult["FA-RR"] = extract_final_median(f"{report_path}/fa_rand_sqmult_10k.txt")            
         plt.figure(figsize=(12.5, 7))
         X = ['SetAssoc','CEASER-S', 'Skew-16', 'Mirage', 'Skew-2-Ass128', 'SassCache', 'Way-based Partitioning']
         AES = []
         SqMult = []
         for key in X:
-            # print(f"Key: {key}, AES: {encryptions_aes[key]}, SqMult: {encryptions_sqmult[key]}")
             AES.append(encryptions_aes[key]/encryptions_aes["FA-RR"])
             SqMult.append(encryptions_sqmult[key]/encryptions_sqmult["FA-RR"])
 
@@ -184,29 +215,25 @@ if __name__ == '__main__':
         encryptions_rr = {}
         encryptions_lru = {}
         if option == 0:
-            # print("Obtaining new results for Figure 15...")
-            # run setassoc_rand.xml, ceasers_2.xml, ceasers_16.xml, mirage.xml, skew-2-ass128.xml, sasscache_rand.xml, wpcache_random.xml
-            encryptions_rr["FA"] = run_command("cl256/assoc_rand.xml", "AES", 10000)
-            encryptions_lru["FA"] = run_command("cl256/assoc_lru.xml", "AES", 10000)
-            encryptions_rr["SetAssoc"] = run_command("cl256/w16/setassoc_rand.xml", "AES", 10000)
-            encryptions_lru["SetAssoc"] = run_command("cl256/w16/setassoc_lru.xml", "AES", 10000)
-            encryptions_rr["CEASER-S"] = run_command("cl256/w16/ceasers_2.xml", "AES", 10000)
-            encryptions_lru["CEASER-S"] = run_command("cl256/w16/ceasers_2_lru.xml", "AES", 10000)
-            encryptions_rr["Skew-2-Ass128"] = run_command("cl256/w16/skew-2-ass128.xml", "AES", 10000)
-            encryptions_lru["Skew-2-Ass128"] = run_command("cl256/w16/skew-2-ass128-lru.xml", "AES", 10000)
-            encryptions_rr["SassCache"] = run_command("cl256/w16/sasscache_rand.xml", "AES", 10000)
-            encryptions_lru["SassCache"] = run_command("cl256/w16/sasscache_lru.xml", "AES", 10000)
+            with concurrent.futures.ProcessPoolExecutor() as executor:
+                futures = {executor.submit(task_runner_rr_lru, target, name, path): (target, name)
+                        for target, name, path in tasks}
+
+                for future in concurrent.futures.as_completed(futures):
+                    target, name, result = future.result()
+                    if target == "rr":
+                        encryptions_rr[name] = result
+                    else:
+                        encryptions_lru[name] = result
         else:
             encryptions_rr["SetAssoc"] = extract_final_median(f"{report_path}/setassoc_rand_aes_10k.txt")
             encryptions_rr["CEASER-S"] = extract_final_median(f"{report_path}/ceasers_2_aes_10k.txt")
-            encryptions_rr["Skew-2-Ass128"] = extract_final_median(f"{report_path}/custom_2_ass128_aes_10k_noseed.txt")
+            encryptions_rr["Skew-2-Ass128"] = extract_final_median(f"{report_path}/custom_2_ass128_aes_10k.txt")
             encryptions_rr["SassCache"] = extract_final_median(f"{report_path}/sasscache_rand_aes_10k.txt")
             encryptions_rr["FA"] = extract_final_median(f"{report_path}/fa_rand_aes_10k.txt")
-            encryptions_lru["FA"] = extract_final_median(f"{report_path}/fa_lru_aes_10k_noseed.txt")
-            encryptions_lru["SetAssoc"] = extract_final_median(f"{report_path}/setassoc_lru_aes_10k_noseed.txt")
-            # encryptions_lru["CEASER-S"] = 2257 # CHANGE THIS
-            # encryptions_lru["Skew-2-Ass128"] = 1737 # CHANGE THIS
-            encryptions_lru["CEASER-S"] = extract_final_median(f"{report_path}/ceasers_2_lru_aes_10k_noseed.txt")
+            encryptions_lru["FA"] = extract_final_median(f"{report_path}/fa_lru_aes_10k.txt")
+            encryptions_lru["SetAssoc"] = extract_final_median(f"{report_path}/setassoc_lru_aes_10k.txt")
+            encryptions_lru["CEASER-S"] = extract_final_median(f"{report_path}/ceasers_2_lru_aes_10k.txt")
             encryptions_lru["Skew-2-Ass128"] = extract_final_median(f"{report_path}/custom_2_ass128_lru_aes_10k.txt")
             encryptions_lru["SassCache"] = extract_final_median(f"{report_path}/sasscache_lru_aes_10k.txt")
 
@@ -215,7 +242,6 @@ if __name__ == '__main__':
         Random = []
         LRU = []
         for key in X:
-            # print(f"Key: {key}, AES: {encryptions_lru[key]}, SqMult: {encryptions_rr[key]}")
             Random.append(encryptions_rr[key])
             LRU.append(encryptions_lru[key])
 
@@ -224,16 +250,15 @@ if __name__ == '__main__':
         plt.bar(X_axis - 0.15, Random, 0.3, label = 'Ran', color=(0.5, 0.5, 0.8), edgecolor='black', linewidth=2)
         plt.bar(X_axis + 0.15, LRU, 0.3, label = 'LRU', color=(0.2, 0.2, 0.4), edgecolor='black', linewidth=2)
 
-        plt.text(3.72, 9300, f"{Random[4]:.2f}", fontsize=19,
+        plt.text(3.72, 9300, f"{Random[4]:.0f}", fontsize=19,
                 ha='center', va='center', bbox={'facecolor':'white','alpha':1,'edgecolor':'none','pad':1})
 
-        plt.text(4.28, 9300, f"{LRU[4]:.2f}", fontsize=19,
+        plt.text(4.28, 9300, f"{LRU[4]:.0f}", fontsize=19,
                 ha='center', va='center', bbox={'facecolor':'white','alpha':1,'edgecolor':'none','pad':1})
 
         # Set labels, title, and save the figure
         plt.xticks(X_axis, X, rotation=20, ha='right', rotation_mode='anchor')
 
-        # plt.xlabel('Cache Design', fontsize='22')
         plt.xticks(fontsize='22')
         plt.ylabel('Number of encryptions', fontsize='27')
         plt.yticks(fontsize='16')

@@ -51,7 +51,6 @@ CustomCache::CustomCache(size_t replAlgorithm, size_t sets, size_t ways, size_t 
       _cacheEntries[w][s].flags = 0;
     }
   }
-  // std::cerr<<"replAlgorithm = "<<replAlgorithm<<" numSets = "<<sets<<" numWays = "<<ways<<" partitions = "<<partitions<<" invalidWays = "<<invalidWays<<" lb = "<<loadBalancing<<std::endl;
   initKeys();
 }
 
@@ -99,7 +98,6 @@ int32_t CustomCache::readCl(tag_t cl, const CacheContext& context,
     int32_t max_p = 0;
     int32_t max_count = -1;
     for (size_t p = 0; p < _nPartitions; p++) {
-      // std::cout << count[p] << std::endl
         if (count[p] > max_count)
             max_count = count[p];
     }
@@ -110,9 +108,7 @@ int32_t CustomCache::readCl(tag_t cl, const CacheContext& context,
     }
 
     int32_t rand_idx = random() % (equal_p.size());
-    // ctr++;
     max_p = equal_p[rand_idx]; // out partition is chosen
-    // std::cout << "choose skew " << max_p << std::endl;
     for (size_t w = max_p*partitionSize; w < (max_p+1)*partitionSize; w++) {
         if (vSet[w]->tag == TAG_NONE || vSet[w]->tag == TAG_INIT)
             replaceWay = w;
@@ -127,22 +123,15 @@ int32_t CustomCache::readCl(tag_t cl, const CacheContext& context,
     }
   }
 
-  // std::cout << invalid_count << std::endl;
   if (invalid_count > _nSets*_nPartitions*getNInvalidWays()) {
-    // std::cout << "are we here" << std::endl;
     if (replaceWay != -1) {
       vSet[replaceWay]->tag = cl; // just insert here
       access(*vSet[replaceWay]);
-      // replaceWay = p*partition_size + w
-      // partitionSize = nWays/nPartitions
       int32_t chosenPartition = (replaceWay/partitionSize);
-      // get set under chosen partition
       int32_t setUnderChosenPartition = getIdx(cl,chosenPartition);
-      // above stuff is correct, have verified
 
       dataBlocks.push_back(std::make_pair(setUnderChosenPartition,replaceWay));
       
-      // dataBlocks.push_back(std::make_pair())
       response.push_back(CacheResponse(false));
       return 0;
     }
@@ -191,7 +180,6 @@ int32_t CustomCache::readCl(tag_t cl, const CacheContext& context,
     else if (replaceWay != -1 && getReplAlgorithm() == REPL_GRAN) {
       int32_t old_replace = replaceWay;
       int32_t replaceEntry = random() % (dataBlocks.size());
-      // random();
 
       int32_t replaceSet = dataBlocks[replaceEntry].first;
       replaceWay = dataBlocks[replaceEntry].second;
@@ -216,46 +204,6 @@ int32_t CustomCache::readCl(tag_t cl, const CacheContext& context,
   }
 }
 
-// {
-//   std::vector<cacheEntry*> vSet = getVirtualSet(cl);
-
-//   int32_t replaceWay = -1;
-//   for (size_t w = 0; w < _nWays; w++)
-//   {
-//     if (vSet[w]->tag == cl)
-//     {
-//       access(*vSet[w]);
-//       response.push_back(CacheResponse(true));
-//       return 1;
-//     }
-//     if (vSet[w]->tag == TAG_NONE)
-//       std::cout << "TAG_NONE" << std::endl;
-//     if (vSet[w]->tag == TAG_NONE || vSet[w]->tag == TAG_INIT)
-//       replaceWay = w;
-//   }
-
-//   if (replaceWay != -1 && _invalidFirst)
-//   {
-//     vSet[replaceWay]->tag = cl;
-//     access(*vSet[replaceWay]);
-//     response.push_back(CacheResponse(false));
-//     return 0;
-//   }
-
-//   replaceWay = random() % _nWays;
-//   if (vSet[replaceWay]->tag == TAG_NONE || vSet[replaceWay]->tag == TAG_INIT)
-//   {
-//     response.push_back(CacheResponse(false));
-//   }
-//   else
-//   {
-//     response.push_back(CacheResponse(false, vSet[replaceWay]->tag));
-//   }
-//   vSet[replaceWay]->tag = cl;
-//   access(*vSet[replaceWay]);
-//   return 0;
-// }
-
 void CustomCache::access(cacheEntry& ce) {
   ce.accessTime = ctr;
   ctr++;
@@ -264,7 +212,6 @@ void CustomCache::access(cacheEntry& ce) {
 int32_t CustomCache::evictCl(tag_t cl, const CacheContext& context,
                               std::list<CacheResponse>& response)
 {
-  // std::cout<<"Kaun bulaaya mujhe\n";
   exit(1);
   std::vector<cacheEntry*> vSet = getVirtualSet(cl);
 
@@ -299,7 +246,6 @@ size_t CustomCache::getEvictionSetSize() const { return _nWays; }
 size_t CustomCache::getGHMGroupSize() const { return _nWays; }
 
 int32_t CustomCache::getNPartitions() const { return _nPartitions; }
-// size_t CustomCache::getLoadBalancing() const { return _loadBalancing; }
 
 size_t CustomCache::getReplAlgorithm() const { return _replAlgorithm; }
 

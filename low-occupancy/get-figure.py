@@ -5,6 +5,9 @@ from collections import defaultdict
 import scipy.stats as stats
 from matplotlib import rcParams
 rcParams.update({'figure.autolayout': True})
+import warnings
+
+warnings.filterwarnings("ignore", category=UserWarning)
 
 def process_ge_data(file_name):
     # Initialize a defaultdict to accumulate the GEs for each trace count

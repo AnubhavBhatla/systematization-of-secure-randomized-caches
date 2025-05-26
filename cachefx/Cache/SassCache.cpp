@@ -14,12 +14,10 @@ const char *SASSCache::CACHE_TYPESTR = "sasscache";
 
 SASSCache::SASSCache(size_t sets, size_t ways, size_t partitions)
   : _nSets(sets), _nWays(ways), _nPartitions(partitions), _invalidFirst(false) {
-    // std::cerr<< "What _nWays = " << _nWays << "_nPartitions = " << _nPartitions << "\n";
     if ((_nWays %_nPartitions) != 0) {
       _nPartitions = 1;
     }
     
-    // std::cerr<< "Success" << std::endl;
     _nSetsBits = log2(_nSets);
     
     _cacheEntries.resize(_nWays);
@@ -32,7 +30,6 @@ SASSCache::SASSCache(size_t sets, size_t ways, size_t partitions)
       }
     }
     
-  // std::cerr<< "Constructor called\n";
   initKeys();
 }
 
@@ -134,7 +131,6 @@ std::vector<tag_t> SASSCache::getWayIndices(tag_t cl, const CacheContext& contex
 	uint64_t c[2];
 	uint64_t nSetsMask = (1 << _nSetsBits) - 1;
   uint64_t nSetsMaskWithT = (1 << (_nSetsBits + coverageBit)) - 1;
-  // std::cerr<< "_nsetBits = " << _nSetsBits << "\n";
 	uint64_t indicesPerBlock = (uint64_t) floor((double) 128 / (_nSetsBits + coverageBit));
 	uint32_t round1Iterations = (uint32_t) ceil(
 			(double) _nPartitions / indicesPerBlock);

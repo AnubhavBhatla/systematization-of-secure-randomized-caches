@@ -125,15 +125,29 @@ Instead, we also provide the option to generate figures using our original resul
 bash genAllFigures.sh 1
 ```
 
+#### Tweak-able options to speed up simulations
+
+We provide user options to change simulation parameters. We relax these parameters by default in this artifact in order to speed up simulations. You may choose to instead change these to get results identical to the paper.
+
+* **Number of threads:** By default, eviction-rate experiments use 100 CPU threads in order to speed up simulations. You may change the `NUM_THREADS` parameter in `cache-model/get-figure.py` based on your system.
+
+* **Samples for eviction set size:** In the paper, we take (for most experiments) 300 samples from 1 to 300 for the eviction set size in eviction-rate experiments. In order to replicate this, you may set the `SKIP` parameter to 1 in `cache-model/get-figure.py`. This value is set to 3 by default.
+
+* **Iterations for cryptographic attacks:** In the paper, we run cryptographic attacks for 100,000 iterations (except for SassCache, which is much slower than other cache designs). However, due to practicality issues, we set this to 1000 iterations using `NUM_ITERATIONS` in `cachefx/get-figure.py`.
+
 #### Generating individual figures
 
+We also recommend generating individual figures, multiple at a time, on different systems to parallelize simulations.
 In order to plot a single figure, use the following steps:
 
 ```
-cd <directory: cache-model - For figures 3-14 cachefx - For figures 15-16>
+cd <directory: cache-model - For figures 3-14, 18-19; cachefx - For figures 15-16>
 
-python3 get-figure.py <1/0: 1 - Use generated results 0 - Generate new results and use them> <figure_number>
+python3 get-figure.py <1/0: 1 - Use generated results; 0 - Generate new results and use them> <figure_number>
 ```
+
+<!-- > [!NOTE] -->
+<!-- > The results required to generate a figure may depend on simulations of previous figures. Please also generate these previous figures or manually run the required simulations. -->
 
 **Figure 17:** We provide our simulation results to reproduce this figure, which can be done using the following steps:
 
@@ -152,8 +166,6 @@ python3 get-figure.py
 
 > The `--l2_assoc` option can be tweaked to use the 128-way configuration. The remaining steps have been described in the above-mentioned link.
 
-###
-
 ---
 
 ### Tables
@@ -171,7 +183,8 @@ bash genAllTables.sh 1
 ```
 
 > [!IMPORTANT] 
-> **Tables 1 and 3:** We do not generate these tables here.
+> **Table 1:** We do not reproduce it here as it doesn't require any simulations.
+> **Table 3:** We do not reproduce it here and we do not provide ChampSim and PCACTI code and configurations.
 
 ---
 ---

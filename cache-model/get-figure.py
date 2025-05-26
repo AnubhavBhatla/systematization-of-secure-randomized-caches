@@ -9,6 +9,12 @@ from mpl_toolkits.axes_grid1.inset_locator import inset_axes, mark_inset
 from matplotlib import rcParams
 rcParams.update({'figure.autolayout': True})
 import numpy as np
+import warnings
+
+warnings.filterwarnings("ignore", category=UserWarning)
+
+SKIP = 3
+NUM_THREADS = 100
 
 def read_and_sort_data(file_path):
     x_values = []
@@ -76,7 +82,7 @@ def run_tests(ccfg, tcfg, level, evrange, csize):
         thread = threading.Thread(target=run_test, args=(ccfg, tcfg, level, evsize, csize, report))
         threads.append(thread)
         thread.start()
-        if len(threads) >= 20:
+        if len(threads) >= NUM_THREADS:
             for t in threads:
                 t.join()
             threads = []
@@ -99,7 +105,7 @@ def run_tests_attack(ccfg, tcfg, level, prange, other):
         thread = threading.Thread(target=run_test_attack, args=(ccfg, tcfg, level, period, other, report))
         threads.append(thread)
         thread.start()
-        if len(threads) >= 15:
+        if len(threads) >= NUM_THREADS:
             for t in threads:
                 t.join()
             threads = []
@@ -132,7 +138,7 @@ def run_tests_warmup(ccfg, tcfg, level, evrange, csize, warmup):
         thread = threading.Thread(target=run_test_warmup, args=(ccfg, tcfg, level, evsize, csize, report, warmup))
         threads.append(thread)
         thread.start()
-        if len(threads) >= 16:
+        if len(threads) >= NUM_THREADS:
             for t in threads:
                 t.join()
             threads = []
@@ -159,11 +165,11 @@ if __name__ == '__main__':
     
     if figureNumber == 3:
         if option == 0:
-            run_tests("L2_2048x16",        "list", 2, range(1, 33, 1), 360000)
-            run_tests("skewed_L2_2048x16-s2", "list", 2, range(1, 100, 1), 360000)
-            run_tests("skewed_L2_2048x16-s4", "list", 2, range(1, 200, 1), 360000)
-            run_tests("skewed_L2_2048x16-s8", "list", 2, range(1, 300, 1), 360000)
-            run_tests("skewed_L2_2048x16-s16", "list", 2, range(1, 300, 1), 360000)
+            run_tests("L2_2048x16",        "list", 2, range(1, 33, SKIP), 360000)
+            run_tests("skewed_L2_2048x16-s2", "list", 2, range(1, 100, SKIP), 360000)
+            run_tests("skewed_L2_2048x16-s4", "list", 2, range(1, 200, SKIP), 360000)
+            run_tests("skewed_L2_2048x16-s8", "list", 2, range(1, 300, SKIP), 360000)
+            run_tests("skewed_L2_2048x16-s16", "list", 2, range(1, 300, SKIP), 360000)
         plt.figure(figsize=(12, 6))
         
         x_values, y_values = read_and_sort_data(report_path+'/evset-effective-L2_2048x16.dat')
@@ -194,14 +200,14 @@ if __name__ == '__main__':
     
     elif figureNumber == 4:
         if option == 0:
-            run_tests("skewed_L2_2048x16-s2", "list", 2, range(1, 100, 1), 360000)
-            run_tests("skewed_L2_2048x16-s4", "list", 2, range(1, 200, 1), 360000)
-            run_tests("skewed_L2_2048x16-s8", "list", 2, range(1, 300, 1), 360000)
-            run_tests("skewed_L2_2048x16-s16", "list", 2, range(1, 300, 1), 360000)
-            run_tests("skewed_L2_2048x16-s2-LB", "list", 2, range(1, 300, 1), 360000)
-            run_tests("skewed_L2_2048x16-s4-LB", "list", 2, range(1, 300, 1), 360000)
-            run_tests("skewed_L2_2048x16-s8-LB", "list", 2, range(1, 300, 1), 360000)
-            run_tests("skewed_L2_2048x16-s16-LB", "list", 2, range(1, 300, 1), 360000)
+            run_tests("skewed_L2_2048x16-s2", "list", 2, range(1, 100, SKIP), 360000)
+            run_tests("skewed_L2_2048x16-s4", "list", 2, range(1, 200, SKIP), 360000)
+            run_tests("skewed_L2_2048x16-s8", "list", 2, range(1, 300, SKIP), 360000)
+            run_tests("skewed_L2_2048x16-s16", "list", 2, range(1, 300, SKIP), 360000)
+            run_tests("skewed_L2_2048x16-s2-LB", "list", 2, range(1, 300, SKIP), 360000)
+            run_tests("skewed_L2_2048x16-s4-LB", "list", 2, range(1, 300, SKIP), 360000)
+            run_tests("skewed_L2_2048x16-s8-LB", "list", 2, range(1, 300, SKIP), 360000)
+            run_tests("skewed_L2_2048x16-s16-LB", "list", 2, range(1, 300, SKIP), 360000)
         plt.figure(figsize=(12, 6))
         
         x_values, y_values = read_and_sort_data(report_path+'/evset-effective-skewed_L2_2048x16-s2.dat')
@@ -241,14 +247,14 @@ if __name__ == '__main__':
     
     elif figureNumber == 5:
         if option == 0:
-            run_tests("L2_2048x16",        "list", 2, range(1, 33, 1), 360000)
-            run_tests("skewed_L2_2048x16-s2", "list", 2, range(1, 100, 1), 360000)
-            run_tests("skewed_L2_2048x16-s2-INV1-GLRU", "list", 2, range(1, 300, 1), 360000)
-            run_tests("skewed_L2_2048x16-s2-INV2-GLRU", "list", 2, range(1, 300, 1), 360000)
-            run_tests("skewed_L2_2048x16-s2-INV4-GLRU", "list", 2, range(1, 100, 1), 360000)
-            run_tests("L2_2048x16-INV1-GLRU", "list", 2, range(1, 33, 1), 360000)
-            run_tests("L2_2048x16-INV2-GLRU", "list", 2, range(1, 33, 1), 360000)
-            run_tests("L2_2048x16-INV4-GLRU", "list", 2, range(1, 33, 1), 360000)
+            run_tests("L2_2048x16",        "list", 2, range(1, 33, SKIP), 360000)
+            run_tests("skewed_L2_2048x16-s2", "list", 2, range(1, 100, SKIP), 360000)
+            run_tests("skewed_L2_2048x16-s2-INV1-GLRU", "list", 2, range(1, 300, SKIP), 360000)
+            run_tests("skewed_L2_2048x16-s2-INV2-GLRU", "list", 2, range(1, 300, SKIP), 360000)
+            run_tests("skewed_L2_2048x16-s2-INV4-GLRU", "list", 2, range(1, 100, SKIP), 360000)
+            run_tests("L2_2048x16-INV1-GLRU", "list", 2, range(1, 33, SKIP), 360000)
+            run_tests("L2_2048x16-INV2-GLRU", "list", 2, range(1, 33, SKIP), 360000)
+            run_tests("L2_2048x16-INV4-GLRU", "list", 2, range(1, 33, SKIP), 360000)
         plt.figure(figsize=(12, 6))
 
         # Main plot
@@ -270,15 +276,20 @@ if __name__ == '__main__':
 
         x_values, y_values = read_and_sort_data(report_path + '/evset-effective-skewed_L2_2048x16-s2.dat')
         plt.plot(x_values, y_values, marker='x', markerfacecolor='none', linestyle='-',
-                color='green', markersize=6, mew=0.2, linewidth=0.5, label='Skew-2')
+                color='blue', markersize=6, mew=0.2, linewidth=0.5, label='Skew-2')
 
         x_values, y_values = read_and_sort_data(report_path + '/evset-effective-skewed_L2_2048x16-s2-INV1-GLRU.dat')
-        plt.plot(x_values, y_values, marker='+', markerfacecolor='none', linestyle='-',
-                color='brown', markersize=6, mew=0.2, linewidth=0.5, label='Skew-2-Inv1-GLRU')
+        plt.plot(x_values, y_values, marker='|', markerfacecolor='none', linestyle='-',
+                color='green', markersize=6, mew=0.2, linewidth=0.5, label='Skew-2-Inv1-GLRU')
 
         x_values, y_values = read_and_sort_data(report_path + '/evset-effective-skewed_L2_2048x16-s2-INV2-GLRU.dat')
+        plt.plot(x_values, y_values, marker='^', markerfacecolor='none', linestyle='-',
+                color='brown', markersize=6, mew=0.2, linewidth=0.5, label='Skew-2-Inv2-GLRU')
+        
+        x_values, y_values = read_and_sort_data(report_path + '/evset-effective-skewed_L2_2048x16-s2-INV4-GLRU.dat')
         plt.plot(x_values, y_values, marker='o', markerfacecolor='none', linestyle='-',
-                color='purple', markersize=6, mew=0.2, linewidth=0.5, label='Skew-2-Inv2-GLRU')
+                color='purple', markersize=6, mew=0.2, linewidth=0.5, label='Skew-2-Inv4-GLRU')
+
 
         plt.xlabel('Size of Eviction Sets', fontsize=22)
         plt.ylabel('Eviction Rate', fontsize=22)
@@ -319,6 +330,10 @@ if __name__ == '__main__':
         x_values, y_values = read_and_sort_data(report_path + '/evset-effective-skewed_L2_2048x16-s2-INV2-GLRU.dat')
         inset_ax.plot(x_values, y_values, marker='o', markerfacecolor='none', linestyle='-',
                     color='purple', markersize=6, mew=0.2, linewidth=0.5)
+        
+        x_values, y_values = read_and_sort_data(report_path + '/evset-effective-skewed_L2_2048x16-s2-INV4-GLRU.dat')
+        inset_ax.plot(x_values, y_values, marker='*', markerfacecolor='none', linestyle='-',
+                    color='blue', markersize=6, mew=0.2, linewidth=0.5)
 
         # Zoomed area
         inset_ax.set_xlim(20, 30)
@@ -331,16 +346,15 @@ if __name__ == '__main__':
         mark_inset(ax, inset_ax, loc1=1, loc2=3, fc="none", ec="0.5")
 
         # Final labels, legend, and save
-
         plt.savefig('figure5.pdf')
 
 
     elif figureNumber == 6:
         if option == 0:
-            run_tests("skewed_L2_2048x16-s2-LB", "list", 2, range(1, 300, 1), 360000)
-            run_tests("skewed_L2_2048x16-s2-LB-INV1-GLRU", "list", 2, range(1, 300, 1), 360000)
-            run_tests("skewed_L2_2048x16-s2-LB-INV2-GLRU", "list", 2, range(1, 300, 1), 360000)
-            run_tests("skewed_L2_2048x16-s2-LB-INV4-GLRU", "list", 2, range(1, 300, 1), 360000)
+            run_tests("skewed_L2_2048x16-s2-LB", "list", 2, range(1, 300, SKIP), 360000)
+            run_tests("skewed_L2_2048x16-s2-LB-INV1-GLRU", "list", 2, range(1, 300, SKIP), 360000)
+            run_tests("skewed_L2_2048x16-s2-LB-INV2-GLRU", "list", 2, range(1, 300, SKIP), 360000)
+            run_tests("skewed_L2_2048x16-s2-LB-INV4-GLRU", "list", 2, range(1, 300, SKIP), 360000)
         plt.figure(figsize=(12, 6))
 
         x_values, y_values = read_and_sort_data(report_path+'/evset-effective-skewed_L2_2048x16-s2-LB.dat')
@@ -368,10 +382,10 @@ if __name__ == '__main__':
 
     elif figureNumber == 7:
         if option == 0:
-            run_tests("skewed_L2_2048x16-s2-LB", "list", 2, range(1, 300, 1), 360000)
-            run_tests("skewed_L2_2048x16-s2-LB-INV1", "list", 2, range(1, 300, 1), 360000)
-            run_tests("skewed_L2_2048x16-s2-LB-INV2", "list", 2, range(1, 300, 1), 360000)
-            run_tests("skewed_L2_2048x16-s2-LB-INV4", "list", 2, range(1, 300, 1), 360000)
+            run_tests("skewed_L2_2048x16-s2-LB", "list", 2, range(1, 300, SKIP), 360000)
+            run_tests("skewed_L2_2048x16-s2-LB-INV1", "list", 2, range(1, 300, SKIP), 360000)
+            run_tests("skewed_L2_2048x16-s2-LB-INV2", "list", 2, range(1, 300, SKIP), 360000)
+            run_tests("skewed_L2_2048x16-s2-LB-INV4", "list", 2, range(1, 300, SKIP), 360000)
         plt.figure(figsize=(12, 6))
 
         x_values, y_values = read_and_sort_data(report_path+'/evset-effective-skewed_L2_2048x16-s2-LB.dat')
@@ -432,11 +446,11 @@ if __name__ == '__main__':
 
     elif figureNumber == 8:
         if option == 0:
-            run_tests("skewed_L2_2048x16-s2", "list", 2, range(1, 100, 1), 360000)
-            run_tests("skewed_L2_1024x32-s2", "list", 2, range(1, 300, 1), 360000)
-            run_tests("skewed_L2_512x64-s2", "list", 2, range(1, 300, 1), 360000)
-            run_tests("skewed_L2_256x128-s2", "list", 2, range(1, 300, 1), 360000)
-            run_tests("skewed_L2_2048x16-s16", "list", 2, range(1, 300, 1), 360000)
+            run_tests("skewed_L2_2048x16-s2", "list", 2, range(1, 100, SKIP), 360000)
+            run_tests("skewed_L2_1024x32-s2", "list", 2, range(1, 300, SKIP), 360000)
+            run_tests("skewed_L2_512x64-s2", "list", 2, range(1, 300, SKIP), 360000)
+            run_tests("skewed_L2_256x128-s2", "list", 2, range(1, 300, SKIP), 360000)
+            run_tests("skewed_L2_2048x16-s16", "list", 2, range(1, 300, SKIP), 360000)
         plt.figure(figsize=(12, 6))
 
         x_values, y_values = read_and_sort_data(report_path+'/evset-effective-skewed_L2_2048x16-s2.dat')
@@ -468,11 +482,11 @@ if __name__ == '__main__':
 
     elif figureNumber == 9:
         if option == 0:
-            run_tests("skewed_L2_2048x16-s2-INV2-GLRU", "list", 2, range(1, 300, 1), 360000)
-            run_tests("skewed_L2_1024x32-s2-LB-INV2-GLRU", "list", 2, range(1, 300, 1), 360000)
-            run_tests("skewed_L2_512x64-s2-LB-INV2-GLRU", "list", 2, range(1, 350, 1), 360000)
-            run_tests("skewed_L2_256x128-s2-LB-INV2-GLRU", "list", 2, range(1, 350, 1), 360000)
-            run_tests("skewed_L2_2048x16-s16-LB", "list", 2, range(1, 300, 1), 360000)
+            run_tests("skewed_L2_2048x16-s2-INV2-GLRU", "list", 2, range(1, 300, SKIP), 360000)
+            run_tests("skewed_L2_1024x32-s2-LB-INV2-GLRU", "list", 2, range(1, 300, SKIP), 360000)
+            run_tests("skewed_L2_512x64-s2-LB-INV2-GLRU", "list", 2, range(1, 300, SKIP), 360000)
+            run_tests("skewed_L2_256x128-s2-LB-INV2-GLRU", "list", 2, range(1, 300, SKIP), 360000)
+            run_tests("skewed_L2_2048x16-s16-LB", "list", 2, range(1, 300, SKIP), 360000)
         plt.figure(figsize=(12, 6))
 
         x_values, y_values = read_and_sort_data(report_path+'/evset-effective-skewed_L2_2048x16-s2-LB-INV2-GLRU.dat')
@@ -504,14 +518,14 @@ if __name__ == '__main__':
 
     elif figureNumber == 10:
         if option == 0:
-            run_tests("skewed_L2_256x128-s2", "list", 2, range(1, 300, 1), 360000)
-            run_tests("skewed_L2_512x64-s2", "list", 2, range(1, 300, 1), 360000)
-            run_tests("skewed_L2_256x128-s2-random", "list", 2, range(1, 300, 1), 360000)
-            run_tests("skewed_L2_512x64-s2-random", "list", 2, range(1, 300, 1), 360000)
-            run_tests("skewed_L2_256x128-s2-srrip", "list", 2, range(1, 300, 1), 360000)
-            run_tests("skewed_L2_512x64-s2-srrip", "list", 2, range(1, 300, 1), 360000)
-            run_tests("skewed_L2_256x128-s2-plru", "list", 2, range(1, 300, 1), 360000)
-            run_tests("skewed_L2_512x64-s2-plru", "list", 2, range(1, 300, 1), 360000)
+            run_tests("skewed_L2_256x128-s2", "list", 2, range(1, 300, SKIP), 360000)
+            run_tests("skewed_L2_512x64-s2", "list", 2, range(1, 300, SKIP), 360000)
+            run_tests("skewed_L2_256x128-s2-random", "list", 2, range(1, 300, SKIP), 360000)
+            run_tests("skewed_L2_512x64-s2-random", "list", 2, range(1, 300, SKIP), 360000)
+            run_tests("skewed_L2_256x128-s2-srrip", "list", 2, range(1, 300, SKIP), 360000)
+            run_tests("skewed_L2_512x64-s2-srrip", "list", 2, range(1, 300, SKIP), 360000)
+            run_tests("skewed_L2_256x128-s2-plru", "list", 2, range(1, 300, SKIP), 360000)
+            run_tests("skewed_L2_512x64-s2-plru", "list", 2, range(1, 300, SKIP), 360000)
         plt.figure(figsize=(12, 6))
 
         x_values, y_values = read_and_sort_data(report_path+'/evset-effective-skewed_L2_512x64-s2-random.dat')
@@ -550,18 +564,18 @@ if __name__ == '__main__':
 
     elif figureNumber == 11:
         if option == 0:
-            run_tests("skewed_L2_2048x16-s2-LB-INV1-GRRIP", "list", 2, range(1, 300, 1), 360000)
-            run_tests("skewed_L2_2048x16-s2-LB-INV2-GRRIP", "list", 2, range(1, 300, 1), 360000)
-            run_tests("skewed_L2_2048x16-s2-LB-INV4-GRRIP", "list", 2, range(1, 300, 1), 360000)
-            run_tests("skewed_L2_2048x16-s2-LB-INV1-GRAN", "list", 2, range(1, 300, 1), 360000)
-            run_tests("skewed_L2_2048x16-s2-LB-INV2-GRAN", "list", 2, range(1, 300, 1), 360000)
-            run_tests("skewed_L2_2048x16-s2-LB-INV4-GRAN", "list", 2, range(1, 300, 1), 360000)
-            run_tests("skewed_L2_2048x16-s2-LB-INV1-GLRU", "list", 2, range(1, 300, 1), 360000)
-            run_tests("skewed_L2_2048x16-s2-LB-INV2-GLRU", "list", 2, range(1, 300, 1), 360000)
-            run_tests("skewed_L2_2048x16-s2-LB-INV4-GLRU", "list", 2, range(1, 100, 1), 360000)
-            run_tests("skewed_L2_2048x16-s2-LB-INV1-GPLRU", "list", 2, range(1, 300, 1), 360000)
-            run_tests("skewed_L2_2048x16-s2-LB-INV2-GPLRU", "list", 2, range(1, 300, 1), 360000)
-            run_tests("skewed_L2_2048x16-s2-LB-INV4-GPLRU", "list", 2, range(1, 300, 1), 360000)
+            run_tests("skewed_L2_2048x16-s2-LB-INV1-GRRIP", "list", 2, range(1, 300, SKIP), 360000)
+            run_tests("skewed_L2_2048x16-s2-LB-INV2-GRRIP", "list", 2, range(1, 300, SKIP), 360000)
+            run_tests("skewed_L2_2048x16-s2-LB-INV4-GRRIP", "list", 2, range(1, 300, SKIP), 360000)
+            run_tests("skewed_L2_2048x16-s2-LB-INV1-GRAN", "list", 2, range(1, 300, SKIP), 360000)
+            run_tests("skewed_L2_2048x16-s2-LB-INV2-GRAN", "list", 2, range(1, 300, SKIP), 360000)
+            run_tests("skewed_L2_2048x16-s2-LB-INV4-GRAN", "list", 2, range(1, 300, SKIP), 360000)
+            run_tests("skewed_L2_2048x16-s2-LB-INV1-GLRU", "list", 2, range(1, 300, SKIP), 360000)
+            run_tests("skewed_L2_2048x16-s2-LB-INV2-GLRU", "list", 2, range(1, 300, SKIP), 360000)
+            run_tests("skewed_L2_2048x16-s2-LB-INV4-GLRU", "list", 2, range(1, 100, SKIP), 360000)
+            run_tests("skewed_L2_2048x16-s2-LB-INV1-GPLRU", "list", 2, range(1, 300, SKIP), 360000)
+            run_tests("skewed_L2_2048x16-s2-LB-INV2-GPLRU", "list", 2, range(1, 300, SKIP), 360000)
+            run_tests("skewed_L2_2048x16-s2-LB-INV4-GPLRU", "list", 2, range(1, 300, SKIP), 360000)
         plt.figure(figsize=(12, 6))
 
         x_values, y_values = read_and_sort_data(report_path+'/evset-effective-skewed_L2_2048x16-s2-LB-INV1-GRAN.dat')
@@ -573,7 +587,7 @@ if __name__ == '__main__':
         x_values, y_values = read_and_sort_data(report_path+'/evset-effective-skewed_L2_2048x16-s2-LB-INV1-GRRIP.dat')
         plt.plot(x_values, y_values, marker='o', markerfacecolor='none', linestyle='-', color='green', markersize='6', mew='0.2', linewidth='0.5', label='Skew-2-LA-Inv1-GRRIP')
 
-        x_values, y_values = read_and_sort_data(report_path+'/evset-effective-skewed_L2_2048x16-s2-LB-INV1-GPLRU.dat')
+        x_values, y_values = read_and_sort_data(report_path+'/evset-effective-skewed_L2_2048x16-s2-LB-INV1-GRPLRU.dat')
         plt.plot(x_values, y_values, marker='x', markerfacecolor='none', linestyle='-', color='green', markersize='6', mew='0.2', linewidth='0.5', label='Skew-2-LA-Inv1-GRPLRU')
 
         x_values, y_values = read_and_sort_data(report_path+'/evset-effective-skewed_L2_2048x16-s2-LB-INV2-GRAN.dat')
@@ -585,7 +599,7 @@ if __name__ == '__main__':
         x_values, y_values = read_and_sort_data(report_path+'/evset-effective-skewed_L2_2048x16-s2-LB-INV2-GRRIP.dat')
         plt.plot(x_values, y_values, marker='o', markerfacecolor='none', linestyle='-', color='purple', markersize='6', mew='0.2', linewidth='0.5', label='Skew-2-LA-Inv2-GRRIP')
 
-        x_values, y_values = read_and_sort_data(report_path+'/evset-effective-skewed_L2_2048x16-s2-LB-INV2-GPLRU.dat')
+        x_values, y_values = read_and_sort_data(report_path+'/evset-effective-skewed_L2_2048x16-s2-LB-INV2-GRPLRU.dat')
         plt.plot(x_values, y_values, marker='x', markerfacecolor='none', linestyle='-', color='purple', markersize='6', mew='0.2', linewidth='0.5', label='Skew-2-LA-Inv2-GRPLRU')
 
         x_values, y_values = read_and_sort_data(report_path+'/evset-effective-skewed_L2_2048x16-s2-LB-INV4-GRAN.dat')
@@ -597,7 +611,7 @@ if __name__ == '__main__':
         x_values, y_values = read_and_sort_data(report_path+'/evset-effective-skewed_L2_2048x16-s2-LB-INV4-GRRIP.dat')
         plt.plot(x_values, y_values, marker='o', markerfacecolor='none', linestyle='-', color='brown', markersize='6', mew='0.2', linewidth='0.5', label='Skew-2-LA-Inv4-GRRIP')
 
-        x_values, y_values = read_and_sort_data(report_path+'/evset-effective-skewed_L2_2048x16-s2-LB-INV4-GPLRU.dat')
+        x_values, y_values = read_and_sort_data(report_path+'/evset-effective-skewed_L2_2048x16-s2-LB-INV4-GRPLRU.dat')
         plt.plot(x_values, y_values, marker='x', markerfacecolor='none', linestyle='-', color='brown', markersize='6', mew='0.2', linewidth='0.5', label='Skew-2-LA-Inv4-GRPLRU')
 
         # Set labels, title, and save the figure
@@ -620,21 +634,17 @@ if __name__ == '__main__':
             run_tests_attack("skewed_L2_256x128-s2",     "list", 2, range( 7*1024*1024, 8*1024*1024,  32*1024), "241")       
             run_tests_attack("skewed_L2_512x64-s2-LB-INV2-GLRU",     "list", 2, range( 7*512*1024, 13*512*1024, 32*1024), "190")
             run_tests_attack("skewed_L2_256x128-s2-LB-INV2-GLRU",     "list", 2, range(10*1000*1000,12*1000*1000,100*1000), "337")
-        #### Need Plotting Code @Anubhav ####
         # Extract data from the files
 
         x_values = {}
         y_values = {}
         x_values['Skew-16'],y_values['Skew-16'] = read_and_sort_data_attack(report_path+'/evset-attack-skewed_L2_2048x16-s16-87.dat')
-        # x_values['Skew-2'],y_values['Skew-2'] = read_and_sort_data_attack(report_path+'/evset-attack-skewed_L2_2048x16-s2-26.dat')
         x_values['Skew-2-LA-Inv2-GLRU'],y_values['Skew-2-LA-Inv2-GLRU'] = read_and_sort_data_attack(report_path+'/evset-attack-skewed_L2_2048x16-s2-LB-INV2-GLRU-70.dat')
         x_values['Skew-2-Ass64'],y_values['Skew-2-Ass64'] = read_and_sort_data_attack(report_path+'/evset-attack-skewed_L2_512x64-s2-116.dat')
         x_values['Skew-2-Ass64-LA-Inv2-GLRU'],y_values['Skew-2-Ass64-LA-Inv2-GLRU'] = read_and_sort_data_attack(report_path+'/evset-attack-skewed_L2_512x64-s2-LB-INV2-GLRU-190.dat')
         x_values['Skew-2-Ass128'],y_values['Skew-2-Ass128'] = read_and_sort_data_attack(report_path+'/evset-attack-skewed_L2_256x128-s2-241.dat')
         x_values['Skew-2-Ass128-LA-Inv2-GLRU'],y_values['Skew-2-Ass128-LA-Inv2-GLRU'] = read_and_sort_data_attack(report_path+'/evset-attack-skewed_L2_256x128-s2-LB-INV2-GLRU-337.dat')
 
-
-        # print("All results are obtained, manually find the number of evictions corresponding to a probability of 0.5 for forming eviction set of requisite size")
         rcParams.update({'figure.autolayout': True})
 
         plt.figure(figsize=(10, 6))
@@ -655,24 +665,21 @@ if __name__ == '__main__':
         # Set labels, title, and save the figure
         plt.xticks(X_axis, X, rotation=20, ha='right', rotation_mode='anchor')
 
-        # plt.xlabel('Cache Design', fontsize='22')
         plt.xticks(fontsize='18')
         plt.ylabel('Number of LLC Evictions\n(in millions)', fontsize='22')
         plt.yticks(np.arange(0, 12, 2), fontsize='16')
-        # plt.legend(loc='upper left', fontsize='20')
         plt.grid(axis='y')
         plt.gca().set_axisbelow(True)
-        # plt.ylim(0,12)
         plt.savefig('figure12.pdf')
 
     elif figureNumber == 13:
         if option == 0:
-            run_tests("skewed_L2_256x64-s2", "list", 2, range(1, 300, 1), 360000)
-            run_tests("skewed_L2_1024x64-s2", "list", 2, range(1, 300, 1), 360000)
-            run_tests("skewed_L2_24576x64-s2", "list", 2, range(1, 300, 1), 360000)
-            run_tests("skewed_L2_128x128-s2", "list", 2, range(1, 300, 1), 360000)
-            run_tests("skewed_L2_512x128-s2", "list", 2, range(1, 300, 1), 360000)
-            run_tests("skewed_L2_12288x128-s2", "list", 2, range(1, 300, 1), 360000)
+            run_tests("skewed_L2_256x64-s2", "list", 2, range(1, 300, SKIP), 360000)
+            run_tests("skewed_L2_1024x64-s2", "list", 2, range(1, 300, SKIP), 360000)
+            run_tests("skewed_L2_24576x64-s2", "list", 2, range(1, 300, SKIP), 360000)
+            run_tests("skewed_L2_128x128-s2", "list", 2, range(1, 300, SKIP), 360000)
+            run_tests("skewed_L2_512x128-s2", "list", 2, range(1, 300, SKIP), 360000)
+            run_tests("skewed_L2_12288x128-s2", "list", 2, range(1, 300, SKIP), 360000)
         plt.figure(figsize=(12, 6))
 
         x_values, y_values = read_and_sort_data(report_path+'/evset-effective-skewed_L2_256x64-s2.dat')
@@ -758,7 +765,6 @@ if __name__ == '__main__':
             run_tests_attack("skewed_L2_256x128-s2",     "list", 2, range( 7*1024*1024, 8*1024*1024,  32*1024), "241")
             run_tests_attack("skewed_L2_128x128-s2",     "list", 2, range( 7*512*1024, 8*512*1024,  32*1024), "241")
             run_tests_attack("skewed_L2_512x128-s2",     "list", 2, range( 15*1024*1024, 8*2048*1024,  32*1024), "241")
-        #### Need Plotting Code @Anubhav ####
 
         x_values = {}
         y_values = {}
@@ -787,24 +793,23 @@ if __name__ == '__main__':
 
         # Set labels, title, and save the figure
         plt.xticks(X_axis, X, rotation=20, ha='right', rotation_mode='anchor')
-
-        # plt.xlabel('Cache Design', fontsize='22')
         plt.xticks(fontsize='21')
         plt.ylabel('Number of LLC Evictions\n(in millions)', fontsize='26')
         plt.yticks(np.arange(0, 18, 3), fontsize='16')
-        # plt.legend(loc='upper left', fontsize='20')
         plt.grid(axis='y')
         plt.gca().set_axisbelow(True)
-        # plt.ylim(0,18)
         plt.savefig('figure14.pdf')
+        
     elif figureNumber == 18:
         if option == 0:
-            run_tests_warmup("skewed_L2_2048x16-s2-LB", "list", 2, range(1, 100, 1), 360000, 0)
-            run_tests_warmup("skewed_L2_2048x16-s2-LB", "list", 2, range(1, 100, 1), 360000, 25)
-            run_tests_warmup("skewed_L2_2048x16-s2-LB", "list", 2, range(1, 100, 1), 360000, 50)
-            run_tests_warmup("skewed_L2_2048x16-s2-LB", "list", 2, range(1, 100, 1), 360000, 75)
-            run_tests_warmup("skewed_L2_2048x16-s2-LB", "list", 2, range(1, 100, 1), 360000, 95)
-            run_tests_warmup("skewed_L2_2048x16-s2-LB", "list", 2, range(1, 100, 1), 360000, 100)
+            run_tests_warmup("skewed_L2_2048x16-s2-LB", "list", 2, range(1, 100, SKIP), 360000, 0)
+            run_tests_warmup("skewed_L2_2048x16-s2-LB", "list", 2, range(1, 100, SKIP), 360000, 25)
+            run_tests_warmup("skewed_L2_2048x16-s2-LB", "list", 2, range(1, 100, SKIP), 360000, 50)
+            run_tests_warmup("skewed_L2_2048x16-s2-LB", "list", 2, range(1, 100, SKIP), 360000, 75)
+            run_tests_warmup("skewed_L2_2048x16-s2-LB", "list", 2, range(1, 100, SKIP), 360000, 95)
+            run_tests_warmup("skewed_L2_2048x16-s2-LB", "list", 2, range(1, 100, SKIP), 360000, 100)
+            run_tests("skewed_L2_2048x16-s2-LB", "list", 2, range(1, 300, SKIP), 360000)
+
         # Main figure
         plt.figure(figsize=(12, 6))
 
@@ -879,12 +884,12 @@ if __name__ == '__main__':
 
     elif figureNumber == 19:
         if option == 0:
-            run_tests_warmup("skewed_L2_2048x16-s2-LB-INV1-GLRU", "list", 2, range(1, 300, 1), 360000, 100)
-            run_tests_warmup("skewed_L2_2048x16-s2-LB-INV2-GLRU", "list", 2, range(1, 300, 1), 360000, 100)
-            run_tests_warmup("skewed_L2_2048x16-s2-LB-INV4-GLRU", "list", 2, range(1, 300, 1), 360000, 100)
-            run_tests("skewed_L2_2048x16-s2-LB-INV1-GLRU", "list", 2, range(1, 300, 1), 360000)
-            run_tests("skewed_L2_2048x16-s2-LB-INV2-GLRU", "list", 2, range(1, 300, 1), 360000)
-            run_tests("skewed_L2_2048x16-s2-LB-INV4-GLRU", "list", 2, range(1, 300, 1), 360000)
+            run_tests_warmup("skewed_L2_2048x16-s2-LB-INV1-GLRU", "list", 2, range(1, 300, SKIP), 360000, 100)
+            run_tests_warmup("skewed_L2_2048x16-s2-LB-INV2-GLRU", "list", 2, range(1, 300, SKIP), 360000, 100)
+            run_tests_warmup("skewed_L2_2048x16-s2-LB-INV4-GLRU", "list", 2, range(1, 300, SKIP), 360000, 100)
+            run_tests("skewed_L2_2048x16-s2-LB-INV1-GLRU", "list", 2, range(1, 300, SKIP), 360000)
+            run_tests("skewed_L2_2048x16-s2-LB-INV2-GLRU", "list", 2, range(1, 300, SKIP), 360000)
+            run_tests("skewed_L2_2048x16-s2-LB-INV4-GLRU", "list", 2, range(1, 300, SKIP), 360000)
 
         # Plotting code
         plt.figure(figsize=(12, 6))
@@ -914,7 +919,6 @@ if __name__ == '__main__':
         plt.yticks(fontsize='14')
         plt.legend(loc='lower right', fontsize='14')
         plt.grid(True)
-        # plt.xlim(-10,350)
         plt.savefig('figure19.pdf')
 
     else:

@@ -8,6 +8,10 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.axes_grid1.inset_locator import inset_axes, mark_inset
 from matplotlib import rcParams
 import numpy as np
+import warnings
+import concurrent.futures
+
+warnings.filterwarnings("ignore", category=UserWarning)
 
 test_attack = "test/evset-attack"
 
@@ -101,6 +105,29 @@ def run_tests(ccfg, tcfg, level, prange, other):
     for t in threads:
         t.join()
 
+tasks = [
+    (run_tests_attack, ("skewed_L2_2048x16-s16", "list", 2, range(100_000, 1_000_000, 100_000), "10")),
+    (run_tests_attack, ("skewed_L2_2048x16-s16", "list", 2, range(500_000, 2_000_000, 100_000), "20")),
+    (run_tests_attack, ("skewed_L2_2048x16-s16", "list", 2, range(1_000_000, 1_500_000, 100_000), "30")),
+    (run_tests_attack, ("skewed_L2_2048x16-s16", "list", 2, range(1_000_000, 3_000_000, 100_000), "40")),
+    (run_tests_attack, ("skewed_L2_512x64-s2", "list", 2, range(100_000, 1_000_000, 100_000), "10")),
+    (run_tests_attack, ("skewed_L2_512x64-s2", "list", 2, range(500_000, 2_000_000, 100_000), "20")),
+    (run_tests_attack, ("skewed_L2_512x64-s2", "list", 2, range(1_000_000, 1_500_000, 100_000), "30")),
+    (run_tests_attack, ("skewed_L2_512x64-s2", "list", 2, range(1_000_000, 3_000_000, 100_000), "40")),
+    (run_tests, ("skewed_L2_2048x16-s16", "list", 2, range(100_000, 2_000_000, 100_000), "10")),
+    (run_tests, ("skewed_L2_2048x16-s16", "list", 2, range(500_000, 4_000_000, 100_000), "20")),
+    (run_tests, ("skewed_L2_2048x16-s16", "list", 2, range(1_000_000, 3_000_000, 100_000), "30")),
+    (run_tests, ("skewed_L2_2048x16-s16", "list", 2, range(1_000_000, 6_000_000, 100_000), "40")),
+    (run_tests, ("skewed_L2_512x64-s2", "list", 2, range(100_000, 2_000_000, 100_000), "10")),
+    (run_tests, ("skewed_L2_512x64-s2", "list", 2, range(500_000, 4_000_000, 100_000), "20")),
+    (run_tests, ("skewed_L2_512x64-s2", "list", 2, range(1_000_000, 3_000_000, 100_000), "30")),
+    (run_tests, ("skewed_L2_512x64-s2", "list", 2, range(1_000_000, 6_000_000, 100_000), "40")),
+]
+
+def task_runner(func, args):
+    func(*args)
+
+
 if __name__ == "__main__":
     if len(sys.argv) != 3:
         print("Usage: python3 get-table.py <1/0 1: Use generated results, 0: Generate new results> <table number>")
@@ -119,26 +146,12 @@ if __name__ == "__main__":
     tableNum = int(sys.argv[2])
  
     if tableNum == 1:
-        print("No experiment was performed for table 1")
+        print("We do not reproduce it here as it doesn't require any simulations.")
     elif tableNum == 2:
-        # stuff
         if option == 0:
-            run_tests_attack("skewed_L2_2048x16-s16", "list", 2, range( 100*1000, 10*100*1000,  100*1000), "10")
-            run_tests_attack("skewed_L2_2048x16-s16", "list", 2, range( 5*100*1000, 20*100*1000,  100*1000), "20")
-            run_tests_attack("skewed_L2_2048x16-s16", "list", 2, range( 10*100*1000, 15*100*1000,  100*1000), "30")
-            run_tests_attack("skewed_L2_2048x16-s16", "list", 2, range( 10*100*1000, 30*100*1000,  100*1000), "40")
-            run_tests_attack("skewed_L2_512x64-s2", "list", 2, range( 100*1000, 10*100*1000,  100*1000), "10")
-            run_tests_attack("skewed_L2_512x64-s2", "list", 2, range( 5*100*1000, 20*100*1000,  100*1000), "20")
-            run_tests_attack("skewed_L2_512x64-s2", "list", 2, range( 10*100*1000, 15*100*1000,  100*1000), "30")
-            run_tests_attack("skewed_L2_512x64-s2", "list", 2, range( 10*100*1000, 30*100*1000,  100*1000), "40")
-            run_tests("skewed_L2_2048x16-s16", "list", 2, range( 100*1000, 20*100*1000,  100*1000), "10")
-            run_tests("skewed_L2_2048x16-s16", "list", 2, range( 5*100*1000, 40*100*1000,  100*1000), "20")
-            run_tests("skewed_L2_2048x16-s16", "list", 2, range( 10*100*1000, 30*100*1000,  100*1000), "30")
-            run_tests("skewed_L2_2048x16-s16", "list", 2, range( 10*100*1000, 60*100*1000,  100*1000), "40")
-            run_tests("skewed_L2_512x64-s2", "list", 2, range( 100*1000, 20*100*1000,  100*1000), "10")
-            run_tests("skewed_L2_512x64-s2", "list", 2, range( 5*100*1000, 40*100*1000,  100*1000), "20")
-            run_tests("skewed_L2_512x64-s2", "list", 2, range( 10*100*1000, 30*100*1000,  100*1000), "30")
-            run_tests("skewed_L2_512x64-s2", "list", 2, range( 10*100*1000, 60*100*1000,  100*1000), "40")
+            with concurrent.futures.ProcessPoolExecutor() as executor:
+                futures = [executor.submit(task_runner, func, args) for func, args in tasks]
+                concurrent.futures.wait(futures)
             print("Results obtained, now extract number of evictions corresponding to 0.5% probability of obtaining eviction set")
 
         x_values_ppp = {}
@@ -180,12 +193,8 @@ if __name__ == "__main__":
         print("===================================================") 
 
 
-
-
-
     elif tableNum == 3:
-        # champsim
-        print("Performance results were obtained using Champsim simulator")
+        print("We do not reproduce it here and we do not provide ChampSim and PCACTI code and configurations.")
         exit(0)
     else:
         print("Invalid table number. Please enter 1, 2, or 3.")

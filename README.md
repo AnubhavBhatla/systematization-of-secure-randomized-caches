@@ -150,12 +150,8 @@ cd <directory: cache-model - For figures 3-14, 18-19; cachefx - For figures 15-1
 python3 get-figure.py <1/0: 1 - Use generated results; 0 - Generate new results and use them> <figure_number>
 ```
 
-<!-- > [!NOTE] -->
-<!-- > The results required to generate a figure may depend on simulations of previous figures. Please also generate these previous figures or manually run the required simulations. -->
-
-**Figure 15:** We do not run Way-based partitioning configurations as even beyong 10,000,000 encryptions the key was not being differentiated
-
-**Figure 15:** We do not run square mult victim on SassCache as this configuration is very time consuming to run
+> [!IMPORTANT] 
+> **Figure 15:** We do not run the square multiplication victim on SassCache as it is very time consuming to run. We also do not run way-based partitioning configurations here as, according to our simulations of over 10,000,000 encryptions, the keys were not being differentiated.
 
 **Figure 17:** We provide our simulation results to reproduce this figure, which can be done using the following steps:
 

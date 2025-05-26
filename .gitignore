@@ -3,6 +3,9 @@
 cache-model/*~
 cache-model/*.gch
 cache-model/*.o
+cache-model/attack/*.o
+cache-model/cache/*.o
+cache-model/util/*.o
 cache-model/*.a
 cache-model/*.so
 cache-model/*.ps

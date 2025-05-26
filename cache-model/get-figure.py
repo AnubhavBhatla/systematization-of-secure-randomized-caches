@@ -149,13 +149,13 @@ def run_tests_warmup(ccfg, tcfg, level, evrange, csize, warmup):
 
 
 tasks = [
-    (run_tests_attack, ("skewed_L2_2048x16-s16", "list", 2, range(3*512*1024, 15*256*1024, 32*1024), "87")),
+    # (run_tests_attack, ("skewed_L2_2048x16-s16", "list", 2, range(3*512*1024, 15*256*1024, 32*1024), "87")),
     (run_tests_attack, ("skewed_L2_2048x16-s2", "list", 2, range(0*512*1024, 5*512*1024, 32*1024), "26")),
-    (run_tests_attack, ("skewed_L2_2048x16-s2-LB-INV2-GLRU", "list", 2, range(1536*1024, 3*1024*1024, 32*1024), "70")),
-    (run_tests_attack, ("skewed_L2_512x64-s2", "list", 2, range(3*1024*1024, 4*1024*1024, 32*1024), "116")),
-    (run_tests_attack, ("skewed_L2_256x128-s2", "list", 2, range(7*1024*1024, 8*1024*1024, 32*1024), "241")),
-    (run_tests_attack, ("skewed_L2_512x64-s2-LB-INV2-GLRU", "list", 2, range(7*512*1024, 13*512*1024, 32*1024), "190")),
-    (run_tests_attack, ("skewed_L2_256x128-s2-LB-INV2-GLRU", "list", 2, range(10*1000*1000, 12*1000*1000, 100*1000), "337")),
+    # (run_tests_attack, ("skewed_L2_2048x16-s2-LB-INV2-GLRU", "list", 2, range(1536*1024, 3*1024*1024, 32*1024), "70")),
+    # (run_tests_attack, ("skewed_L2_512x64-s2", "list", 2, range(3*1024*1024, 4*1024*1024, 32*1024), "116")),
+    # (run_tests_attack, ("skewed_L2_256x128-s2", "list", 2, range(7*1024*1024, 8*1024*1024, 32*1024), "241")),
+    # (run_tests_attack, ("skewed_L2_512x64-s2-LB-INV2-GLRU", "list", 2, range(7*512*1024, 13*512*1024, 32*1024), "190")),
+    # (run_tests_attack, ("skewed_L2_256x128-s2-LB-INV2-GLRU", "list", 2, range(10*1000*1000, 12*1000*1000, 100*1000), "337")),
 ]
 
 tasks2 = [

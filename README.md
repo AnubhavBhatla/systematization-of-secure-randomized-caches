@@ -1,7 +1,26 @@
 # systematization-of-secure-randomized-caches
 
-> [!NOTE]
-> This repository contains the artifact for "SoK: So, You Think You Know All About Secure Randomized Caches?", to appear at USENIX Security 2025.
+This repository contains the artifact for "SoK: So, You Think You Know All About Secure Randomized Caches?", to appear at USENIX Security 2025.
+
+We provide various tools in this artifact which can be used to reproduce the results from our paper. A description of all the tools used and their corresponding experiments can be found below:
+
+### cache-model
+
+This tool is used for our eviction-rate experiments as well as our eviction-set-generation experiments. These correspond to **_Figures 3-14, 18-19, and Table 2_** in our paper. The `cache-model` directory contains the files and scripts required for these experiments.
+
+> The original source code of this tool can found at: [cache-model](https://github.com/comparch-security/cache-model)
+
+### cachefx
+
+This tool is used for our cryptographic attack implementation for occupancy-based attacks. These correspond to **_Figures 15-16_** in our paper. The `cachefx` directory contains the files and scripts required for these experiments.
+
+> The original source code of this tool can found at: [CacheFX](https://github.com/0xADE1A1DE/CacheFX).
+
+### low-occupancy
+
+This tool is used for our experiments involving low-occupancy-based attacks. This correponds to **_Figure 17_** in our paper. The `low-occupancy` directory contains the files and scripts for the experiment for these experiments using our original results only.
+
+> The original source code of this tool can found at: [randomized_caches](https://github.com/SEAL-IIT-KGP/randomized_caches).
 
 ---
 ---
@@ -53,24 +72,6 @@
 └── .gitmodules
 ```
 
-### cache-model
-
-This directory contains the files and scripts for the eviction rate experiment and the eviction set generation experiment.
-
-> This code is a modified version of [cache-model](https://github.com/comparch-security/cache-model).
-
-### cachefx
-
-This directory contains the files and scripts for the cryptographic attack experiment for occupancy-based attacks.
-
-> This code is a modified version of [CacheFX](https://github.com/0xADE1A1DE/CacheFX).
-
-### low-occupancy
-
-This directory contains the files and scripts for the experiment for low-occupancy-based attacks using our original results only.
-
-> These files are generated using the source code provided in [randomized_caches](https://github.com/SEAL-IIT-KGP/randomized_caches).
-
 ---
 ---
 
@@ -100,6 +101,8 @@ In order to build all required files, use the following script:
 bash buildAll.sh build
 ```
 
+---
+
 ### Clean
 The output files can be cleaned using
 
@@ -125,6 +128,8 @@ Instead, we also provide the option to generate figures using our original resul
 bash genAllFigures.sh 1
 ```
 
+---
+
 #### Tweak-able options to speed up simulations
 
 We provide user options to change simulation parameters. We relax these parameters by default in this artifact in order to speed up simulations. You may choose to instead change these to get results identical to the paper.
@@ -134,6 +139,8 @@ We provide user options to change simulation parameters. We relax these paramete
 * **Samples for eviction set size:** In the paper, we take (for most experiments) 300 samples from 1 to 300 for the eviction set size in eviction-rate experiments. In order to replicate this, you may set the `SKIP` parameter to 1 in `cache-model/get-figure.py`. This value is set to 3 by default.
 
 * **Iterations for cryptographic attacks:** In the paper, we run cryptographic attacks for 100,000 iterations (except for SassCache, which is much slower than other cache designs). However, due to practicality issues, we set this to 1000 iterations using `NUM_ITERATIONS` in `cachefx/get-figure.py`.
+
+---
 
 #### Generating individual figures
 

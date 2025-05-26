@@ -153,6 +153,10 @@ python3 get-figure.py <1/0: 1 - Use generated results; 0 - Generate new results 
 <!-- > [!NOTE] -->
 <!-- > The results required to generate a figure may depend on simulations of previous figures. Please also generate these previous figures or manually run the required simulations. -->
 
+**Figure 15:** We do not run Way-based partitioning configurations as even beyong 10,000,000 encryptions the key was not being differentiated
+
+**Figure 15:** We do not run square mult victim on SassCache as this configuration is very time consuming to run
+
 **Figure 17:** We provide our simulation results to reproduce this figure, which can be done using the following steps:
 
 ```

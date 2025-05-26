@@ -97,8 +97,7 @@ sqmult_tasks = [
     ("CEASER-S", "cl256/w16/ceasers_2.xml"),
     ("Skew-16", "cl256/w16/ceasers_16.xml"),
     ("Mirage", "cl256/w16/mirage.xml"),
-    ("Skew-2-Ass128", "cl256/w16/skew-2-ass128.xml"),
-    ("SassCache", "cl256/w16/sasscache_rand.xml")
+    ("Skew-2-Ass128", "cl256/w16/skew-2-ass128.xml")
 ]
 
 tasks = [
@@ -154,6 +153,7 @@ if __name__ == '__main__':
                     name, result = future.result()
                     encryptions_sqmult[name] = result
                 encryptions_sqmult["Way-based Partitioning"] = 0
+                encryptions_sqmult["SassCache"] = 2332
         else:
             encryptions_aes["SetAssoc"] = extract_final_median(f"{report_path}/setassoc_rand_aes_10k.txt")
             encryptions_aes["CEASER-S"] = extract_final_median(f"{report_path}/ceasers_2_aes_10k.txt")

@@ -149,13 +149,13 @@ def run_tests_warmup(ccfg, tcfg, level, evrange, csize, warmup):
 
 
 tasks = [
-    # (run_tests_attack, ("skewed_L2_2048x16-s16", "list", 2, range(3*512*1024, 15*256*1024, 32*1024), "87")),
+    (run_tests_attack, ("skewed_L2_2048x16-s16", "list", 2, range(3*512*1024, 15*256*1024, 32*1024), "87")),
     (run_tests_attack, ("skewed_L2_2048x16-s2", "list", 2, range(0*512*1024, 5*512*1024, 32*1024), "26")),
-    # (run_tests_attack, ("skewed_L2_2048x16-s2-LB-INV2-GLRU", "list", 2, range(1536*1024, 3*1024*1024, 32*1024), "70")),
-    # (run_tests_attack, ("skewed_L2_512x64-s2", "list", 2, range(3*1024*1024, 4*1024*1024, 32*1024), "116")),
-    # (run_tests_attack, ("skewed_L2_256x128-s2", "list", 2, range(7*1024*1024, 8*1024*1024, 32*1024), "241")),
-    # (run_tests_attack, ("skewed_L2_512x64-s2-LB-INV2-GLRU", "list", 2, range(7*512*1024, 13*512*1024, 32*1024), "190")),
-    # (run_tests_attack, ("skewed_L2_256x128-s2-LB-INV2-GLRU", "list", 2, range(10*1000*1000, 12*1000*1000, 100*1000), "337")),
+    (run_tests_attack, ("skewed_L2_2048x16-s2-LB-INV2-GLRU", "list", 2, range(1536*1024, 3*1024*1024, 32*1024), "70")),
+    (run_tests_attack, ("skewed_L2_512x64-s2", "list", 2, range(3*1024*1024, 4*1024*1024, 32*1024), "116")),
+    (run_tests_attack, ("skewed_L2_256x128-s2", "list", 2, range(7*1024*1024, 8*1024*1024, 32*1024), "241")),
+    (run_tests_attack, ("skewed_L2_512x64-s2-LB-INV2-GLRU", "list", 2, range(7*512*1024, 13*512*1024, 32*1024), "190")),
+    (run_tests_attack, ("skewed_L2_256x128-s2-LB-INV2-GLRU", "list", 2, range(10*1000*1000, 12*1000*1000, 100*1000), "337")),
 ]
 
 tasks2 = [
@@ -658,6 +658,7 @@ if __name__ == '__main__':
         x_values = {}
         y_values = {}
         x_values['Skew-16'],y_values['Skew-16'] = read_and_sort_data_attack(report_path+'/evset-attack-skewed_L2_2048x16-s16-87.dat')
+        x_values['Skew-2'],y_values['Skew-2'] = read_and_sort_data_attack(report_path+'/evset-attack-skewed_L2_2048x16-s2-26.dat')
         x_values['Skew-2-LA-Inv2-GLRU'],y_values['Skew-2-LA-Inv2-GLRU'] = read_and_sort_data_attack(report_path+'/evset-attack-skewed_L2_2048x16-s2-LB-INV2-GLRU-70.dat')
         x_values['Skew-2-Ass64'],y_values['Skew-2-Ass64'] = read_and_sort_data_attack(report_path+'/evset-attack-skewed_L2_512x64-s2-116.dat')
         x_values['Skew-2-Ass64-LA-Inv2-GLRU'],y_values['Skew-2-Ass64-LA-Inv2-GLRU'] = read_and_sort_data_attack(report_path+'/evset-attack-skewed_L2_512x64-s2-LB-INV2-GLRU-190.dat')
@@ -672,10 +673,7 @@ if __name__ == '__main__':
         Random = [] 
 
         for config in X:
-            if config != 'Skew-2':
                 Random.append((find_x_for_y_half(x_values[config], y_values[config]))/(1000000))
-            else:
-                Random.append(0.5) # Value for Skew-2 is 0.5
 
         X_axis = np.arange(len(X))
 

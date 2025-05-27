@@ -2,7 +2,7 @@
 
 This repository contains the artifact for "SoK: So, You Think You Know All About Secure Randomized Caches?", to appear at USENIX Security 2025.
 
-We provide various tools in this artifact which can be used to reproduce the results from our paper. A description of all the tools used and their corresponding experiments can be found below:
+We provide various tools in this artifact which can be used to reproduce the results from our paper. We only focus on the figures and tables that include a security analysis of various cache designs. While the paper also studies other characteristics like power and performance, we don't provide tools for those here to keep this artifact focused solely on security. A description of all the tools used and their corresponding experiments can be found below:
 
 ### cache-model
 
@@ -31,9 +31,9 @@ This tool is used for our experiments involving low-occupancy-based attacks. Thi
 * [Building projects](#building-projects)
     * [Build](#build)
     * [Clean](#clean)
-* [Generating figures and tables](#generating-figures-and-tables)
+* [Generating figures and table](#generating-figures-and-table)
     * [Figures](#figures)
-    * [Tables](#tables)
+    * [Table](#table)
 
 ---
 ---
@@ -61,7 +61,7 @@ This tool is used for our experiments involving low-occupancy-based attacks. Thi
 │   ├── get-figure.py
 ├── buildAll.sh
 ├── genAllFigs.sh
-├── genAllTables.sh
+├── genTable.sh
 ├── requirements.txt
 ├── LICENSE.md
 ├── README.md
@@ -110,7 +110,7 @@ bash buildAll.sh clean
 ---
 ---
 
-## Generating figures and tables
+## Generating figures and table
 ### Figures
 
 Use the following command to generate all figures using a fresh set of simulations (this may take days to finish):
@@ -172,23 +172,23 @@ The `--l2_assoc` option can be tweaked to use the 128-way configuration. The rem
 
 ---
 
-### Tables
+### Table
 
-Use the following command to generate all tables using a fresh set of simulations (this may take days to finish):
-
-```
-bash genAllTables.sh 0
-```
-
-Instead, we also provide the option to generate tables using our original results:
+Use the following command to generate Table 2 using a fresh set of simulations (this may take days to finish):
 
 ```
-bash genAllTables.sh 1
+bash genTable.sh 0
 ```
 
-> [!IMPORTANT] 
-> **Table 1:** We do not reproduce it here as it doesn't require any simulations.
-> **Table 3:** We do not reproduce it here and we do not provide ChampSim and PCACTI code and configurations.
+Instead, we also provide the option to generate Table 2 using our original results:
+
+```
+bash genTable.sh 1
+```
+
+<!-- > [!IMPORTANT]  -->
+<!-- > **Table 1:** We do not reproduce it here as it doesn't require any simulations. -->
+<!-- > **Table 3:** We do not reproduce it here and we do not provide ChampSim and PCACTI code and configurations. -->
 
 ---
 ---

@@ -673,7 +673,7 @@ if __name__ == '__main__':
         Random = [] 
 
         for config in X:
-                Random.append((find_x_for_y_half(x_values[config], y_values[config]))/(1000000))
+            Random.append((find_x_for_y_half(x_values[config], y_values[config]))/(1000000))
 
         X_axis = np.arange(len(X))
 

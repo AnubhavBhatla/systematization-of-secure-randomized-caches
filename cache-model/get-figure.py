@@ -211,10 +211,10 @@ if __name__ == '__main__':
         plt.plot(x_values, y_values, marker='o', markerfacecolor='none', linestyle='-', color='purple', markersize='6', mew='0.2', linewidth='0.5', label='Skew-16')
 
         # Set labels, title, and save the figure
-        plt.xlabel('Size of Eviction Sets', fontsize='22')
-        plt.xticks(fontsize='14')
-        plt.ylabel('Eviction Rate', fontsize='22')
-        plt.yticks(fontsize='14')
+        plt.xlabel('Size of Eviction Sets', fontsize='24')
+        plt.xticks(fontsize='16')
+        plt.ylabel('Eviction Rate', fontsize='24')
+        plt.yticks(fontsize='16')
         plt.legend(loc='lower right', fontsize='16')
         plt.grid(True)
         plt.xlim(0,300)
@@ -258,10 +258,10 @@ if __name__ == '__main__':
         plt.plot(x_values, y_values, marker='o', markerfacecolor='none', linestyle='-', color='purple', markersize='6', mew='0.2', linewidth='0.5', label='Skew-16-LA')
 
         # Set labels, title, and save the figure
-        plt.xlabel('Size of Eviction Sets', fontsize='22')
-        plt.xticks(fontsize='14')
-        plt.ylabel('Eviction Rate', fontsize='22')
-        plt.yticks(fontsize='14')
+        plt.xlabel('Size of Eviction Sets', fontsize='24')
+        plt.xticks(fontsize='16')
+        plt.ylabel('Eviction Rate', fontsize='24')
+        plt.yticks(fontsize='16')
         plt.legend(loc='lower right', fontsize='16')
         plt.grid(True)
         plt.xlim(0,300)
@@ -314,10 +314,10 @@ if __name__ == '__main__':
                 color='purple', markersize=6, mew=0.2, linewidth=0.5, label='Skew-2-Inv4-GLRU')
 
 
-        plt.xlabel('Size of Eviction Sets', fontsize=22)
-        plt.ylabel('Eviction Rate', fontsize=22)
-        plt.xticks(fontsize=14)
-        plt.yticks(fontsize=14)
+        plt.xlabel('Size of Eviction Sets', fontsize=24)
+        plt.ylabel('Eviction Rate', fontsize=24)
+        plt.xticks(fontsize=16)
+        plt.yticks(fontsize=16)
         plt.legend(loc='lower right', fontsize=16)
         plt.grid(True)
         plt.xlim(0, 100)
@@ -393,11 +393,11 @@ if __name__ == '__main__':
         plt.plot(x_values, y_values, marker='v', markerfacecolor='none', linestyle='-', color='purple', markersize='6', mew='0.2', linewidth='0.5', label='Skew-2-LA-Inv4-GE')
 
         # Set labels, title, and save the figure
-        plt.xlabel('Size of Eviction Sets', fontsize='22')
-        plt.xticks(fontsize='14')
-        plt.ylabel('Eviction Rate', fontsize='22')
-        plt.yticks(fontsize='14')
-        plt.legend(loc='upper left', fontsize='14')
+        plt.xlabel('Size of Eviction Sets', fontsize='24')
+        plt.xticks(fontsize='16')
+        plt.ylabel('Eviction Rate', fontsize='24')
+        plt.yticks(fontsize='16')
+        plt.legend(loc='upper left', fontsize='16')
         plt.grid(True)
         plt.ylim(-0.05,1.05)
         plt.xlim(-30,300)
@@ -492,10 +492,10 @@ if __name__ == '__main__':
         plt.plot(x_values, y_values, marker='v', markerfacecolor='none', linestyle='-', color='black', markersize='6', mew='0.2', linewidth='0.5', label='Skew-16-Ass16')
 
         # Set labels, title, and save the figure
-        plt.xlabel('Size of Eviction Sets', fontsize='22')
-        plt.xticks(fontsize='14')
-        plt.ylabel('Eviction Rate', fontsize='22')
-        plt.yticks(fontsize='14')
+        plt.xlabel('Size of Eviction Sets', fontsize='24')
+        plt.xticks(fontsize='16')
+        plt.ylabel('Eviction Rate', fontsize='24')
+        plt.yticks(fontsize='16')
         plt.legend(loc='lower right', fontsize='16')
         plt.grid(True)
         plt.xlim(-10,300)
@@ -510,7 +510,7 @@ if __name__ == '__main__':
             run_tests("skewed_L2_512x64-s2-LB-INV2-GLRU", "list", 2, range(1, 300, SKIP), 360000)
             run_tests("skewed_L2_256x128-s2-LB-INV2-GLRU", "list", 2, range(1, 300, SKIP), 360000)
             run_tests("skewed_L2_2048x16-s16-LB", "list", 2, range(1, 300, SKIP), 360000)
-        plt.figure(figsize=(12, 6))
+        plt.figure(figsize=(12, 6.25))
 
         x_values, y_values = read_and_sort_data(report_path+'/evset-effective-skewed_L2_2048x16-s2-LB-INV2-GLRU.dat')
         plt.plot(x_values, y_values, marker='x', markerfacecolor='none', linestyle='-', color='green', markersize='6', mew='0.2', linewidth='0.5', label='Skew-2-Ass16-LA-Inv2-GLRU')
@@ -528,11 +528,11 @@ if __name__ == '__main__':
         plt.plot(x_values, y_values, marker='v', markerfacecolor='none', linestyle='-', color='black', markersize='6', mew='0.2', linewidth='0.5', label='Skew-16-Ass16-LA')
 
         # Set labels, title, and save the figure
-        plt.xlabel('Size of Eviction Sets', fontsize='22')
-        plt.xticks(fontsize='14')
-        plt.ylabel('Eviction Rate', fontsize='22')
-        plt.yticks(fontsize='14')
-        plt.legend(loc='upper left', fontsize='14')
+        plt.xlabel('Size of Eviction Sets', fontsize='26')
+        plt.xticks(fontsize='16')
+        plt.ylabel('Eviction Rate', fontsize='26')
+        plt.yticks(fontsize='16')
+        plt.legend(loc='upper left', fontsize='18')
         plt.grid(True)
         plt.ylim(-0.05,1.05)
         plt.xlim(0,300)
@@ -576,10 +576,10 @@ if __name__ == '__main__':
         plt.plot(x_values, y_values, marker='+', markerfacecolor='none', linestyle='-', color='#008080', markersize='6', mew='0.2', linewidth='0.5', label='Skew-2-Ass128-RPLRU')
 
         # Set labels, title, and save the figure
-        plt.xlabel('Size of Eviction Sets', fontsize='22')
-        plt.xticks(fontsize='14')
-        plt.ylabel('Eviction Rate', fontsize='22')
-        plt.yticks(fontsize='14')
+        plt.xlabel('Size of Eviction Sets', fontsize='24')
+        plt.xticks(fontsize='16')
+        plt.ylabel('Eviction Rate', fontsize='24')
+        plt.yticks(fontsize='16')
         plt.legend(loc='upper left', fontsize='16')
         plt.grid(True)
         plt.xlim(-10,300)
@@ -599,7 +599,7 @@ if __name__ == '__main__':
             run_tests("skewed_L2_2048x16-s2-LB-INV1-GPLRU", "list", 2, range(1, 300, SKIP), 360000)
             run_tests("skewed_L2_2048x16-s2-LB-INV2-GPLRU", "list", 2, range(1, 300, SKIP), 360000)
             run_tests("skewed_L2_2048x16-s2-LB-INV4-GPLRU", "list", 2, range(1, 300, SKIP), 360000)
-        plt.figure(figsize=(12, 6))
+        plt.figure(figsize=(12, 6.25))
 
         x_values, y_values = read_and_sort_data(report_path+'/evset-effective-skewed_L2_2048x16-s2-LB-INV1-GRAN.dat')
         plt.plot(x_values, y_values, marker='s', markerfacecolor='none', linestyle='-', color='green', markersize='6', mew='0.2', linewidth='0.5', label='Skew-2-LA-Inv1-GRan')
@@ -638,11 +638,11 @@ if __name__ == '__main__':
         plt.plot(x_values, y_values, marker='x', markerfacecolor='none', linestyle='-', color='brown', markersize='6', mew='0.2', linewidth='0.5', label='Skew-2-LA-Inv4-GRPLRU')
 
         # Set labels, title, and save the figure
-        plt.xlabel('Size of Eviction Sets', fontsize='22')
-        plt.xticks(fontsize='14')
-        plt.ylabel('Eviction Rate', fontsize='22')
-        plt.yticks(fontsize='14')
-        plt.legend(loc='upper left', fontsize='12')
+        plt.xlabel('Size of Eviction Sets', fontsize='26')
+        plt.xticks(fontsize='16')
+        plt.ylabel('Eviction Rate', fontsize='26')
+        plt.yticks(fontsize='16')
+        plt.legend(loc='upper left', fontsize='16')
         plt.grid(True)
         plt.ylim(-0.05,1.05)
         plt.xlim(-30,300)
@@ -725,10 +725,10 @@ if __name__ == '__main__':
 
 
         # Set labels, grid, and axis limits
-        plt.xlabel('Size of Eviction Sets', fontsize='22')
-        plt.xticks(fontsize='14')
-        plt.ylabel('Eviction Rate', fontsize='22')
-        plt.yticks(fontsize='14')
+        plt.xlabel('Size of Eviction Sets', fontsize='24')
+        plt.xticks(fontsize='16')
+        plt.ylabel('Eviction Rate', fontsize='24')
+        plt.yticks(fontsize='16')
         plt.legend(loc='upper left', fontsize='16')
         plt.grid(True)
         plt.xlim(-10, 300)
@@ -849,10 +849,10 @@ if __name__ == '__main__':
         plt.plot(x_values, y_values, marker='v', markerfacecolor='none', linestyle='-', color='purple', markersize='6', mew='0.2', linewidth='0.5', label='Warmup-Avg')
 
         # Set labels, title, and grid
-        plt.xlabel('Size of Eviction Sets', fontsize='22')
-        plt.xticks(fontsize='14')
-        plt.ylabel('Eviction Rate', fontsize='22')
-        plt.yticks(fontsize='14')
+        plt.xlabel('Size of Eviction Sets', fontsize='24')
+        plt.xticks(fontsize='16')
+        plt.ylabel('Eviction Rate', fontsize='24')
+        plt.yticks(fontsize='16')
         plt.legend(loc='lower right', fontsize='16')
         plt.grid(True)
         plt.xlim(0, 100)
@@ -927,10 +927,10 @@ if __name__ == '__main__':
         plt.plot(x_values, y_values, marker='s', markerfacecolor='none', linestyle='-', color='purple', markersize='6', mew='0.2', linewidth='0.5', label='Skew-2-LA-Inv4-GLRU-100')
 
         # Set labels, title, and save the figure
-        plt.xlabel('Size of Eviction Sets', fontsize='22')
-        plt.xticks(fontsize='14')
-        plt.ylabel('Eviction Rate', fontsize='22')
-        plt.yticks(fontsize='14')
+        plt.xlabel('Size of Eviction Sets', fontsize='24')
+        plt.xticks(fontsize='16')
+        plt.ylabel('Eviction Rate', fontsize='24')
+        plt.yticks(fontsize='16')
         plt.legend(loc='lower right', fontsize='14')
         plt.grid(True)
         plt.savefig('figure19.pdf')

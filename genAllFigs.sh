@@ -24,6 +24,10 @@ cd ..
 mv cachefx/*.pdf ./
 
 cd low-occupancy
-python3 get-figure.py
-cd ..
-mv low-occupancy/*.pdf ./
+if [[ "$OPTION" -eq 1 ]]; then  
+  python3 get-figure.py "$OPTION"
+  cd ..
+  mv low-occupancy/*.pdf ./
+elif [[ "$OPTION" -eq 0 ]]; then
+  echo "This script cannot run experiments for the low-occupancy-based experiment. Please follow the steps in the README.md file."
+fi

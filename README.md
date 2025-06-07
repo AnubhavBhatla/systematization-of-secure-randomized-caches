@@ -57,7 +57,9 @@ This tool is used for our experiments involving low-occupancy-based attacks. Thi
 │   ├── get-figure.py
 │   └── Makefile
 ├── low-occupancy/
+│   ├── configs/
 │   ├── results-original/
+│   ├── scripts/
 │   ├── get-figure.py
 ├── buildAll.sh
 ├── genAllFigs.sh
@@ -156,9 +158,27 @@ python3 get-figure.py <1/0: 1 - Use generated results; 0 - Generate new results 
 **Figure 17:** We provide our simulation results to reproduce this figure, which can be done using the following steps:
 
 ```
-cd low-occupancy
+cd low-occupancy/
 
-python3 get-figure.py
+sudo docker run -it -v $(pwd)/randomized_caches:/home/randomized_caches randomized-caches
+
+cd randomized_cache_hello_world/
+
+bash setup.sh
+
+cd ../
+
+bash buildAES.sh
+
+bash genNumbers.sh
+
+bash getGE.sh
+
+exit
+
+sudo mv randomized_caches/results results
+
+python3 get-figure.py 0
 ```
 
 > [!IMPORTANT] 

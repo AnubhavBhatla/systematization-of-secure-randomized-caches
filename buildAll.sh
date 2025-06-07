@@ -53,9 +53,41 @@ case "$1" in
       echo "Build failed! Check the output above."
       exit 1
     fi
+
+    echo "============================================================"
+    echo "Building low-occupancy..."
+    echo "============================================================"
+
+    cd ../low-occupancy/
+    git clone https://github.com/SEAL-IIT-KGP/randomized_caches.git
+    echo "============================================================"
+    
+    cd randomized_caches/docker/
+    sudo docker build -t randomized-caches .
+    cd ../
+
+    sudo cp ../scripts/buildAES.sh buildAES.sh
+    sudo cp ../scripts/genNumbers.sh genNumbers.sh
+    sudo cp ../scripts/getGE.sh getGE.sh
+    mkdir -p aes/analysis/skew-2-ass64
+    mkdir -p aes/analysis/skew-2-ass128
+    sudo cp ../scripts/run_key1_ass64.sh aes/analysis/skew-2-ass64/run_key1_ass64.sh
+    sudo cp ../scripts/run_key2_ass64.sh aes/analysis/skew-2-ass64/run_key2_ass64.sh
+    sudo cp ../scripts/run_key1_ass128.sh aes/analysis/skew-2-ass128/run_key1_ass128.sh
+    sudo cp ../scripts/run_key2_ass128.sh aes/analysis/skew-2-ass128/run_key2_ass128.sh
+
+    sudo cp ../configs/spec06_config_multiprogram_key1.py ceaser-s/perf_analysis/gem5/configs/example/spec06_config_multiprogram_key1.py
+    sudo cp ../configs/spec06_config_multiprogram_key2.py ceaser-s/perf_analysis/gem5/configs/example/spec06_config_multiprogram_key2.py
+
+    FILE="randomized_cache_hello_world/setup.sh"
+    OLD_LINE="THREADS=1"
+    NEW_LINE="THREADS=60"
+    sed -i "s%$OLD_LINE%$NEW_LINE%g" "$FILE"
+
     echo "============================================================"
     echo "All projects built successfully!"
     echo "============================================================"
+
     ;;
   clean)
     echo "Cleaning cache-model..."
@@ -71,6 +103,7 @@ case "$1" in
       echo "Clean failed! Check the output above."
       exit 1
     fi
+
     echo "============================================================"
     echo "Cleaning cachefx..."
     echo "============================================================"
@@ -85,9 +118,16 @@ case "$1" in
       echo "Clean failed! Check the output above."
       exit 1
     fi
+
+    cd ../low-occupancy/
+    rm -r randomized_caches/
+    echo "============================================================"
+    echo "low-occupancy cleaned successfully!"
+
     echo "============================================================"
     echo "All projects cleaned successfully!"
     echo "============================================================"
+
     ;;
   help)
     echo "============================================================"

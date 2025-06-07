@@ -87,14 +87,20 @@ def plot_guessing_entropy_vs_observations(data):
 
 
 if __name__ == '__main__':
-    if len(sys.argv) != 1:
-        print("Usage: python get-figure.py")
-        print("We do not support generating new results. The figure is generated using the original results.")
+    if len(sys.argv) != 2:
+        print("Usage: python get-figure.py <1:Use original results, 0:Generate new results>")
+        # print("We do not support generating new results. The figure is generated using the original results.")
+        exit(1)
+
+    use_original_results = int(sys.argv[1]) == 1
+    gen_new_results = int(sys.argv[1]) == 0
+    if not use_original_results and not gen_new_results:
+        print("Invalid argument. Use 1 to use original results or 0 to generate new results.")
         exit(1)
 
     plotter = {}
     keys = ['CEASER-S','Mirage','SassCache','Skew-16', 'Skew-2-Ass64', 'Skew-2-Ass128']
-    files = ['results-original/GE_ceasers.txt','results-original/GE_mirage.txt','results-original/GE_sass.txt','results-original/GE_scatter.txt','results-original/GE_skew-2-ass64.txt', 'results-original/GE_skew-2-ass128.txt']
+    files = (['results-original/GE_ceasers.txt','results-original/GE_mirage.txt','results-original/GE_sass.txt','results-original/GE_scatter.txt','results-original/GE_skew-2-ass64.txt', 'results-original/GE_skew-2-ass128.txt'] if use_original_results else ['results/GE_ceasers.txt','results/GE_mirage.txt','results/GE_sass.txt','results/GE_scatter.txt','results/GE_skew-2-ass64.txt', 'results/GE_skew-2-ass128.txt'])
     for i in range(len(keys)):
         tmp = process_ge_data(files[i])
         plotter[keys[i]] = {}
